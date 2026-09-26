@@ -2757,16 +2757,6 @@ msgstr "Вход будет обработан клиентом."
 msgid "The login will be handled by the server."
 msgstr "Вход будет обрабатывается сервером."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"У следующей главы другой сканлейтер.\n"
-"Текущая: {currentScanlator}\n"
-"Следующая: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "Путь к директории на сервере, в которой должны сохраняться автоматические резервные копии"
@@ -2782,16 +2772,6 @@ msgstr "Путь к директории на сервере, в которой 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Путь к установке electron на сервере"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"У предыдущей главы другой сканлейтер.\n"
-"Предыдущая: {nextScanlator}\n"
-"Текущая: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

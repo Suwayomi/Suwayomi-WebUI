@@ -2201,17 +2201,6 @@ msgstr "Aşağıdaki kaynaklar yüklü değil:"
 msgid "The following trackers are not logged in:"
 msgstr "Aşağıdaki izleyiciler oturum açmamış:"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Sonraki bölüm başka bir ekip tarafından çevrilmiştir.\n"
-"Mevcut ekip: {currentScanlator}\n"
-"Sonraki ekip: {nextScanlator}\n"
-""
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "Otomatik yedeklemelerin kaydedileceği sunucudaki dizinin yolu"
@@ -2227,17 +2216,6 @@ msgstr "Yerel kaynak dosyalarının kaydedildiği sunucudaki dizinin yolu"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Sunucudaki elektron kurulumunun yolu"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Bir önceki bölüm başka bir ekip tarafından çevrilmiştir.\n"
-"Önceki Ekip: {nextScanlator}\n"
-"Şimdiki Ekip: {currentScanlator}\n"
-""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

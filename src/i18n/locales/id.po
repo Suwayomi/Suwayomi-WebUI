@@ -1477,29 +1477,9 @@ msgstr "Yang belum dimulai"
 msgid "The category is empty"
 msgstr "Kategori ini kosong"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Bab selanjutnya berasal dari scanlator yang berbeda dari saat ini.\n"
-"Saat ini: {currentScanlator}\n"
-"Selanjutnya: {nextScanlator}\n"
-
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "The path to the directory on the server where downloaded files should get saved in"
 msgstr "Jalur ke direktori di server tempat file yang diunduh harus disimpan"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Bab sebelumnya berasal dari scanlator yang berbeda dari saat ini.\n"
-"Sebelumnya: {nextScanlator}\n"
-"Saat ini: {currentScanlator}\n"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
