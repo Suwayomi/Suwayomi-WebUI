@@ -97,26 +97,26 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const isOpen = isSearchOpen || !!query;
 
-    const debouncedSearchString = useDebounce(searchString, SUGGESTION_DEBOUNCE_MS);
+    const debouncedSearchString = useDebounce(searchString, SUGGESTION_DEBOUNCE_MS).trim();
+    const showHistoryOptions = !debouncedSearchString;
 
     const fuzzySearchIndex = useMemo(
         () => (isOpen && isFuzzySearchEnabled ? createFuzzySearch(suggestions, []) : null),
         [isOpen, isFuzzySearchEnabled, suggestions],
     );
 
-    const options = useMemo<SearchSuggestion[]>(() => {
-        const trimmedSearchString = debouncedSearchString.trim();
-
-        if (!trimmedSearchString) {
-            return history.map((label) => ({ label, isFromHistory: true }));
-        }
-
+    const { historyOptions, suggestionOptions } = useMemo(() => {
         const matches = fuzzySearchIndex
-            ? fuzzySearch(fuzzySearchIndex, trimmedSearchString, { limit: MAX_SUGGESTIONS })
-            : getSubstringMatches(enhancedCleanup(trimmedSearchString), suggestions);
+            ? fuzzySearch(fuzzySearchIndex, debouncedSearchString, { limit: MAX_SUGGESTIONS })
+            : getSubstringMatches(enhancedCleanup(debouncedSearchString), suggestions);
 
-        return [...new Set(matches)].slice(0, MAX_SUGGESTIONS).map((label) => ({ label, isFromHistory: false }));
-    }, [isOpen, debouncedSearchString, fuzzySearchIndex, suggestions, history]);
+        return {
+            historyOptions: history.map((label) => ({ label, isFromHistory: true })),
+            suggestionOptions: [...new Set(matches)]
+                .slice(0, MAX_SUGGESTIONS)
+                .map((label) => ({ label, isFromHistory: false })),
+        };
+    }, [debouncedSearchString, fuzzySearchIndex, suggestions, history]);
 
     const updateSearchOpenState = (open: boolean) => {
         if (!isClosable && !open) {
@@ -222,7 +222,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                         },
                     },
                 }}
-                options={options}
+                options={showHistoryOptions ? historyOptions : suggestionOptions}
                 // the options are already ranked by relevance, re-filtering them would drop the typo tolerant hits
                 filterOptions={(unfilteredOptions) => unfilteredOptions}
                 getOptionLabel={(option) => (typeof option === 'string' ? option : option.label)}
@@ -246,7 +246,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                             list.find((item) => item.toLowerCase().startsWith(tmpNormalizedValue));
 
                         const liveAutoCompletionString =
-                            findLiveAutoCompletion(options.map(({ label }) => label)) ??
+                            findLiveAutoCompletion(suggestionOptions.map(({ label }) => label)) ??
                             findLiveAutoCompletion(suggestions);
                         setLiveAutoCompletion(liveAutoCompletionString);
                     }
