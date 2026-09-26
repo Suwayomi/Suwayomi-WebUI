@@ -235,7 +235,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 languages={allLangs}
             />
         </>,
-        [t, shownLangs, allLangs],
+        [t, shownLangs, allLangs, visibleExtensionNames],
     );
 
     useWindowEvent('drop', async (e) => {
