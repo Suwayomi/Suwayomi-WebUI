@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.973Z\n"
-"PO-Revision-Date: 2026-09-08 06:53+0000\n"
+"PO-Revision-Date: 2026-09-22 00:35+0000\n"
 "Last-Translator: js850604 <js850604@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hant/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -2583,16 +2583,6 @@ msgstr "登入將由客戶端處理。"
 msgid "The login will be handled by the server."
 msgstr "登入將由伺服端處理。"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"下一個章節來自不同的掃圖組。\n"
-"目前：{currentScanlator}\n"
-"下一個：{nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "伺服器上的自動備份的儲存目錄路徑"
@@ -2608,16 +2598,6 @@ msgstr "伺服器上的本機來源檔案的儲存目錄路徑"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "伺服器上的 Electron 安裝路徑"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"上一個章節來自不同的掃圖組。\n"
-"上一個：{nextScanlator}\n"
-"目前：{currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -4446,3 +4426,52 @@ msgstr "已儲存的備註"
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Retry all"
 msgstr "全部重試"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
+msgstr "即使存在拼字錯誤或詞序不同，也能匹配書架搜尋結果，並優先顯示最接近的匹配項"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr "{0, plural, one {無法重新排序下載} other {無法重新排序多個下載}}"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{count, plural, one {顯示 # 更多章節} other {顯示 # 更多章節}}"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr "{libraryMangaCount, plural, one {# 個條目在書架中} other {# 個條目在書架中}}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "和"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "已啟用的語言"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "已啟用的語言及來源"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "篩選模式"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "模糊搜索"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "將系列移至底部"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "將系列移至頂部"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "或"

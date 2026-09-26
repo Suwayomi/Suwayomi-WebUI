@@ -2728,16 +2728,6 @@ msgstr "로그인은 클라이언트 측에서 처리합니다."
 msgid "The login will be handled by the server."
 msgstr "로그인은 서버에서 처리됩니다."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"다음 챕터의 스캔 번역자가 현재 챕터와 다릅니다.\n"
-"현재: {currentScanlator} \n"
-"다음: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "자동 백업이 저장될 서버의 디렉터리 경로"
@@ -2753,16 +2743,6 @@ msgstr "서버에서 로컬 소스 파일이 저장되는 디렉터리의 경로
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "서버의 Electron 설치 경로"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"이전 챕터의 스캔 번역자가 현재 챕터와 다릅니다.\n"
-"이전: {nextScanlator}\n"
-"현재: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

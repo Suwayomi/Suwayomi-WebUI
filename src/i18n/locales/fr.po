@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-09-09 08:51+0000\n"
+"PO-Revision-Date: 2026-09-22 00:35+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -2556,16 +2556,6 @@ msgstr "La connexion sera gérée par le client."
 msgid "The login will be handled by the server."
 msgstr "La connexion sera gérée par le serveur."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Le chapitre suivant a un traducteur différent de celui du chapitre actuel.\n"
-"Actuel : {currentScanlator}\n"
-"Suivant : {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "Le chemin vers le répertoire sur le serveur où les sauvegardes automatiques doivent être enregistrées"
@@ -2581,17 +2571,6 @@ msgstr "Le chemin vers le répertoire sur le serveur où sont enregistrés les f
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Le chemin vers l'installation d'Electron sur le serveur"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Le chapitre précédent a un traducteur différent de celui du chapitre "
-"actuel.\n"
-"Précédent : {nextScanlator}\n"
-"Actuel : {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -4596,3 +4575,23 @@ msgstr ""
 #: src/features/sync/components/SyncButton.tsx
 msgid "Sync now"
 msgstr "Synchroniser maintenant"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{count, plural, one {Afficher # chapitre de plus} other {Afficher # "
+"chapitres de plus}}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Mode de filtrage"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "Recherche approximative"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
+msgstr ""
+"Effectue une recherche dans la bibliothèque même avec des fautes ou des mots "
+"dans le désordre, et vous montre les correspondances les plus proches"

@@ -2746,16 +2746,6 @@ msgstr "Việc đăng nhập sẽ được xử lý bởi khách hàng."
 msgid "The login will be handled by the server."
 msgstr "Việc đăng nhập sẽ được xử lý bởi máy chủ."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Chương tiếp theo có nhóm dịch khác với chương hiện tại.\n"
-"Chương hiện tại: {currentScanlator}\n"
-"Chương tiếp theo: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "Địa chỉ đến thư mục trên máy chủ mà bản sao lưu nên lưu vào"
@@ -2771,16 +2761,6 @@ msgstr "Đường dẫn đến thư mục trên máy chủ nơi lưu các tệp 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Đường dẫn cài đặt electron trên máy chủ"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Chương trước có nhóm dịch khác với chương hiện tại.\n"
-"Chương trước: {nextScanlator}\n"
-"Chương hiện tại: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

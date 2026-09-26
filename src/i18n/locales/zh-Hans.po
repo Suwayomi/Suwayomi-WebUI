@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-09-03 13:11+0000\n"
+"PO-Revision-Date: 2026-09-23 14:51+0000\n"
 "Last-Translator: 無情天 <kofzhanganguo@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.9\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -1081,7 +1081,7 @@ msgstr "可能的数值示例：1 （字节）、 1KB （千字节）、1MB （�
 
 #: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
 msgid "Exclude scanlators"
-msgstr "排除搬运组"
+msgstr "排除汉化组"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1430,7 +1430,7 @@ msgstr "提示可用的更新"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Inform about changing scanlator on chapter transition"
-msgstr "在章节切换时提示扫描组变更信息"
+msgstr "在章节切换时提示汉化组变更信息"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Inform about missing chapters on chapter transition"
@@ -2332,7 +2332,7 @@ msgstr "缩放类型"
 
 #: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
 msgid "Scanlator"
-msgstr "搬运组"
+msgstr "汉化组"
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2743,16 +2743,6 @@ msgstr "登录将由客户端处理。"
 msgid "The login will be handled by the server."
 msgstr "登录将由服务端处理。"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"下一章节的扫描组与当前章节的不同。\n"
-"当前章节：{currentScanlator}\n"
-"下一章节：{nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "服务器上保存自动备份的目录路径"
@@ -2768,16 +2758,6 @@ msgstr "服务器上保存本地源文件的目录路径"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "服务器上 Electron 安装的路径"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"上一章节的扫描组与当前章节的不同。\n"
-"上一章节：{nextScanlator}\n"
-"当前章节：{currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -4472,3 +4452,51 @@ msgstr "欢迎在 Weblate 上翻译此项目 (<0>WebUI</0> 和 <1>Server</1>)"
 #: src/features/sync/components/SyncButton.tsx
 msgid "Sync now"
 msgstr "立即同步"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{count, plural, one {显示 # 更多章节} other {显示 # 更多章节}}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "和"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "筛选模式"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "或"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "模糊搜索"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
+msgstr ""
+"即使存在拼写错误或单词顺序不同，也能匹配书架搜索结果，并优先展示最接近的匹配"
+"项"
+
+#: src/base/components/AppbarSearch.tsx
+msgid "Recent searches"
+msgstr "最近搜索"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The next chapter has a different scanlator than the current one.\n"
+"Current: {currentScanlator}\n"
+"Next: {nextScanlator}"
+msgstr ""
+"下一章的汉化组与当前章节不同。\n"
+"当前: {currentScanlator}\n"
+"下一章: {nextScanlator}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The previous chapter has a different scanlator than the current one.\n"
+"Previous: {nextScanlator}\n"
+"Current: {currentScanlator}"
+msgstr ""
+"上一章的汉化组与当前章节不同。\n"
+"上一章: {nextScanlator}\n"
+"当前: {currentScanlator}"
