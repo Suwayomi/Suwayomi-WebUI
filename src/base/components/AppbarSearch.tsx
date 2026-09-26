@@ -34,6 +34,7 @@ import { useForceUpdate } from '@mantine/hooks';
 import List from '@mui/material/List';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Button from '@mui/material/Button';
+import { OffsetContainer } from '@/base/OffsetComponent.tsx';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;
@@ -248,18 +249,20 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                     handleChange(typeof value === 'string' ? value : value.label);
                 }}
                 renderGroup={(value) => (
-                    <List
-                        subheader={
-                            value.group && (
-                                <ListSubheader sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    {value.group}
-                                    <Button onClick={clearHistory}>{t`Delete all`}</Button>
-                                </ListSubheader>
-                            )
-                        }
-                    >
-                        {value.children}
-                    </List>
+                    <OffsetContainer initial>
+                        <List
+                            subheader={
+                                value.group && (
+                                    <ListSubheader sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        {value.group}
+                                        <Button onClick={clearHistory}>{t`Delete all`}</Button>
+                                    </ListSubheader>
+                                )
+                            }
+                        >
+                            {value.children}
+                        </List>
+                    </OffsetContainer>
                 )}
                 renderOption={({ key, ...optionProps }, option) => (
                     <Box key={key} component="li" sx={{ gap: 1 }} {...optionProps}>
