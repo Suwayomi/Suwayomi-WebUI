@@ -87,6 +87,12 @@ Thanks to everyone that contributed to the translation of this project.
 - Vietnamese (by Durin)
 - Chinese (Traditional) (by js850604)
 
+### Contributors
+
+Thanks to everyone that contributed to this release
+
+@schroda, @weblate, @cpiber, @Daemonhellz, @Kisnov, @leollo98, @js850604, @kofzhanganguo, @Aryan795, @github-actions[bot], @CyberMageIL, @Sazuru, @Durin-Code, @aitiotekt, @kaiserbh, @dollproxy, @UnknownSkyrimPasserby, @Seanstoppable, @web-flow, @Copilot, @manilkadev3-max, @arifpedia, @NagaYZ
+
 ## [20260726.01] (r3379) - 2026-07-26
 
 ### Added
