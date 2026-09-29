@@ -1,0 +1,105 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { d } from 'koration';
+import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+
+type ActionConfig = [string, () => Promise<unknown>][];
+type InFlightAction = [string, Promise<unknown>];
+
+export class AppInitializer {
+    private static actions: ControlledPromise[] = [];
+
+    static async start(): Promise<void> {
+        AppInitializer.stop();
+        await AppInitializer.fetchRequiredData();
+    }
+
+    static stop(): void {
+        AppInitializer.actions.forEach((promise) => promise.reject('stopped'));
+        AppInitializer.actions = [];
+    }
+
+    private static async fetchRequiredData(): Promise<void> {
+        await AppInitializer.executeActions([
+            ['globalMeta', () => requestManager.getGlobalMeta().response],
+            ['serverSettings', () => requestManager.getServerSettings().response],
+        ]);
+    }
+
+    private static async executeActions(
+        actions: ActionConfig,
+        {
+            timeout = d(5).seconds.inWholeMilliseconds,
+            timeoutMultiplier = 1.5,
+            maxTimeout = d(2).minutes.inWholeMilliseconds,
+            promise,
+        }: {
+            timeout?: number;
+            timeoutMultiplier?: number;
+            maxTimeout?: number;
+            promise?: ControlledPromise;
+        } = {},
+    ): Promise<void> {
+        const finalPromise = promise ?? new ControlledPromise();
+        if (!promise) {
+            AppInitializer.actions.push(finalPromise);
+        }
+
+        const isAborted = async () => {
+            try {
+                const result = (await Promise.race([finalPromise.promise, Promise.resolve(false)])) ?? true;
+
+                return result;
+            } catch (error) {
+                return true;
+            }
+        };
+
+        if (await isAborted()) {
+            return;
+        }
+
+        const inFlightActions = actions.map(([key, fn]) => [key, fn()] satisfies InFlightAction);
+
+        const actionWithSuccessState = await Promise.all(
+            inFlightActions.map(async ([key, inFlightAction]) => {
+                try {
+                    await inFlightAction;
+
+                    return [key, true] as [string, boolean];
+                } catch (e) {
+                    return [key, false] as [string, boolean];
+                }
+            }),
+        );
+
+        const failedActions = actionWithSuccessState.filter(([_, succeeded]) => !succeeded);
+
+        if (!failedActions.length) {
+            finalPromise.resolve();
+
+            return;
+        }
+
+        await new Promise((resolve) => {
+            setTimeout(resolve, timeout);
+        });
+
+        await AppInitializer.executeActions(
+            actions.filter(([key]) => !failedActions.some(([k]) => k === key)),
+            {
+                timeout: (timeout * timeoutMultiplier) % maxTimeout,
+                timeoutMultiplier,
+                maxTimeout,
+                promise,
+            },
+        );
+    }
+}
