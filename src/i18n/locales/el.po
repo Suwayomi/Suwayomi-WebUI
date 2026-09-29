@@ -3609,16 +3609,6 @@ msgstr ""
 "Ο πελάτης μπορεί να κλείσει. Η μετεγκατάσταση θα συνεχιστεί μόλις ανοίξει "
 "ξανά στην ίδια συσκευή που ξεκίνησε."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"Το επόμενο κεφάλαιο έχει διαφορετικό scanlator από το τρέχον.\n"
-"Τρέχον: {currentScanlator}\n"
-"Επόμενο: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr ""
@@ -3640,16 +3630,6 @@ msgstr ""
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "Η διαδρομή προς την εγκατάσταση του Electron στον διακομιστή"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Το προηγούμενο κεφάλαιο έχει διαφορετικό scanlator από το τρέχον.\n"
-"Προηγούμενο: {nextScanlator}\n"
-"Τρέχον: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

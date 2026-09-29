@@ -2456,17 +2456,6 @@ msgstr "பின்வரும் ஆதாரங்கள் நிறுவ�
 msgid "The following trackers are not logged in:"
 msgstr "பின்வரும் டிராக்கர்கள் உள்நுழையவில்லை:"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"அடுத்த அத்தியாயத்தில் வேறுபட்ட ச்கேன்லேட்டர் உள்ளது.\n"
-" நடப்பு: {currentScanlator}}\n"
-" அடுத்து: {nextScanlator}}\n"
-""
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "தானியங்கி காப்புப்பிரதிகள் சேமிக்கப்பட வேண்டிய சேவையகத்தில் கோப்பகத்திற்கான பாதை"
@@ -2482,17 +2471,6 @@ msgstr "உள்ளக மூல கோப்புகள் சேமிக்
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "சேவையகத்தில் எலக்ட்ரான் நிறுவலுக்கான பாதை"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"முந்தைய அத்தியாயத்தில் வேறுபட்ட ச்கேன்லேட்டர் உள்ளது.\n"
-" முந்தைய: {nextScanlator}}\n"
-" நடப்பு: {currentScanlator}}\n"
-""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

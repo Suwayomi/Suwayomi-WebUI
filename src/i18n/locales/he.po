@@ -3527,26 +3527,6 @@ msgstr "לא ניתן לשנות את ההגדרה בזמן שממשק הקרי�
 msgid "The category is empty"
 msgstr "הקטגוריה ריקה"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"בפרק הבא קבוצת התרגום שונה מזו שבפרק הנוכחי.\n"
-"קבוצת התרגום הנוכחית: {currentScanlator}\n"
-"קבוצת התרגום בפרק הבא: {nextScanlator}"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"בפרק הקודם קבוצת התרגום שונה מזו שבפרק הנוכחי.\n"
-"קבוצת התרגום בפרק הקודם: {nextScanlator}\n"
-"קבוצת התרגום הנוכחית: {currentScanlator}"
-
 #: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
 msgid "Scanlator"
 msgstr "קבוצת תרגום"
