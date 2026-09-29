@@ -78,7 +78,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const [liveAutoCompletion, setLiveAutoCompletion] = useState<string>();
 
     const [focused, setFocused] = useState(false);
-    const [hideSuggestions, setHideSuggestions] = useState(false);
+    const [hideSuggestions, setHideSuggestions] = useState(isSearchOpen);
 
     const {
         settings: { fuzzySearch: isFuzzySearchEnabled },
@@ -195,7 +195,6 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         setHideTitle(isOpen);
         return () => {
             setHideTitle(false);
-            setHideSuggestions(false);
         };
     }, [isOpen]);
 
@@ -208,10 +207,16 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 forcePopupIcon={false}
                 openOnFocus
                 fullWidth
-                onFocus={() => {
-                    setFocused(true);
+                onKeyDown={() => {
+                    if (hideSuggestions) {
+                        setHideSuggestions(false);
+                    }
                 }}
-                onBlur={() => setFocused(false)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => {
+                    setFocused(false);
+                    setHideSuggestions(false);
+                }}
                 slotProps={{
                     popper: {
                         placement: 'bottom-start',
@@ -316,6 +321,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                         )}
                         <SearchTextField
                             {...params}
+                            onClick={() => setHideSuggestions(false)}
                             autoFocus
                             variant="standard"
                             fullWidth
