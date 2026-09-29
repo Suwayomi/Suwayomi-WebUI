@@ -2723,17 +2723,6 @@ msgstr "ورود توسط کلاینت مدیریت می‌شود."
 msgid "The login will be handled by the server."
 msgstr "ورود توسط سرور مدیریت می‌شود."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"چپتر بعدی ترجمه گر متفاوتی با چپتر فعلی دارد.\n"
-"فعلی: {currentScanlator}\n"
-"بعدی: {nextScanlator}\n"
-""
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "مسیر پوشه‌ای روی سرور که نسخه‌های پشتیبان خودکار در آن ذخیره شوند"
@@ -2749,17 +2738,6 @@ msgstr "مسیر پوشه‌ روی سرور که فایل‌های منبع م�
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "مسیر نصب الکترون روی سرور"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"چپتر قبلی ترجمه گر متفاوتی با چپتر فعلی دارد.\n"
-"قبلی: {nextScanlator}\n"
-"فعلی: {currentScanlator}\n"
-""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
