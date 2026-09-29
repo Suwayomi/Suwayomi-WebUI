@@ -121,6 +121,10 @@ const fetchCommits = async (
         })
     ).json()) as CommitQueryResponse;
 
+    if (!response.data) {
+        throw response;
+    }
+
     const repoHistory = response.data.repository.ref.target.history;
     const { hasNextPage, endCursor: repoHistoryEndCursor } = repoHistory.pageInfo;
     const commits = repoHistory.nodes;
