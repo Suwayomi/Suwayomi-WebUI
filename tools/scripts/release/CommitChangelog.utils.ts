@@ -217,7 +217,7 @@ export const createCommitChangelog = async (prevReleaseLastCommitSha: string): P
 
     const contributors = getContributors(commits);
     const contributorString = contributors.reduce((authorCredit, author) => `${authorCredit}, @${author}`);
-    changelog += `\nContributors:\n@${contributorString}\n`;
+    changelog += `\n### Contributors\n\nThanks to everyone that contributed to this release\n\n@${contributorString}\n`;
 
     return changelog;
 };
