@@ -1536,6 +1536,54 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_EXTENSIONS, {}, options);
     }
 
+    public getExtensionListFetch(
+        options?: MutationOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
+    ): AbortableApolloMutationResponse<GetExtensionsFetchMutation> {
+        const request = this.doRequest<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>(
+            GQLMethod.MUTATION,
+            GET_EXTENSIONS_FETCH,
+            {},
+            {
+                ...options,
+                refetchQueries: [GET_EXTENSIONS],
+                update(cache, { data: mutationData }) {
+                    if (!mutationData?.fetchExtensions?.extensions) {
+                        return;
+                    }
+
+                    cache.updateQuery<GetExtensionsQuery, GetExtensionsQueryVariables>(
+                        { query: GET_EXTENSIONS },
+                        () => ({
+                            __typename: 'Query',
+                            extensions: {
+                                __typename: 'ExtensionNodeList',
+                                nodes: mutationData?.fetchExtensions?.extensions ?? [],
+                                pageInfo: {
+                                    __typename: 'PageInfo',
+                                    hasNextPage: false,
+                                    hasPreviousPage: false,
+                                    startCursor: null,
+                                    endCursor: null,
+                                },
+                                totalCount: mutationData?.fetchExtensions?.extensions.length ?? 0,
+                            },
+                        }),
+                    );
+                },
+            },
+        );
+
+        request.response.then((result) => {
+            if (!result.data?.fetchExtensions?.extensions) {
+                return;
+            }
+
+            this.cache.cacheResponse(EXTENSION_LIST_CACHE_KEY, undefined, result);
+        });
+
+        return request;
+    }
+
     public useExtensionListFetch(
         options?: MutationHookOptions<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables>,
     ): AbortableApolloUseMutationResponse<GetExtensionsFetchMutation, GetExtensionsFetchMutationVariables> {
@@ -3615,6 +3663,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetDownloadStatusQuery, GetDownloadStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetDownloadStatusQuery, GetDownloadStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_DOWNLOAD_STATUS, {}, options);
+    }
+
+    public getDownloadStatus(
+        options?: QueryOptions<GetDownloadStatusQueryVariables>,
+    ): AbortabaleApolloQueryResponse<GetDownloadStatusQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_DOWNLOAD_STATUS, {}, options);
     }
 
     public useDownloadSubscription(

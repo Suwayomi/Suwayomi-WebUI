@@ -138,21 +138,6 @@ const InitializeGuard = ({ children }: PropsWithChildren) => {
     return <SplashScreen />;
 };
 
-const InitialBackgroundRequests = () => {
-    // Load the full download status once on startup to fill the cache
-    requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
-
-    const [fetchExtensionList] = requestManager.useExtensionListFetch();
-
-    useEffect(() => {
-        // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
-        // without having to open the extensions page.
-        fetchExtensionList().catch(defaultPromiseErrorHandler('App::InitialBackgroundRequests: extension list'));
-    }, []);
-
-    return null;
-};
-
 /**
  * Creates permanent subscriptions to always have the latest data.
  *
@@ -381,7 +366,6 @@ export const App: React.FC = () => (
             <InitializeGuard>
                 <ServerUpdateChecker />
                 <WebUIUpdateChecker />
-                <InitialBackgroundRequests />
                 <BackgroundSubscriptions />
                 <ResumeMigration />
 

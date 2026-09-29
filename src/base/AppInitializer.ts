@@ -18,7 +18,10 @@ export class AppInitializer {
 
     static async start(): Promise<void> {
         AppInitializer.stop();
-        await AppInitializer.fetchRequiredData();
+        const requiredDataPromise = AppInitializer.fetchRequiredData();
+        void AppInitializer.fetchBackgroundData();
+
+        await requiredDataPromise;
     }
 
     static stop(): void {
@@ -30,6 +33,16 @@ export class AppInitializer {
         await AppInitializer.executeActions([
             ['globalMeta', () => requestManager.getGlobalMeta().response],
             ['serverSettings', () => requestManager.getServerSettings().response],
+            // Load the full download status once on startup to fill the cache
+            ['downloadStatus', () => requestManager.getDownloadStatus().response],
+        ]);
+    }
+
+    private static async fetchBackgroundData(): Promise<void> {
+        await AppInitializer.executeActions([
+            // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
+            // without having to open the extensions page.
+            ['fetchExtensionList', () => requestManager.getExtensionListFetch().response],
         ]);
     }
 
