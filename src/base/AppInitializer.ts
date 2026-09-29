@@ -9,6 +9,8 @@
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { d } from 'koration';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
 type ActionConfig = [string, () => Promise<unknown>][];
 type InFlightAction = [string, Promise<unknown>];
@@ -18,6 +20,7 @@ export class AppInitializer {
 
     static async start(): Promise<void> {
         AppInitializer.stop();
+        await AppInitializer.authenticate();
         const requiredDataPromise = AppInitializer.fetchRequiredData();
         void AppInitializer.fetchBackgroundData();
 
@@ -27,6 +30,27 @@ export class AppInitializer {
     static stop(): void {
         AppInitializer.actions.forEach((promise) => promise.reject('stopped'));
         AppInitializer.actions = [];
+    }
+
+    private static async authenticate(): Promise<void> {
+        await AppInitializer.executeActions([
+            [
+                'initializeAuthentication',
+                async () => {
+                    const response = await requestManager.getAbout().response;
+
+                    if (AuthManager.isAuthInitialized()) {
+                        return;
+                    }
+
+                    assertIsDefined(response?.data);
+
+                    AuthManager.setAuthRequired(false);
+                    AuthManager.setAuthInitialized(true);
+                    requestManager.processQueues();
+                },
+            ],
+        ]);
     }
 
     private static async fetchRequiredData(): Promise<void> {

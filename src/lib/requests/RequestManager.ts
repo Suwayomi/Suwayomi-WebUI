@@ -1424,6 +1424,12 @@ export class RequestManager {
         );
     }
 
+    public getAbout(
+        options?: QueryOptions<GetAboutQueryVariables, GetAboutQuery>,
+    ): AbortabaleApolloQueryResponse<GetAboutQuery> {
+        return this.doRequest(GQLMethod.QUERY, GET_ABOUT, {}, options);
+    }
+
     public useGetAbout(
         options?: QueryHookOptions<GetAboutQuery, GetAboutQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetAboutQuery, GetAboutQueryVariables> {

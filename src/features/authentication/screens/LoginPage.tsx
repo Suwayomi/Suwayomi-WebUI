@@ -25,14 +25,14 @@ import { SearchParam } from '@/base/Base.types.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 
-export const LoginPage = () => {
+export const LoginPage = ({ redirect = true }: { redirect?: boolean }) => {
     const theme = useTheme();
     const { t } = useLingui();
     const { setOverride } = useNavBarContext();
     const navigate = useNavigate();
     const isAuthenticated = AuthManager.useIsAuthenticated();
 
-    const [redirect] = useQueryParam(SearchParam.REDIRECT, StringParam);
+    const [redirectTarget] = useQueryParam(SearchParam.REDIRECT, StringParam);
     const [loginUser, { loading: isLoading }] = requestManager.useLoginUser();
 
     const [username, setUsername] = useState('');
@@ -45,7 +45,9 @@ export const LoginPage = () => {
             if (data) {
                 AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
                 requestManager.processQueues();
-                navigate(redirect ?? AppRoutes.root.path);
+                if (redirect) {
+                    navigate(redirectTarget ?? AppRoutes.root.path);
+                }
             }
         } catch (e) {
             makeToast(t`Could not log in to Suwayomi`, 'error', getErrorMessage(e));

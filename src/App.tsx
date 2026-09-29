@@ -27,7 +27,6 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
-import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
@@ -123,6 +122,8 @@ const ScrollToTop = () => {
 };
 
 const InitializeGuard = ({ children }: PropsWithChildren) => {
+    const { accessToken, isAuthRequired } = AuthManager.useSession();
+
     const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
@@ -131,11 +132,15 @@ const InitializeGuard = ({ children }: PropsWithChildren) => {
         });
     }, []);
 
-    if (isInitialized) {
-        return children;
+    if (!accessToken && isAuthRequired) {
+        return <LoginPage redirect={false} />;
     }
 
-    return <SplashScreen />;
+    if (!isInitialized) {
+        return <SplashScreen />;
+    }
+
+    return children;
 };
 
 /**
@@ -362,26 +367,24 @@ export const App: React.FC = () => (
 
         <CssBaseline enableColorScheme />
 
-        <AuthGuard>
-            <InitializeGuard>
-                <ServerUpdateChecker />
-                <WebUIUpdateChecker />
-                <BackgroundSubscriptions />
-                <ResumeMigration />
+        <InitializeGuard>
+            <ServerUpdateChecker />
+            <WebUIUpdateChecker />
+            <BackgroundSubscriptions />
+            <ResumeMigration />
 
-                <Box sx={{ display: 'flex' }}>
-                    <OffsetContainerRoot>
-                        <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                            <DefaultNavBar />
-                        </Box>
-                        <Routes>
-                            <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
-                            <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
-                        </Routes>
-                    </OffsetContainerRoot>
-                </Box>
-                <MigrationFABIndicator />
-            </InitializeGuard>
-        </AuthGuard>
+            <Box sx={{ display: 'flex' }}>
+                <OffsetContainerRoot>
+                    <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                        <DefaultNavBar />
+                    </Box>
+                    <Routes>
+                        <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
+                        <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
+                    </Routes>
+                </OffsetContainerRoot>
+            </Box>
+            <MigrationFABIndicator />
+        </InitializeGuard>
     </AppContext>
 );
