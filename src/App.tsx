@@ -38,6 +38,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { scrollMainToTop, setMainScrollHost } from '@/base/utils/ScrollHost.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -116,7 +117,7 @@ const ScrollToTop = () => {
     const { pathname } = useLocation();
 
     useLayoutEffect(() => {
-        window.scrollTo(0, 0);
+        scrollMainToTop();
     }, [pathname]);
 
     return null;
@@ -262,8 +263,12 @@ const MainApp = () => {
         <Box
             id="appMainContainer"
             component="main"
+            ref={setMainScrollHost}
             sx={{
-                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                height: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                scrollbarGutter: 'stable',
                 width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
@@ -395,11 +400,9 @@ const ReaderApp = () => (
     </ErrorBoundary>
 );
 
-const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => {
-    const { appBarHeight } = useNavBarContext();
-
-    return <OffsetContainer topOffset={appBarHeight}>{children}</OffsetContainer>;
-};
+const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => (
+    <OffsetContainer topOffset={0}>{children}</OffsetContainer>
+);
 
 export const App: React.FC = () => (
     <AppContext>
