@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
--
+- (**Source**) Fix potential white screen when opening the language/source filter in the browse source page
 
 ## [20260929.01] (r3518) - 2026-09-29
 
