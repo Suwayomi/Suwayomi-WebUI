@@ -28,12 +28,10 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { MigrationFABIndicator } from '@/features/migration/components/MigrationFABIndicator.tsx';
-import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
 import { AppInitializer } from '@/base/AppInitializer.ts';
@@ -167,23 +165,6 @@ const ReactRouterSetter = () => {
 
     useEffect(() => {
         ReactRouter.setNavigateFn(navigate);
-    }, []);
-
-    return null;
-};
-
-const ResumeMigration = () => {
-    useEffect(() => {
-        if (!MigrationManager.isActive()) {
-            navigator.locks
-                ?.request('migration-executor', async () => {
-                    const resumed = await MigrationManager.resume();
-                    if (resumed) {
-                        await MigrationManager.awaitCompletion();
-                    }
-                })
-                .catch(defaultPromiseErrorHandler('ResumeMigration'));
-        }
     }, []);
 
     return null;
@@ -371,7 +352,6 @@ export const App: React.FC = () => (
             <ServerUpdateChecker />
             <WebUIUpdateChecker />
             <BackgroundSubscriptions />
-            <ResumeMigration />
 
             <Box sx={{ display: 'flex' }}>
                 <OffsetContainerRoot>

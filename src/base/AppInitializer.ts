@@ -11,9 +11,11 @@ import { d } from 'koration';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
-type ActionConfig = [string, () => Promise<unknown>][];
-type InFlightAction = [string, Promise<unknown>];
+type ActionConfig = [string, () => Promise<unknown> | unknown][];
+type InFlightAction = [string, Promise<unknown> | unknown];
 
 export class AppInitializer {
     private static actions: ControlledPromise[] = [];
@@ -21,10 +23,11 @@ export class AppInitializer {
     static async start(): Promise<void> {
         AppInitializer.stop();
         await AppInitializer.authenticate();
-        const requiredDataPromise = AppInitializer.fetchRequiredData();
+
         void AppInitializer.fetchBackgroundData();
 
-        await requiredDataPromise;
+        await AppInitializer.fetchRequiredData();
+        await AppInitializer.startPostDataFetchLogic();
     }
 
     static stop(): void {
@@ -59,6 +62,26 @@ export class AppInitializer {
             ['serverSettings', () => requestManager.getServerSettings().response],
             // Load the full download status once on startup to fill the cache
             ['downloadStatus', () => requestManager.getDownloadStatus().response],
+        ]);
+    }
+
+    private static async startPostDataFetchLogic(): Promise<void> {
+        await AppInitializer.executeActions([
+            [
+                'resumeMigration',
+                () => {
+                    if (!MigrationManager.isActive()) {
+                        navigator.locks
+                            ?.request('migration-executor', async () => {
+                                const resumed = await MigrationManager.resume();
+                                if (resumed) {
+                                    await MigrationManager.awaitCompletion();
+                                }
+                            })
+                            .catch(defaultPromiseErrorHandler('ResumeMigration'));
+                    }
+                },
+            ],
         ]);
     }
 
