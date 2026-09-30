@@ -138,6 +138,7 @@ export const markdownToSafeHtml = (markdown: string): string => {
     const html = marked.parse(markdown, {
         async: false,
         breaks: true,
+        gfm: false,
     });
 
     return DOMPurify.sanitize(html, {
