@@ -58,6 +58,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     showDownloadBadge: false,
     showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
+    notifyNewChapters: false,
 
     // client
     devices: [DEFAULT_DEVICE],
