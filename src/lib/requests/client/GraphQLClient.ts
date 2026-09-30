@@ -460,6 +460,10 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
     public override updateConfig() {}
 
+    public registerSubscription(restart: () => void) {
+        this.activeConnectionSubscriptions.set(crypto.randomUUID(), () => restart);
+    }
+
     public useRestartSubscription(restart: () => void) {
         const id = useId();
 

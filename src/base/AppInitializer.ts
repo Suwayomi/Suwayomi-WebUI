@@ -14,11 +14,13 @@ import { assertIsDefined } from '@/base/Asserts.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
-type ActionConfig = [string, () => Promise<unknown> | unknown][];
-type InFlightAction = [string, Promise<unknown> | unknown];
+type ActionConfig = [Key: string, Setup: () => Promise<unknown> | unknown][];
+type InFlightAction = [Key: string, InFlightSetup: Promise<unknown> | unknown];
 
 export class AppInitializer {
     private static actions: ControlledPromise[] = [];
+
+    private static subscriptions: any[] = [];
 
     static async start(): Promise<void> {
         AppInitializer.stop();
@@ -33,6 +35,7 @@ export class AppInitializer {
     static stop(): void {
         AppInitializer.actions.forEach((promise) => promise.reject('stopped'));
         AppInitializer.actions = [];
+        AppInitializer.subscriptions.forEach((subscription) => subscription.unsubscribe());
     }
 
     private static async authenticate(): Promise<void> {
@@ -90,6 +93,16 @@ export class AppInitializer {
             // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
             // without having to open the extensions page.
             ['fetchExtensionList', () => requestManager.getExtensionListFetch().response],
+            /*
+             * Creates permanent subscriptions to always have the latest data.
+             *
+             * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
+             * and thus, data of existing chapters/mangas in the cache get outdated
+             */
+            ['downloadSubscription', () => this.subscriptions.push(requestManager.downloadSubscription().subscribe())],
+            ['updaterSubscription', () => this.subscriptions.push(requestManager.updaterSubscription().subscribe())],
+            ['webUISubscription', () => this.subscriptions.push(requestManager.webUIUpdateSubscription().subscribe())],
+            ['syncSubscription', () => this.subscriptions.push(requestManager.syncSubscription().subscribe())],
         ]);
     }
 

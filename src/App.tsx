@@ -16,7 +16,6 @@ import Box from '@mui/material/Box';
 import { AwaitableComponent } from 'awaitable-component';
 import { AppContext } from '@/base/contexts/AppContext.tsx';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/base/utils/LazyLoad.tsx';
@@ -128,6 +127,11 @@ const InitializeGuard = ({ children }: PropsWithChildren) => {
         AppInitializer.start().then(() => {
             setIsInitialized(true);
         });
+
+        return () => {
+            AppInitializer.stop();
+            setIsInitialized(false);
+        };
     }, []);
 
     if (!accessToken && isAuthRequired) {
@@ -139,25 +143,6 @@ const InitializeGuard = ({ children }: PropsWithChildren) => {
     }
 
     return children;
-};
-
-/**
- * Creates permanent subscriptions to always have the latest data.
- *
- * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
- * and thus, data of existing chapters/mangas in the cache get outdated
- */
-const BackgroundSubscriptions = () => {
-    const { isAuthRequired, accessToken } = AuthManager.useSession();
-
-    const skipConnection = isAuthRequired === null || (isAuthRequired && !accessToken);
-
-    requestManager.useDownloadSubscription({ skip: skipConnection });
-    requestManager.useUpdaterSubscription({ skip: skipConnection });
-    requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
-    requestManager.useSyncSubscription({ skip: skipConnection });
-
-    return null;
 };
 
 const ReactRouterSetter = () => {
@@ -351,7 +336,6 @@ export const App: React.FC = () => (
         <InitializeGuard>
             <ServerUpdateChecker />
             <WebUIUpdateChecker />
-            <BackgroundSubscriptions />
 
             <Box sx={{ display: 'flex' }}>
                 <OffsetContainerRoot>
