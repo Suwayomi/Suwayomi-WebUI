@@ -15,7 +15,7 @@ export type CategoryMetadataKeys = keyof ICategoryMetadata;
 
 export type CategoryIdInfo = Pick<CategoryType, 'id'>;
 export type CategoryNameInfo = Pick<CategoryType, 'name'>;
-export type CategoryDefaultInfo = Pick<CategoryType, 'default'>;
+export type CategoryDefaultInfo = Pick<CategoryType, 'default' | 'isDefaultCategory'>;
 export type CategoryUpdateInclusionInfo = Pick<CategoryType, 'includeInUpdate'>;
 export type CategoryDownloadInclusionInfo = Pick<CategoryType, 'includeInDownload'>;
 export type CategoryMetadataInfo = CategoryIdInfo & { meta: Pick<CategoryMetaType, 'key' | 'value'>[] };
