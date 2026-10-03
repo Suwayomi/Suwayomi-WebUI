@@ -6,16 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, {
-    useCallback,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-    type ForwardedRef,
-    type Ref,
-    type JSX,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState, type ForwardedRef, type Ref, type JSX } from 'react';
 import type { GridTypeMap } from '@mui/material/Grid';
 import Grid from '@mui/material/Grid';
 import type { BoxProps } from '@mui/material/Box';
@@ -32,6 +23,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const GridContainer = ({ children, ref, ...props }: GridTypeMap['props'] & { ref?: Ref<HTMLDivElement> }) => (
@@ -160,7 +152,7 @@ const VerticalGrid = ({
         <Box ref={ref}>
             <VirtuosoGridPersisted
                 persistKey={MANGA_GRID_SNAPSHOT_KEY}
-                useWindowScroll
+                customScrollParent={getMainScrollHost()}
                 increaseViewportBy={window.innerHeight * 0.5}
                 totalCount={mangas.length}
                 components={{
@@ -244,43 +236,6 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         [dimensions, mangaGridItemWidth, gridLayout],
     );
 
-    // always show vertical scrollbar to prevent https://github.com/Suwayomi/Suwayomi-WebUI/issues/758
-    useLayoutEffect(() => {
-        if (horizontal) {
-            return () => {};
-        }
-
-        // in case "overflow" is currently set to "hidden" that (most likely) means that a MUI modal is open and locks the scrollbar
-        // once this modal is closed MUI restores the previous "overflow" value, thus, reverting the just set "overflow" value
-        let timeout: NodeJS.Timeout;
-        const changeStyle = (timeoutMS: number) => {
-            timeout = setTimeout(() => {
-                if (document.body.style.overflow.includes('hidden')) {
-                    changeStyle(250);
-                    return;
-                }
-
-                document.body.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
-            }, timeoutMS);
-        };
-
-        changeStyle(0);
-
-        return () => {
-            clearTimeout(timeout);
-        };
-    }, [gridLayout]);
-    useLayoutEffect(
-        () => () => {
-            if (horizontal) {
-                return;
-            }
-
-            document.body.style.overflowY = 'auto';
-        },
-        [],
-    );
-
     useResizeObserver(
         gridWrapperRef,
         useCallback(() => {
@@ -303,7 +258,8 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         useCallback(
             (entries, resizeObserver) => {
                 const gridHeight = entries[0].target.clientHeight;
-                const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
+                const isScrollbarVisible =
+                    gridHeight > (getMainScrollHost()?.clientHeight ?? document.documentElement.clientHeight);
 
                 if (isLoading) {
                     return;

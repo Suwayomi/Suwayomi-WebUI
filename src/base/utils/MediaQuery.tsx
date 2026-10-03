@@ -8,7 +8,7 @@
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getCurrentTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
@@ -77,6 +77,18 @@ export class MediaQuery {
                 setScrollbarSize(0);
             }, [element]),
         );
+
+        return scrollbarSize;
+    }
+
+    static useGetClassicScrollbarSize(type: 'X' | 'Y' = 'Y'): number {
+        const [scrollbarSize, setScrollbarSize] = useState(() => MediaQuery.getScrollbarSize(type));
+
+        useEffect(() => {
+            const remeasure = () => setScrollbarSize(MediaQuery.getScrollbarSize(type));
+            window.addEventListener('resize', remeasure);
+            return () => window.removeEventListener('resize', remeasure);
+        }, [type]);
 
         return scrollbarSize;
     }

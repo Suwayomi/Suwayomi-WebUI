@@ -38,6 +38,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { scrollMainToTop, setMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -48,7 +49,10 @@ const { MigrationManualSearch } = loadable(
     () => import('@/features/migration/screens/MigrationManualSearch.tsx'),
     lazyLoadFallback,
 );
-const { Settings } = loadable(() => import('@/features/settings/screens/Settings.tsx'), lazyLoadFallback);
+const { Settings, SettingsIndex } = loadable(
+    () => import('@/features/settings/screens/Settings.tsx'),
+    lazyLoadFallback,
+);
 const { About } = loadable(() => import('@/features/settings/screens/About.tsx'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/features/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
@@ -116,7 +120,7 @@ const ScrollToTop = () => {
     const { pathname } = useLocation();
 
     useLayoutEffect(() => {
-        window.scrollTo(0, 0);
+        scrollMainToTop();
     }, [pathname]);
 
     return null;
@@ -262,8 +266,12 @@ const MainApp = () => {
         <Box
             id="appMainContainer"
             component="main"
+            ref={setMainScrollHost}
             sx={{
-                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                height: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                scrollbarGutter: 'stable',
                 width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
@@ -291,8 +299,8 @@ const MainApp = () => {
                         />
                         {isMobileWidth && <Route path={AppRoutes.more.match} element={<More />} />}
                         <Route path={AppRoutes.about.match} element={<About />} />
-                        <Route path={AppRoutes.settings.match}>
-                            <Route index element={<Settings />} />
+                        <Route path={AppRoutes.settings.match} element={<Settings />}>
+                            <Route index element={<SettingsIndex />} />
                             <Route path={AppRoutes.settings.children.categories.match} element={<CategorySettings />} />
                             <Route path={AppRoutes.settings.children.reader.match} element={<GlobalReaderSettings />} />
                             <Route path={AppRoutes.settings.children.library.match}>
@@ -395,11 +403,9 @@ const ReaderApp = () => (
     </ErrorBoundary>
 );
 
-const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => {
-    const { appBarHeight } = useNavBarContext();
-
-    return <OffsetContainer topOffset={appBarHeight}>{children}</OffsetContainer>;
-};
+const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => (
+    <OffsetContainer topOffset={0}>{children}</OffsetContainer>
+);
 
 export const App: React.FC = () => (
     <AppContext>

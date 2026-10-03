@@ -6,11 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import { useLingui } from '@lingui/react/macro';
 import type { IMangaGridProps } from '@/features/manga/components/MangaGrid.tsx';
 import { MangaGrid } from '@/features/manga/components/MangaGrid.tsx';
-import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 interface LibraryMangaGridProps
@@ -34,13 +33,6 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
     const {
         settings: { gridLayout },
     } = useMetadataServerSettings();
-
-    useLayoutEffect(() => {
-        document.body.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
-        return () => {
-            document.body.style.overflowY = 'auto';
-        };
-    }, []);
 
     return (
         <MangaGrid
