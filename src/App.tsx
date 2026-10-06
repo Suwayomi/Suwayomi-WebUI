@@ -119,7 +119,7 @@ const ScrollToTop = () => {
 };
 
 const InitializeGuard = ({ children }: PropsWithChildren) => {
-    const { accessToken, isAuthRequired } = AuthManager.useSession();
+    const { accessToken, refreshToken, isAuthRequired } = AuthManager.useSession();
 
     const [isInitialized, setIsInitialized] = useState(false);
 
@@ -134,7 +134,7 @@ const InitializeGuard = ({ children }: PropsWithChildren) => {
         };
     }, []);
 
-    if (!accessToken && isAuthRequired) {
+    if (!accessToken && !refreshToken && isAuthRequired) {
         return <LoginPage redirect={false} />;
     }
 
