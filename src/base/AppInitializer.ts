@@ -166,7 +166,7 @@ export class AppInitializer {
         });
 
         await AppInitializer.executeActions(
-            actions.filter(([key]) => !failedActions.some(([k]) => k === key)),
+            actions.filter(([key]) => failedActions.some(([k]) => k === key)),
             {
                 timeout: (timeout * timeoutMultiplier) % maxTimeout,
                 timeoutMultiplier,
