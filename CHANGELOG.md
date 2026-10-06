@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - (**Global**) Force the navigation bar to be collapsed on smaller devices
+- (**Manga**) Show the `Default` category in the category selection dialog
 
 ### Fixed
 
