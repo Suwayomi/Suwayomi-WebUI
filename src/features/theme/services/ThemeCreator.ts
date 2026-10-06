@@ -204,6 +204,15 @@ export const createTheme = (
                         noSsr: true,
                     },
                 },
+                MuiDialog: {
+                    styleOverrides: {
+                        paper: {
+                            [themeForColors.breakpoints.up(MediaQuery.TABLET_WIDTH)]: {
+                                maxHeight: '70vh',
+                            },
+                        },
+                    },
+                },
                 MuiCssBaseline: {
                     ...appTheme.muiTheme.components?.MuiCssBaseline,
                     styleOverrides:

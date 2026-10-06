@@ -190,18 +190,7 @@ export function CategorySelect(props: CategorySelectProps) {
     };
 
     return (
-        <Dialog
-            sx={{
-                '.MuiDialog-paper': {
-                    maxHeight: 435,
-                    width: '80%',
-                },
-            }}
-            maxWidth="xs"
-            open={isVisible}
-            onTransitionExited={onExitComplete}
-            onClose={handleCancel}
-        >
+        <Dialog maxWidth="xs" open={isVisible} onTransitionExited={onExitComplete} onClose={handleCancel}>
             <DialogTitle>{t`Set categories`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
