@@ -46,12 +46,15 @@ export function DefaultNavBar() {
     const { pathname } = useLocation();
     const handleBack = useBackButton();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
 
     const {
         settings: { hideHistory },
     } = useMetadataServerSettings();
 
     const appBarRef = useRef<HTMLDivElement | null>(null);
+
+    const isNavBarCollapsible = !isMobileWidth && !isTabletWidth;
 
     const isMainRoute = NAVIGATION_BAR_ITEMS.some(({ path, show }) => {
         if (isMobileWidth && show === 'desktop') {
@@ -129,7 +132,7 @@ export function DefaultNavBar() {
                 }}
             >
                 <Toolbar sx={{ position: 'relative' }}>
-                    {!isMobileWidth && (
+                    {isNavBarCollapsible && (
                         <Stack
                             sx={{
                                 position: 'absolute',
@@ -146,8 +149,8 @@ export function DefaultNavBar() {
                     )}
                     <Stack
                         sx={{
-                            ml: `${isCollapsed ? navBarWidth : 0}px`,
-                            width: `calc(100% - (${isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
+                            ml: `${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px`,
+                            width: `calc(100% - (${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
                             flexDirection: 'row',
                             alignItems: 'center',
                         }}
