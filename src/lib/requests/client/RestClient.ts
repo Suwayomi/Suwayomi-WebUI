@@ -33,7 +33,7 @@ export class RestClient
     protected client!: typeof fetch;
 
     private config: RequestInit = {
-        credentials: 'include',
+        credentials: 'same-origin',
     };
 
     public readonly fetcher = async (

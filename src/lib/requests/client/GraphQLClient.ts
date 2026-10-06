@@ -347,7 +347,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             const accessToken = AuthManager.getAccessToken();
 
             return {
-                credentials: 'include',
+                credentials: 'same-origin',
                 headers: {
                     ...headers,
                     ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
