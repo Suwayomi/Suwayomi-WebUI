@@ -294,7 +294,6 @@ const MainApp = () => {
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
                         <Route path={AppRoutes.migrate.match}>
                             <Route index element={<Migration />} />
-                            <Route path={AppRoutes.migrate.children.singleMangaSearch.match} element={<SearchAll />} />
                             <Route
                                 path={AppRoutes.migrate.children.manualSearch.match}
                                 element={<MigrationManualSearch />}
