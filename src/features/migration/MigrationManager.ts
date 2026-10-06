@@ -214,7 +214,7 @@ export class MigrationManager {
                     draft.entries = {};
                 });
 
-                ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
+                ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE), { replace: true });
                 return false;
             case MigrationPhase.SELECTING_SOURCES:
                 MigrationManager.updateState((draft) => {
@@ -228,7 +228,7 @@ export class MigrationManager {
                 });
 
                 if (MigrationManager.entryPoint) {
-                    ReactRouter.navigate(MigrationManager.entryPoint);
+                    ReactRouter.navigate(MigrationManager.entryPoint, { replace: true });
                 }
 
                 return false;
@@ -535,7 +535,9 @@ export class MigrationManager {
             return false;
         }
 
-        ReactRouter.navigate(MigrationManager.entryPoint ?? AppRoutes.browse.path(BrowseTab.MIGRATE));
+        ReactRouter.navigate(MigrationManager.entryPoint ?? AppRoutes.browse.path(BrowseTab.MIGRATE), {
+            replace: true,
+        });
 
         MigrationManager.abortAndResetAbortController(reason);
 

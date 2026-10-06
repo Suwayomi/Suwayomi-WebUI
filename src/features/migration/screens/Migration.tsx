@@ -32,7 +32,7 @@ export const Migration = () => {
             if (!MigrationManager.isResumablePhase()) {
                 MigrationManager.reset();
             } else {
-                ReactRouter.navigate(AppRoutes.migrate.path);
+                ReactRouter.navigate(AppRoutes.migrate.path, { replace: true });
             }
 
             return;
@@ -47,12 +47,12 @@ export const Migration = () => {
 
     useEffect(() => {
         if (!isMigrationPage && phase !== MigrationPhase.IDLE && phase !== MigrationPhase.SELECTING_SOURCES) {
-            ReactRouter.navigate(AppRoutes.migrate.path);
+            ReactRouter.navigate(AppRoutes.migrate.path, { replace: true });
             return;
         }
 
         if (isMigrationPage && phase === MigrationPhase.IDLE) {
-            ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
+            ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE), { replace: true });
         }
     }, [phase]);
 
