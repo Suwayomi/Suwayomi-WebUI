@@ -33,7 +33,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { ScrollHostProvider } from '@/base/contexts/ScrollHost.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
-export function SettingsMenu() {
+function SettingsMenu() {
     const { t } = useLingui();
     const { pathname } = useLocation();
 
