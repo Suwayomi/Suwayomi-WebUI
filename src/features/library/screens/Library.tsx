@@ -102,7 +102,7 @@ export function Library() {
         error: mangaError,
         loading: mangaLoading,
         refetch: refetchCategoryMangas,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, activeTab?.isDefaultCategory, { skip: !activeTab });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,

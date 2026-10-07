@@ -60,8 +60,6 @@ import type {
     GetAboutQueryVariables,
     GetCategoriesSettingsQuery,
     GetCategoriesSettingsQueryVariables,
-    GetCategoryMangasQuery,
-    GetCategoryMangasQueryVariables,
     GetChapterPagesFetchMutation,
     GetChapterPagesFetchMutationVariables,
     GetChaptersHistoryQuery,
@@ -270,7 +268,6 @@ import {
     GET_CATEGORIES_BASE,
     GET_CATEGORIES_LIBRARY,
     GET_CATEGORIES_SETTINGS,
-    GET_CATEGORY_MANGAS,
 } from '@/lib/graphql/category/CategoryQuery.ts';
 import {
     GET_SOURCE_MANGAS_FETCH,
@@ -3143,31 +3140,22 @@ export class RequestManager {
 
     public useGetCategoryMangas(
         id: number,
+        isDefault: boolean,
         options?: QueryHookOptions<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
-        const isDefaultCategory = id === 0;
-        if (isDefaultCategory) {
-            // hacky way of loading the default category mangas - some stuff won't work but since that is not used anyway, it won't be a problem
-            // can't be loaded via "useGetMangas" because mangas are not actually mapped to the default category in the database
-            const { data, ...result } = this.doRequest<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>(
-                GQLMethod.USE_QUERY,
-                GET_CATEGORY_MANGAS,
-                { id },
-                options as QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
-            );
-
-            return {
-                ...result,
-                data: data
-                    ? {
-                          ...data?.category,
-                          __typename: 'Query',
-                      }
-                    : undefined,
-            } as unknown as AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>;
-        }
-
-        return this.useGetMangas(GET_MANGAS_LIBRARY, { condition: { inLibrary: true, categoryIds: [id] } }, options);
+        return this.useGetMangas(
+            GET_MANGAS_LIBRARY,
+            {
+                filter: {
+                    inLibrary: { equalTo: true },
+                    categoryId: {
+                        isNull: isDefault,
+                        in: isDefault ? undefined : [id],
+                    },
+                },
+            },
+            options,
+        );
     }
 
     public deleteCategory(
