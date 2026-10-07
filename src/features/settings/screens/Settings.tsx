@@ -89,7 +89,12 @@ export function Settings() {
     const scrollbarWidth = MediaQuery.useGetClassicScrollbarSize('Y');
     const [settingsScrollHost, setSettingsScrollHost] = useState<HTMLElement | null>(null);
 
-    if (!isWide) {
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const { appBarHeight, bottomBarHeight } = useNavBarContext();
+    const scrollbarWidth = MediaQuery.useGetClassicScrollbarSize('Y');
+    const [settingsScrollHost, setSettingsScrollHost] = useState<HTMLElement | null>(null);
+
+    if (isMobileWidth ) {
         return <Outlet />;
     }
 
