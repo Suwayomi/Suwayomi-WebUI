@@ -2457,17 +2457,6 @@ msgstr "以下のソースはインストールされていません :"
 msgid "The following trackers are not logged in:"
 msgstr "以下のトラッカーにログインしていません :"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"次の章のスキャンチームは現在の章と異なります\n"
-"現在の章：{currentScanlator}\n"
-"次の章：{nextScanlator}\n"
-""
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "自動バックアップが保存されるサーバーのディレクトリへのパス"
@@ -2483,17 +2472,6 @@ msgstr "ローカルソースファイルが保存されるサーバーのディ
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "サーバ上のElectronのインストールパス"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"前の章のスキャンチームは現在の章と異なります\n"
-"前の章：{nextScanlator}\n"
-"現在の章：{currentScanlator}\n"
-""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

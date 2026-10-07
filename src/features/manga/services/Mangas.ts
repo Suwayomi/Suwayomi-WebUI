@@ -61,6 +61,7 @@ import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/Chapter
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import mapValues from 'lodash/fp/mapValues';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 const I18N_PLURAL = 9999;
 
@@ -434,12 +435,13 @@ export class Mangas {
         const sourceIds = uniq(mangas.map((manga) => manga.sourceId));
 
         MigrationManager.selectSources(sourceIds);
-        MigrationManager.selectMangas(mangas);
+        MigrationManager.selectMangas(mangas, {
+            pathname: SubpathUtil.getPathname(),
+            search: document.location.search,
+            hash: document.location.hash,
+        });
 
-        const isBulkMigration = mangas.length > 1;
-        if (isBulkMigration) {
-            ReactRouter.navigate(AppRoutes.migrate.path);
-        }
+        ReactRouter.navigate(AppRoutes.migrate.path);
     }
 
     private static async executeAction(

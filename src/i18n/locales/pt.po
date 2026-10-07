@@ -2343,16 +2343,6 @@ msgstr "As seguintes fontes não estão instaladas:"
 msgid "The following trackers are not logged in:"
 msgstr "Os seguintes rastreadores não estão conectados:"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"O próximo capítulo tem uma scanlator diferente do capítulo atual.\n"
-"Atual: {currentScanlator}\n"
-"Próximo: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "O caminho para o diretório no servidor onde os backups automatizados devem ser salvos"
@@ -2368,16 +2358,6 @@ msgstr "O caminho para o diretório no servidor onde os arquivos locais são sal
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "O caminho de instalação do electron no servidor"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"O capítulo anterior tem um scanlador diferente do capítulo atual.\n"
-"Anterior: {nextScanlator}\n"
-"Atual: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"

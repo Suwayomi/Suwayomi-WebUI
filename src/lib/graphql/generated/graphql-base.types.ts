@@ -180,6 +180,7 @@ export type CategoryType = {
     id: Scalars['Int']['output'];
     includeInDownload: IncludeOrExclude;
     includeInUpdate: IncludeOrExclude;
+    isDefaultCategory: Scalars['Boolean']['output'];
     mangas: MangaNodeList;
     meta: Array<CategoryMetaType>;
     name: Scalars['String']['output'];
@@ -1973,7 +1974,7 @@ export type PartialSettingsType = Settings & {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2623,7 +2624,7 @@ export type Settings = {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2778,7 +2779,7 @@ export type SettingsType = Settings & {
     excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
     excludeNotStarted: Scalars['Boolean']['output'];
     excludeUnreadChapters: Scalars['Boolean']['output'];
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos: Array<Scalars['String']['output']>;
     flareSolverrAsResponseFallback: Scalars['Boolean']['output'];
     flareSolverrEnabled: Scalars['Boolean']['output'];

@@ -78,7 +78,7 @@ const LanguageSelectDialog = ({
                     style={{
                         height: languagesSortedBySelectState.length * 54,
                         minHeight: '25vh',
-                        maxHeight: '50vh',
+                        maxHeight: '70vh',
                     }}
                     data={languagesSortedBySelectState}
                     increaseViewportBy={400}

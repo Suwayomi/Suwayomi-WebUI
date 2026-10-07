@@ -2982,26 +2982,6 @@ msgstr "A bejelentkezés a kliens által lesz kezelve."
 msgid "The login will be handled by the server."
 msgstr "A bejelentkezés a szerver által lesz kezelve."
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"A következő fejezetet másik fordítócsoport fordította.\n"
-"Jelenlegi: {currentScanlator}\n"
-"Következő: {nextScanlator}"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"Az előző fejezetet másik fordítócsoport fordította.\n"
-"Előző: {nextScanlator}\n"
-"Jelenlegi: {currentScanlator}"
-
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
 msgstr ""

@@ -347,15 +347,20 @@ class ReaderControlsClass {
         const warningLineBreak = !isSameScanlator && !isContinuousChapter ? '\n\n' : '';
         const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
 
-        await Confirmation.show({
-            title: t`Chapter transition warning`,
-            message: warning,
-            actions: {
-                confirm: {
-                    title: t`Open`,
+        await Confirmation.show(
+            {
+                title: t`Chapter transition warning`,
+                message: warning,
+                actions: {
+                    confirm: {
+                        title: t`Open`,
+                    },
                 },
             },
-        });
+            {
+                id: `reader-chapter-warning-${currentChapter.id}-${chapterToOpen.id}`,
+            },
+        );
     }
 
     openPage(page: number | 'previous' | 'next', forceDirection?: Direction, hideOverlay: boolean = true): void {

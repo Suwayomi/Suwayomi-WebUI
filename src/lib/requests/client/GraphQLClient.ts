@@ -347,7 +347,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             const accessToken = AuthManager.getAccessToken();
 
             return {
-                credentials: 'include',
+                credentials: 'same-origin',
                 headers: {
                     ...headers,
                     ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -459,6 +459,10 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     }
 
     public override updateConfig() {}
+
+    public registerSubscription(restart: () => void) {
+        this.activeConnectionSubscriptions.set(crypto.randomUUID(), () => restart);
+    }
 
     public useRestartSubscription(restart: () => void) {
         const id = useId();

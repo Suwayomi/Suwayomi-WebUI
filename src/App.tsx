@@ -16,7 +16,6 @@ import Box from '@mui/material/Box';
 import { AwaitableComponent } from 'awaitable-component';
 import { AppContext } from '@/base/contexts/AppContext.tsx';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/base/utils/LazyLoad.tsx';
@@ -27,18 +26,14 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
-import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { MigrationFABIndicator } from '@/features/migration/components/MigrationFABIndicator.tsx';
-import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
-import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
-import { scrollMainToTop, setMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
+import { AppInitializer } from '@/base/AppInitializer.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -127,86 +122,30 @@ const ScrollToTop = () => {
 };
 
 const InitializeGuard = ({ children }: PropsWithChildren) => {
+    const { accessToken, refreshToken, isAuthRequired } = AuthManager.useSession();
+
     const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
-        type RequestConfig = [string, () => Promise<unknown>][];
-        type InFlightRequest = [string, Promise<unknown>];
+        AppInitializer.start().then(() => {
+            setIsInitialized(true);
+        });
 
-        const initialRequests: RequestConfig = [
-            ['globalMeta', () => requestManager.getGlobalMeta().response],
-            ['serverSettings', () => requestManager.getServerSettings().response],
-        ];
-
-        const executeRequests = async (requests: RequestConfig, timeout: number = d(5).seconds.inWholeMilliseconds) => {
-            const runningRequests = requests.map(([key, fn]) => [key, fn()] satisfies InFlightRequest);
-
-            const failedRequests = runningRequests.filter(async ([_, request]) => {
-                try {
-                    await request;
-
-                    return false;
-                } catch (e) {
-                    return true;
-                }
-            });
-
-            if (failedRequests.length) {
-                await new Promise((resolve) => {
-                    setTimeout(resolve, timeout);
-                });
-
-                return executeRequests(
-                    requests.filter(([key]) => !failedRequests.some(([k]) => k === key)),
-                    (timeout * 1.5) % d(2).minutes.inWholeMilliseconds,
-                );
-            }
+        return () => {
+            AppInitializer.stop();
+            setIsInitialized(false);
         };
-
-        executeRequests(initialRequests).catch(defaultPromiseErrorHandler('InitializeGuard'));
-
-        setIsInitialized(true);
     }, []);
 
-    if (isInitialized) {
-        return children;
+    if (!accessToken && !refreshToken && isAuthRequired) {
+        return <LoginPage redirect={false} />;
     }
 
-    return <SplashScreen />;
-};
+    if (!isInitialized) {
+        return <SplashScreen />;
+    }
 
-const InitialBackgroundRequests = () => {
-    // Load the full download status once on startup to fill the cache
-    requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
-
-    const [fetchExtensionList] = requestManager.useExtensionListFetch();
-
-    useEffect(() => {
-        // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
-        // without having to open the extensions page.
-        fetchExtensionList().catch(defaultPromiseErrorHandler('App::InitialBackgroundRequests: extension list'));
-    }, []);
-
-    return null;
-};
-
-/**
- * Creates permanent subscriptions to always have the latest data.
- *
- * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
- * and thus, data of existing chapters/mangas in the cache get outdated
- */
-const BackgroundSubscriptions = () => {
-    const { isAuthRequired, accessToken } = AuthManager.useSession();
-
-    const skipConnection = isAuthRequired === null || (isAuthRequired && !accessToken);
-
-    requestManager.useDownloadSubscription({ skip: skipConnection });
-    requestManager.useUpdaterSubscription({ skip: skipConnection });
-    requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
-    requestManager.useSyncSubscription({ skip: skipConnection });
-
-    return null;
+    return children;
 };
 
 const ReactRouterSetter = () => {
@@ -214,23 +153,6 @@ const ReactRouterSetter = () => {
 
     useEffect(() => {
         ReactRouter.setNavigateFn(navigate);
-    }, []);
-
-    return null;
-};
-
-const ResumeMigration = () => {
-    useEffect(() => {
-        if (!MigrationManager.isActive()) {
-            navigator.locks
-                ?.request('migration-executor', async () => {
-                    const resumed = await MigrationManager.resume();
-                    if (resumed) {
-                        await MigrationManager.awaitCompletion();
-                    }
-                })
-                .catch(defaultPromiseErrorHandler('ResumeMigration'));
-        }
     }, []);
 
     return null;
@@ -379,7 +301,6 @@ const MainApp = () => {
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
                         <Route path={AppRoutes.migrate.match}>
                             <Route index element={<Migration />} />
-                            <Route path={AppRoutes.migrate.children.singleMangaSearch.match} element={<SearchAll />} />
                             <Route
                                 path={AppRoutes.migrate.children.manualSearch.match}
                                 element={<MigrationManualSearch />}
@@ -416,27 +337,22 @@ export const App: React.FC = () => (
 
         <CssBaseline enableColorScheme />
 
-        <AuthGuard>
-            <InitializeGuard>
-                <ServerUpdateChecker />
-                <WebUIUpdateChecker />
-                <InitialBackgroundRequests />
-                <BackgroundSubscriptions />
-                <ResumeMigration />
+        <InitializeGuard>
+            <ServerUpdateChecker />
+            <WebUIUpdateChecker />
 
-                <Box sx={{ display: 'flex' }}>
-                    <OffsetContainerRoot>
-                        <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                            <DefaultNavBar />
-                        </Box>
-                        <Routes>
-                            <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
-                            <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
-                        </Routes>
-                    </OffsetContainerRoot>
-                </Box>
-                <MigrationFABIndicator />
-            </InitializeGuard>
-        </AuthGuard>
+            <Box sx={{ display: 'flex' }}>
+                <OffsetContainerRoot>
+                    <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                        <DefaultNavBar />
+                    </Box>
+                    <Routes>
+                        <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
+                        <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
+                    </Routes>
+                </OffsetContainerRoot>
+            </Box>
+            <MigrationFABIndicator />
+        </InitializeGuard>
     </AppContext>
 );

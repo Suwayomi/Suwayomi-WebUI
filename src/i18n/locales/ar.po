@@ -1667,16 +1667,6 @@ msgstr "الفئة فارغة"
 msgid "The following sources are not installed:"
 msgstr "المصادر التالية غير مثبتة:"
 
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
-"Current: {currentScanlator}\n"
-"Next: {nextScanlator}"
-msgstr ""
-"الفصل التالي من فريق ترجمة مختلف عن الفصل الحالي.\n"
-"الحالي: {currentScanlator}\n"
-"التالي: {nextScanlator}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
 msgstr "المسار على الخادم حيث يجب حفظ النسخ الاحتياطية التلقائية"
@@ -1692,16 +1682,6 @@ msgstr "المسار على الخادم حيث يتم حفظ ملفات الم�
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
 msgstr "مسار تثبيت Electron على الخادم"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
-"Previous: {nextScanlator}\n"
-"Current: {currentScanlator}"
-msgstr ""
-"الفصل السابق من فريق ترجمة مختلف عن الفصل الحالي.\n"
-"السابق: {nextScanlator}\n"
-"الحالي: {currentScanlator}"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"

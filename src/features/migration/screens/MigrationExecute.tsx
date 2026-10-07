@@ -181,7 +181,7 @@ export const MigrationExecute = () => {
             <MigrationContinueButton
                 title={MigrationManager.isPhaseComplete() ? t`Done` : t`Abort`}
                 onClick={() =>
-                    MigrationManager.isPhaseComplete() ? MigrationManager.reset() : MigrationManager.stop()
+                    MigrationManager.isPhaseComplete() ? MigrationManager.reset(true) : MigrationManager.stop()
                 }
             />
         </>

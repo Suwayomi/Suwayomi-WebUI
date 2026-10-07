@@ -76,6 +76,7 @@ import { d } from 'koration';
 import merge from 'lodash/fp/merge';
 import mapValues from 'lodash/fp/mapValues';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
+import type { To } from 'react-router-dom';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
 
@@ -118,6 +119,10 @@ export class MigrationManager {
     private static parallelSourcesQueue: LimitFunction | undefined;
     private static queueBySource = new Map<SourceIdInfo['id'], LimitFunction>();
     private static abortControllerByManga = new Map<MangaIdInfo['id'], AbortController>();
+
+    private static entryPoint: To | null = null;
+
+    private static exitPoint: To | null = null;
 
     private static abortAndResetAbortController(reason: unknown): void {
         MigrationManager.abortController?.abort(reason);
@@ -209,13 +214,22 @@ export class MigrationManager {
                     draft.entries = {};
                 });
 
-                ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
+                ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE), { replace: true });
                 return false;
             case MigrationPhase.SELECTING_SOURCES:
                 MigrationManager.updateState((draft) => {
                     draft.phase = MigrationPhase.SELECT_MANGAS;
                     draft.destinationSourceIds = [];
+
+                    if (MigrationManager.entryPoint) {
+                        draft.phase = MigrationPhase.IDLE;
+                        draft.entries = {};
+                    }
                 });
+
+                if (MigrationManager.entryPoint) {
+                    ReactRouter.navigate(MigrationManager.entryPoint, { replace: true });
+                }
 
                 return false;
             default:
@@ -324,26 +338,13 @@ export class MigrationManager {
             MangaThumbnailInfo &
             MangaSourceIdInfo &
             MangaSourceNameInfo)[],
+        entryPoint: typeof MigrationManager.entryPoint = null,
+        exitPoint: typeof MigrationManager.exitPoint = null,
     ): void {
+        MigrationManager.entryPoint = entryPoint;
+        MigrationManager.exitPoint = exitPoint;
+
         MigrationManager.ensureIsInValidPhase([MigrationPhase.SELECT_MANGAS]);
-
-        const isSingleManga = mangas.length === 1;
-        if (isSingleManga) {
-            const [manga] = mangas;
-
-            ReactRouter.navigate(
-                AppRoutes.migrate.children.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
-                {
-                    state: AppRoutes.migrate.children.singleMangaSearch.state({
-                        title: t`Migrate "${manga.title}"`,
-                        mode: 'migrate.select.single',
-                    }),
-                },
-            );
-
-            MigrationManager.reset();
-            return;
-        }
 
         MigrationManager.updateState((draft) => {
             draft.phase = MigrationPhase.SELECTING_SOURCES;
@@ -534,11 +535,13 @@ export class MigrationManager {
             return false;
         }
 
+        ReactRouter.navigate(MigrationManager.entryPoint ?? AppRoutes.browse.path(BrowseTab.MIGRATE), {
+            replace: true,
+        });
+
         MigrationManager.abortAndResetAbortController(reason);
 
         MigrationManager.reset();
-
-        ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
 
         return true;
     }
@@ -609,7 +612,13 @@ export class MigrationManager {
         return true;
     }
 
-    static reset(): void {
+    static reset(goToExitPoint: boolean = false): void {
+        if (goToExitPoint && MigrationManager.exitPoint) {
+            ReactRouter.navigate(MigrationManager.exitPoint, { replace: true });
+        }
+
+        MigrationManager.entryPoint = null;
+        MigrationManager.exitPoint = null;
         MigrationManager.abortAndResetAbortController('reset');
         migrationStore.setState({ ...DEFAULT_MIGRATION_STATE });
     }

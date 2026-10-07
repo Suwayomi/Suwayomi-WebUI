@@ -183,6 +183,11 @@ const SourceLanguageSelectDialog = ({
                     itemContent={(index) => {
                         const source = flattenedSourcesByLanguages[index];
 
+                        // Prevent virtuoso bug causing a TypeError - https://github.com/petyosi/react-virtuoso/issues/1349
+                        if (!source) {
+                            return null;
+                        }
+
                         return (
                             <ListItem sx={{ pl: 3 }}>
                                 <ListItemAvatar sx={{ minWidth: 32, mr: 1 }}>

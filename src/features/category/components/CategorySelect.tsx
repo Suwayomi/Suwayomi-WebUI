@@ -37,6 +37,8 @@ import { GET_CATEGORIES_BASE } from '@/lib/graphql/category/CategoryQuery.ts';
 import { GET_MANGA_CATEGORIES } from '@/lib/graphql/manga/MangaQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import Box from '@mui/material/Box';
 
 type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }>;
 
@@ -188,22 +190,34 @@ export function CategorySelect(props: CategorySelectProps) {
     };
 
     return (
-        <Dialog
-            sx={{
-                '.MuiDialog-paper': {
-                    maxHeight: 435,
-                    width: '80%',
-                },
-            }}
-            maxWidth="xs"
-            open={isVisible}
-            onTransitionExited={onExitComplete}
-            onClose={handleCancel}
-        >
+        <Dialog maxWidth="xs" open={isVisible} onTransitionExited={onExitComplete} onClose={handleCancel}>
             <DialogTitle>{t`Set categories`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {allCategories.length === 0 && <span>{t`You don't have any categories yet.`}</span>}
+                    <Box sx={{ pb: Number(!!allCategories.length) }}>
+                        {!allCategories.length ? (
+                            <TypographyMaxLines>{t`You don't have any categories yet.`}</TypographyMaxLines>
+                        ) : (
+                            <TypographyMaxLines color="textSecondary">{t`An entry can not be in the Default category and other categories at the same time`}</TypographyMaxLines>
+                        )}
+                    </Box>
+
+                    <ThreeStateCheckboxInput
+                        label={t`Default (Suwayomi)`}
+                        checked={(() => {
+                            if (categoriesToRemove.length === allCategories.length) {
+                                return true;
+                            }
+
+                            if (categoriesToAdd.length) {
+                                return false;
+                            }
+                        })()}
+                        onChange={() => {
+                            setSelectionForKey('categoriesToAdd', []);
+                            setSelectionForKey('categoriesToRemove', Categories.getIds(allCategories));
+                        }}
+                    />
                     {allCategories.map((category) => (
                         <ThreeStateCheckboxInput
                             checked={getCategoryCheckedState(
