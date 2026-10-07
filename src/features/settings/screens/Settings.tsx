@@ -79,6 +79,20 @@ export function SettingsIndex() {
 
     if (isWide) {
         return null;
+    const { t } = useLingui();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const navigate = useNavigate();
+
+    useAppTitle(t`Settings`);
+
+    useEffect(() => {
+        if (!isMobileWidth ) {
+            navigate(AppRoutes.settings.children.appearance.path, { replace: true });
+        }
+    }, [isMobileWidth , navigate]);
+
+    if (!isMobileWidth ) {
+        return null;
     }
     return <SettingsMenu />;
 }
