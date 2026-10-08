@@ -36,8 +36,6 @@ export const MangaListCard = memo(
         mangaBadges,
         mode,
     }: SpecificMangaCardProps) => {
-        const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
-
         const optionButtonRef = useRef<HTMLButtonElement>(null);
 
         const { id, title } = manga;
@@ -49,7 +47,6 @@ export const MangaListCard = memo(
                     to={mangaLinkTo}
                     state={Mangas.createLocationState(manga, mode)}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
-                    onContextMenu={preventMobileContextMenu}
                     sx={MUIUtil.mergeSx(MediaQuery.preventMobileContextMenuSx(), {
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
