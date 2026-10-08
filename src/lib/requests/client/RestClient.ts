@@ -8,8 +8,8 @@
 
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 
 export enum HttpMethod {
     GET = 'GET',
@@ -51,6 +51,10 @@ export class RestClient
         } = {},
     ): Promise<Response> =>
         this.enqueueRequest(async () => {
+            if (AuthManager.shouldRefreshAccessToken()) {
+                await BaseClient.refreshAccessToken(this.handleRefreshToken);
+            }
+
             const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
             const isAuthRequired = AuthManager.isAuthRequired();
             const accessToken = AuthManager.getAccessToken();
@@ -108,7 +112,9 @@ export class RestClient
             return result;
         });
 
-    constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
+    constructor(
+        handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<RefreshAccessTokenMutation>,
+    ) {
         super(handleRefreshToken);
 
         this.createClient();

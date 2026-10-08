@@ -8,6 +8,10 @@
 
 import { useMemo, useSyncExternalStore } from 'react';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
+import type { DecodedJwt, TokenPayload } from '@/features/authentication/Auth.types.ts';
+import { epochToDate } from '@/base/utils/DateHelper.ts';
+import { d } from 'koration';
 
 let notifierValue = 0;
 
@@ -18,7 +22,7 @@ export class AuthManager {
 
     private static subscribers = new Map<number, () => void>();
 
-    private static accessToken: string | null = null;
+    private static accessToken: TokenPayload | null = null;
 
     private static authInitialized: boolean = false;
 
@@ -88,8 +92,23 @@ export class AuthManager {
         return AuthManager.refreshingToken;
     }
 
+    static isAccessTokenExpired(): boolean {
+        return (
+            Date.now() >= (AuthManager.accessToken?.expireTimestamp ?? Date.now()) - d(30).seconds.inWholeMilliseconds
+        );
+    }
+
+    static shouldRefreshAccessToken(): boolean {
+        return (
+            !!AuthManager.isAuthRequired() &&
+            !!AuthManager.getRefreshToken() &&
+            !AuthManager.isRefreshingToken() &&
+            AuthManager.isAccessTokenExpired()
+        );
+    }
+
     static getAccessToken(): string | null {
-        return AuthManager.accessToken;
+        return AuthManager.accessToken?.token ?? null;
     }
 
     static getRefreshToken(): string | null {
@@ -118,8 +137,44 @@ export class AuthManager {
         AuthManager.notify();
     }
 
+    private static decodeToken<T extends object>(token: string): DecodedJwt<T> {
+        const parts = token.split('.');
+
+        if (parts.length !== 3) {
+            throw new Error('Invalid JWT');
+        }
+
+        // oxlint-disable-next-line unicorn/consistent-function-scoping
+        const decode = (part: string) => {
+            const base64 = part.replaceAll('-', '+').replaceAll('_', '/');
+
+            const json = decodeURIComponent(
+                atob(base64)
+                    .split('')
+                    .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`)
+                    .join(''),
+            );
+
+            return JSON.parse(json);
+        };
+
+        return {
+            header: decode(parts[0]),
+            payload: decode(parts[1]),
+        };
+    }
+
     static setAccessToken(token: string): void {
-        AuthManager.accessToken = token;
+        const {
+            payload: { exp },
+        } = AuthManager.decodeToken(token);
+
+        assertIsDefined(exp);
+
+        AuthManager.accessToken = {
+            token,
+            expireTimestamp: epochToDate(exp).valueOf(),
+        };
         AuthManager.notify();
     }
 

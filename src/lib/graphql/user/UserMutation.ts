@@ -17,8 +17,8 @@ export const USER_LOGIN = gql`
     }
 `;
 
-export const USER_REFRESH = gql`
-    mutation USER_REFRESH($refreshToken: String!) {
+export const REFRESH_ACCESS_TOKEN = gql`
+    mutation REFRESH_ACCESS_TOKEN($refreshToken: String!) {
         refreshToken(input: { refreshToken: $refreshToken }) {
             accessToken
         }

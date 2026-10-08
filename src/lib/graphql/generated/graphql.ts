@@ -5147,11 +5147,11 @@ export type UserLoginMutation = {
     login: { __typename: 'LoginPayload'; accessToken: string; refreshToken: string };
 };
 
-export type UserRefreshMutationVariables = Exact<{
+export type RefreshAccessTokenMutationVariables = Exact<{
     refreshToken: string;
 }>;
 
-export type UserRefreshMutation = {
+export type RefreshAccessTokenMutation = {
     __typename: 'Mutation';
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };

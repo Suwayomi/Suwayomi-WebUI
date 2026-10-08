@@ -114,6 +114,8 @@ import type {
     KoSyncLoginMutationVariables,
     KoSyncLogoutMutation,
     KoSyncLogoutMutationVariables,
+    RefreshAccessTokenMutation,
+    RefreshAccessTokenMutationVariables,
     RefreshMangaMutation,
     RefreshMangaMutationVariables,
     RemoveExtensionStoreMutation,
@@ -196,8 +198,6 @@ import type {
     UpdateWebuiMutationVariables,
     UserLoginMutation,
     UserLoginMutationVariables,
-    UserRefreshMutation,
-    UserRefreshMutationVariables,
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
@@ -344,7 +344,7 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
+import { USER_LOGIN, REFRESH_ACCESS_TOKEN } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -479,9 +479,9 @@ export const SPECIAL_ED_SOURCES = {
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
-    public readonly graphQLClient = new GraphQLClient(this.refreshUser.bind(this));
+    public readonly graphQLClient = new GraphQLClient(this.refreshAccessToken.bind(this));
 
-    private readonly restClient: RestClient = new RestClient(this.refreshUser.bind(this));
+    private readonly restClient: RestClient = new RestClient(this.refreshAccessToken.bind(this));
 
     private readonly cache = new CustomCache();
 
@@ -4070,13 +4070,13 @@ export class RequestManager {
         return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
     }
 
-    public refreshUser(
+    public refreshAccessToken(
         refreshToken: string,
-        options?: MutationOptions<UserRefreshMutation, UserRefreshMutationVariables>,
-    ): AbortableApolloMutationResponse<UserRefreshMutation> {
-        return this.doRequest<UserRefreshMutation, UserRefreshMutationVariables>(
+        options?: MutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>,
+    ): AbortableApolloMutationResponse<RefreshAccessTokenMutation> {
+        return this.doRequest<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>(
             GQLMethod.MUTATION,
-            USER_REFRESH,
+            REFRESH_ACCESS_TOKEN,
             { refreshToken: refreshToken ?? undefined },
             options,
         );
