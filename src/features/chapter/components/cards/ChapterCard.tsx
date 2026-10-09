@@ -79,7 +79,6 @@ const handleClickOpenMenu = (
 export const ChapterCard = memo((props: IProps) => {
     const { t } = useLingui();
     const theme = useTheme();
-    const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
 
     const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -136,7 +135,6 @@ export const ChapterCard = memo((props: IProps) => {
                             component={Link}
                             to={AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder)}
                             state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
-                            onContextMenu={preventMobileContextMenu}
                             sx={MediaQuery.preventMobileContextMenuSx()}
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
