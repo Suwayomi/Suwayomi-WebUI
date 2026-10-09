@@ -18,8 +18,7 @@ import type {
 // oxlint-disable-next-line no-restricted-imports
 import { useLongPress } from 'use-long-press';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-
-const SECONDARY_MOUSE_BUTTON = 2;
+import { armNativeContextMenuOnSecondRightClick, SECONDARY_MOUSE_BUTTON } from '@/base/utils/NativeContextMenu.ts';
 
 export type UsePressResult = LongPressResult<
     (LongPressPointerHandlers | LongPressMouseHandlers | LongPressTouchHandlers) & {
@@ -75,11 +74,12 @@ export const usePress = (
         (context?: unknown) => ({
             ...bind(context),
             onContextMenu: (event: React.MouseEvent) => {
-                // never show the native menu, on touch devices the long press already opens the custom one
+                // the native menu is replaced by the custom one, on touch devices the long press already opens it
                 event.preventDefault();
 
                 if (!isTouchDevice) {
                     onLongPress(event, { context });
+                    armNativeContextMenuOnSecondRightClick({ x: event.clientX, y: event.clientY });
                 }
             },
             onClick: (event: React.MouseEvent | React.TouchEvent) => {
