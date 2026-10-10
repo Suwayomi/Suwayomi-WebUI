@@ -47,8 +47,10 @@ export const useMetadataServerSettings = (): {
     return useMemo(() => ({ metadata, settings, loading, request }), [metadata, settings, loading, request]);
 };
 
-export const getMetadataServerSettings = async (): Promise<MetadataServerSettings> => {
-    const { data, error } = await requestManager.getGlobalMeta().response;
+export const getMetadataServerSettings = async (
+    options?: Parameters<typeof requestManager.getGlobalMeta>[0],
+): Promise<MetadataServerSettings> => {
+    const { data, error } = await requestManager.getGlobalMeta(options).response;
 
     if (error) {
         throw error;

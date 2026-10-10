@@ -11,6 +11,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import Link from '@mui/material/Link';
+import { useState } from 'react';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
@@ -38,6 +40,8 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { Notifications } from '@/features/notifications/services/Notifications.ts';
+import { LibraryUpdateNotifier } from '@/features/notifications/services/LibraryUpdateNotifier.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -66,8 +70,21 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     }
 };
 
+const setNotifyNewChapters = async (enable: boolean) => {
+    if (!enable) {
+        await LibraryUpdateNotifier.disable();
+        return;
+    }
+
+    // without the permission, updates still get shown while Suwayomi is in use
+    await Notifications.requestPermission();
+    await LibraryUpdateNotifier.enable();
+};
+
 export function LibrarySettings() {
     const { t } = useLingui();
+
+    const [notificationPermission, setNotificationPermission] = useState(Notifications.getPermission());
 
     useAppTitle(t`Library`);
 
@@ -188,6 +205,44 @@ export function LibrarySettings() {
                         edge="end"
                         checked={settings.fuzzySearch}
                         onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Notify about new chapters`}
+                        secondary={(() => {
+                            if (!settings.notifyNewChapters || notificationPermission === 'granted') {
+                                return t`Notify about new chapters of library entries`;
+                            }
+
+                            if (notificationPermission === 'default') {
+                                return (
+                                    <Link
+                                        component="button"
+                                        onClick={() =>
+                                            Notifications.requestPermission().then(() =>
+                                                setNotificationPermission(Notifications.getPermission()),
+                                            )
+                                        }
+                                    >
+                                        {t`Only while Suwayomi is in use. Allow browser notifications`}
+                                    </Link>
+                                );
+                            }
+
+                            return t`Only while Suwayomi is in use, this browser does not allow notifications`;
+                        })()}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.notifyNewChapters}
+                        onChange={(e) =>
+                            setNotifyNewChapters(e.target.checked)
+                                .then(() => setNotificationPermission(Notifications.getPermission()))
+                                .catch((saveError) =>
+                                    makeToast(t`Failed to save changes`, 'error', getErrorMessage(saveError)),
+                                )
+                        }
                     />
                 </ListItem>
             </List>
