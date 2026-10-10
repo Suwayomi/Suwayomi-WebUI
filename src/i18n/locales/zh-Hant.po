@@ -3163,11 +3163,6 @@ msgstr "登出 {0}"
 msgid "Logging in to {trackerName}…"
 msgstr "正在登入至 {trackerName}…"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "遷移「{0}」"
-
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Minute"

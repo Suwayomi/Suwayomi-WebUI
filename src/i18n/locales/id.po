@@ -2960,11 +2960,6 @@ msgstr "Ukuran file log maksimum"
 msgid "Maximum size of all log files"
 msgstr "Ukuran maksimum semua file log"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Migrasi \"{0}\""
-
 #: src/features/settings/components/images/Processing.tsx
 msgid "MIME-Type"
 msgstr "MIME-Type"
