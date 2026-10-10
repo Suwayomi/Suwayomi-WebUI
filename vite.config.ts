@@ -44,6 +44,10 @@ export default defineConfig(({ command }) => ({
     base: command === 'serve' ? process.env.VITE_SUBPATH || './' : './',
     build: {
         outDir: 'build',
+        // NOTE: don't try to merge the many tiny shared chunks via rolldown's "codeSplitting.groups": both a broad
+        // group (everything shared by >= 2 chunks) and a narrow one (small node_modules modules only) produced
+        // circular chunks that break the legacy (SystemJS) execution order ("x is not a constructor/function"
+        // at chunk evaluation), and the narrow one even increased the chunk count.
     },
     server: {
         port: Number(process.env.PORT),
@@ -66,6 +70,11 @@ export default defineConfig(({ command }) => ({
             failOnCompileError: true,
         }),
         legacy({
+            // The plugin's default targets drop Safari 12 (iOS 12.5.8 iPad Air), so the legacy chunks still
+            // contained ES2020 syntax (?. ??) that is a hard parse error there. Including it makes babel
+            // lower the syntax and lets the usage-based core-js detection pick the polyfills it really needs
+            // (instead of shipping the whole of core-js).
+            targets: ['last 2 versions and not dead', '> 0.3%', 'Firefox ESR', 'safari >= 12', 'iOS >= 12'],
             modernPolyfills: [
                 'es/array/to-spliced',
                 'es/array/to-sorted',
@@ -73,7 +82,40 @@ export default defineConfig(({ command }) => ({
                 'es/array/find-last-index',
                 'es/object/group-by',
             ],
+            // DOM/Intl shims babel can't provide (bundled into "polyfills-legacy-*.js" only, see the file).
+            // The polyfill chunk is built from the plugin's own directory, so the path has to be absolute.
+            additionalLegacyPolyfills: [
+                path.resolve(import.meta.dirname, 'src/legacy/ios12-shims.js').replaceAll('\\', '/'),
+            ],
         }),
+        {
+            // "marked" detects regex lookbehind support with `!!new RegExp("(?<=1)(?<!1)" + flags)`. The oxc
+            // minifier constant-folds that into `true` (a RegExp with constant arguments is treated as never
+            // throwing), so every browser without lookbehind (Safari < 16.4) died with "invalid group specifier
+            // name" as soon as the Manga chunk was evaluated. Building the pattern at runtime keeps the probe
+            // honest. Fails the build if marked changes the probe, so this can't silently regress.
+            name: 'marked-keep-lookbehind-probe',
+            enforce: 'pre',
+            transform(code, id) {
+                if (!/[\\/]node_modules[\\/]marked[\\/]/.test(id) || !code.includes('(?<=1)(?<!1)')) {
+                    return null;
+                }
+
+                // marked 17 (pulled in by the tiptap markdown extension): `new RegExp("(?<=1)(?<!1)")`
+                // marked 18: `new RegExp("(?<=1)(?<!1)" + flags)`
+                const probe = /new RegExp\("\(\?<=1\)\(\?<!1\)"(\+\w+)?\)/;
+                if (!probe.test(code)) {
+                    this.error(
+                        `marked's lookbehind probe has changed, update the "marked-keep-lookbehind-probe" plugin (${id})`,
+                    );
+                }
+
+                return {
+                    code: code.replace(probe, 'new RegExp(["(?<=1)", "(?<!1)"].join("")$1)'),
+                    map: null,
+                };
+            },
+        },
         // Only setup image runtime caching
         VitePWA({
             registerType: 'autoUpdate',
