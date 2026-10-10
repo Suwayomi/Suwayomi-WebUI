@@ -3427,11 +3427,6 @@ msgstr "الحد الأقصى لحجم جميع ملفات السجل"
 msgid "Medium"
 msgstr "متوسط"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "نقل \"{0}\""
-
 #: src/features/settings/components/images/Processing.tsx
 msgid "MIME-Type"
 msgstr "نوع MIME"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-09-29 05:51+0000\n"
+"PO-Revision-Date: 2026-10-02 07:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3742,11 +3742,6 @@ msgstr "Correspondance trouvée"
 msgid "Matches"
 msgstr "Correspondances"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Migrer \"{0}\""
-
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"
 msgstr "Migration"
@@ -4617,3 +4612,11 @@ msgstr ""
 "Le chapitre précédent a été traduit par un groupe différent de l'actuel.\n"
 "Précédent : {nextScanlator}\n"
 "Actuel : {currentScanlator}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "et"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "ou"

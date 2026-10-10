@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.902Z\n"
-"PO-Revision-Date: 2026-08-27 09:37+0000\n"
+"PO-Revision-Date: 2026-10-08 18:51+0000\n"
 "Last-Translator: Herta <mgp.prates@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/pt/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3079,11 +3079,6 @@ msgstr "Correspondência encontrada"
 msgid "Matches"
 msgstr "Correspondências"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Migrar \"{0}\""
-
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"
 msgstr "Migrando"
@@ -3444,3 +3439,28 @@ msgid "{count, plural, one {Could not delete the chapter} other {Could not delet
 msgstr ""
 "{count, plural, one {Não foi possível apagar o capítulo} other {Não foi "
 "possível apagar os capítulos}}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Modo de filtragem"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "Está prestes a remover \"{name}\" das lojas de extensões"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Está prestes a eliminar a categoria \"{0}\""
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "Semanal"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Fonte desconhecida"

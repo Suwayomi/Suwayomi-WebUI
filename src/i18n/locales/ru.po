@@ -3621,11 +3621,6 @@ msgstr "Выйти из {0}"
 msgid "Logging in to {trackerName}…"
 msgstr "Вход в {trackerName}…"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Мигрировать \"{0}\""
-
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Minute"
