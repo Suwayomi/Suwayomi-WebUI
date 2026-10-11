@@ -10,8 +10,6 @@ import { CombinedGraphQLErrors } from '@apollo/client';
 import type { ReactNode } from 'react';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { t } from '@lingui/core/macro';
-import DOMPurify from 'dompurify';
-import { marked } from 'marked';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {
@@ -132,18 +130,4 @@ export const getRenderedText = (el: HTMLElement, cssText: string) => {
     clone.remove();
 
     return text;
-};
-
-export const markdownToSafeHtml = (markdown: string): string => {
-    const html = marked.parse(markdown, {
-        async: false,
-        breaks: true,
-        gfm: false,
-    });
-
-    return DOMPurify.sanitize(html, {
-        USE_PROFILES: {
-            html: true,
-        },
-    });
 };

@@ -18,7 +18,7 @@ import { useLingui } from '@lingui/react/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import type { MangaIdInfo, MangaMetaInfo } from '@/features/manga/Manga.types.ts';
 import { updateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
-import { getErrorMessage, markdownToSafeHtml } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import StarterKit from '@tiptap/starter-kit';
 import {
     MenuButton,
@@ -98,7 +98,7 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
                                 return true;
                             }).extension,
                         ]}
-                        content={markdownToSafeHtml(notes.trim())}
+                        content={notes.trim()}
                         contentType="markdown"
                         onUpdate={({ editor }) => {
                             setDraft(editor.getMarkdown());
