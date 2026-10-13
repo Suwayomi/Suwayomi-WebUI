@@ -209,8 +209,12 @@ export function CategorySelect(props: CategorySelectProps) {
                                 return true;
                             }
 
-                            if (categoriesToAdd.length) {
+                            if (!isSingleSelectionMode && categoriesToAdd.length) {
                                 return false;
+                            }
+
+                            if (!categoriesToAdd.length && !categoriesToRemove.length) {
+                                return true;
                             }
                         })()}
                         onChange={() => {
