@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -25,7 +25,6 @@ import ImageIcon from '@mui/icons-material/Image';
 import Box from '@mui/material/Box';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -47,6 +46,8 @@ const SETTING_MENU_ITEMS = [
     { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: msg`Server` },
 ];
 
+const SETTINGS_MENU_WIDTH = 280;
+
 function SettingsMenu() {
     const { t } = useLingui();
     const { pathname } = useLocation();
@@ -66,18 +67,11 @@ function SettingsMenu() {
 export function SettingsIndex() {
     const { t } = useLingui();
     const isWiderWidth = MediaQuery.useIsWiderWidth();
-    const navigate = useNavigate();
 
     useAppTitle(t`Settings`);
 
-    useEffect(() => {
-        if (isWiderWidth) {
-            navigate(AppRoutes.settings.children.appearance.path, { replace: true });
-        }
-    }, [isWiderWidth, navigate]);
-
     if (isWiderWidth) {
-        return null;
+        return <Navigate to={AppRoutes.settings.children.appearance.path} replace />;
     }
 
     return <SettingsMenu />;
@@ -99,7 +93,7 @@ export function Settings() {
                     top: appBarHeight,
                     alignSelf: 'flex-start',
                     maxHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
-                    width: 280,
+                    width: SETTINGS_MENU_WIDTH,
                     flexShrink: 0,
                     overflowY: 'auto',
                     borderRight: 1,
