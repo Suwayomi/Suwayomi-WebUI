@@ -65,18 +65,18 @@ function SettingsMenu() {
 
 export function SettingsIndex() {
     const { t } = useLingui();
-    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isWiderWidth = MediaQuery.useIsWiderWidth();
     const navigate = useNavigate();
 
     useAppTitle(t`Settings`);
 
     useEffect(() => {
-        if (!isMobileWidth) {
+        if (isWiderWidth) {
             navigate(AppRoutes.settings.children.appearance.path, { replace: true });
         }
-    }, [isMobileWidth, navigate]);
+    }, [isWiderWidth, navigate]);
 
-    if (!isMobileWidth) {
+    if (isWiderWidth) {
         return null;
     }
 
@@ -84,10 +84,10 @@ export function SettingsIndex() {
 }
 
 export function Settings() {
-    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isWiderWidth = MediaQuery.useIsWiderWidth();
     const { appBarHeight, bottomBarHeight } = useNavBarContext();
 
-    if (isMobileWidth) {
+    if (!isWiderWidth) {
         return <Outlet />;
     }
 
