@@ -37,7 +37,6 @@ import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDi
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
-import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const ExtensionStoreCard = ({
     indexUrl,
@@ -246,7 +245,7 @@ export const ExtensionStores = () => {
         <Box sx={{ pb: DEFAULT_FULL_FAB_HEIGHT }}>
             <VirtuosoPersisted
                 persistKey="extension-store-list"
-                customScrollParent={getMainScrollHost()}
+                useWindowScroll
                 overscan={window.innerHeight * 0.5}
                 totalCount={extensionStores.length}
                 computeItemKey={(index) => extensionStores[index].indexUrl}

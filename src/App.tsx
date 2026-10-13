@@ -115,7 +115,7 @@ const ScrollToTop = () => {
     const { pathname } = useLocation();
 
     useLayoutEffect(() => {
-        scrollMainToTop();
+        window.scrollTo(0, 0);
     }, [pathname]);
 
     return null;
@@ -188,12 +188,8 @@ const MainApp = () => {
         <Box
             id="appMainContainer"
             component="main"
-            ref={setMainScrollHost}
             sx={{
-                height: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                scrollbarGutter: 'stable',
+                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
                 width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
@@ -324,9 +320,11 @@ const ReaderApp = () => (
     </ErrorBoundary>
 );
 
-const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => (
-    <OffsetContainer topOffset={0}>{children}</OffsetContainer>
-);
+const OffsetContainerRoot = ({ children }: { children?: ReactNode }) => {
+    const { appBarHeight } = useNavBarContext();
+
+    return <OffsetContainer topOffset={appBarHeight}>{children}</OffsetContainer>;
+};
 
 export const App: React.FC = () => (
     <AppContext>

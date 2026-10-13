@@ -26,7 +26,6 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { Virtuoso } from 'react-virtuoso';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ChapterCardExpandButton } from '@/features/chapter/components/buttons/ChapterCardExpandButton.tsx';
-import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 export const ChapterUpdateCard = memo(
     ({
@@ -114,7 +113,7 @@ export const ChapterUpdateCard = memo(
                 {isGroup && (
                     <Collapse in={isExpanded}>
                         <Virtuoso
-                            customScrollParent={getMainScrollHost()}
+                            useWindowScroll
                             data={otherChapters}
                             computeItemKey={(index) => otherChapters[index].id}
                             itemContent={(_index, otherChapter) => <ChapterUpdateCard chapter={otherChapter} />}

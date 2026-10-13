@@ -46,7 +46,6 @@ import { plural } from '@lingui/core/macro';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import Refresh from '@mui/icons-material/Refresh';
 import { useOffsetComponent } from '@/base/OffsetComponent.tsx';
-import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
@@ -325,7 +324,7 @@ export const DownloadQueue: React.FC = () => {
                                 >
                                     <VirtuosoPersisted
                                         persistKey={`download-queue-${source.id}`}
-                                        customScrollParent={getMainScrollHost()}
+                                        useWindowScroll
                                         totalCount={!dndActiveSource ? chaptersBySource[source.id].length : 0}
                                         computeItemKey={(index) =>
                                             `source-${source.id}-chapter-${chaptersBySource[source.id][index].id}`

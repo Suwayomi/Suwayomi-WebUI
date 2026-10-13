@@ -12,7 +12,6 @@ import { useMemo } from 'react';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GroupedVirtuosoPersisted } from '@/lib/virtuoso/Component/GroupedVirtuosoPersisted.tsx';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
-import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const StickyVirtuosoHeaderWithOffset =
     () =>
@@ -33,7 +32,7 @@ export const StyledGroupedVirtuoso = <ItemData = any, Context = any>({
 
     return (
         <GroupedVirtuosoPersisted
-            customScrollParent={getMainScrollHost()}
+            useWindowScroll
             {...props}
             components={{
                 TopItemList,

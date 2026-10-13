@@ -23,41 +23,40 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
 import ImageIcon from '@mui/icons-material/Image';
 import Box from '@mui/material/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { ScrollHostProvider } from '@/base/contexts/ScrollHost.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+
+const SETTING_MENU_ITEMS = [
+    { to: AppRoutes.settings.children.appearance.path, icon: <PaletteIcon />, label: msg`Appearance` },
+    { to: AppRoutes.settings.children.reader.path, icon: <AutoStoriesIcon />, label: msg`Reader` },
+    { to: AppRoutes.settings.children.library.path, icon: <CollectionsOutlinedBookmarkIcon />, label: msg`Library` },
+    { to: AppRoutes.settings.children.download.path, icon: <GetAppOutlinedIcon />, label: msg`Downloads` },
+    { to: AppRoutes.settings.children.images.path, icon: <ImageIcon />, label: msg`Images` },
+    { to: AppRoutes.settings.children.tracking.path, icon: <SyncIcon />, label: msg`Tracking` },
+    { to: AppRoutes.settings.children.backup.path, icon: <BackupIcon />, label: msg`Backup` },
+    { to: AppRoutes.settings.children.browse.path, icon: <ExploreOutlinedIcon />, label: msg`Browse` },
+    { to: AppRoutes.settings.children.history.path, icon: <HistoryIcon />, label: msg`History` },
+    { to: AppRoutes.settings.children.device.path, icon: <DevicesIcon />, label: msg`Device` },
+    { to: AppRoutes.settings.children.webui.path, icon: <WebIcon />, label: msg`WebUI` },
+    { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: msg`Server` },
+];
 
 function SettingsMenu() {
     const { t } = useLingui();
     const { pathname } = useLocation();
 
-    const items = [
-        { to: AppRoutes.settings.children.appearance.path, icon: <PaletteIcon />, label: t`Appearance` },
-        { to: AppRoutes.settings.children.reader.path, icon: <AutoStoriesIcon />, label: t`Reader` },
-        { to: AppRoutes.settings.children.library.path, icon: <CollectionsOutlinedBookmarkIcon />, label: t`Library` },
-        { to: AppRoutes.settings.children.download.path, icon: <GetAppOutlinedIcon />, label: t`Downloads` },
-        { to: AppRoutes.settings.children.images.path, icon: <ImageIcon />, label: t`Images` },
-        { to: AppRoutes.settings.children.tracking.path, icon: <SyncIcon />, label: t`Tracking` },
-        { to: AppRoutes.settings.children.backup.path, icon: <BackupIcon />, label: t`Backup` },
-        { to: AppRoutes.settings.children.browse.path, icon: <ExploreOutlinedIcon />, label: t`Browse` },
-        { to: AppRoutes.settings.children.history.path, icon: <HistoryIcon />, label: t`History` },
-        { to: AppRoutes.settings.children.device.path, icon: <DevicesIcon />, label: t`Device` },
-        { to: AppRoutes.settings.children.webui.path, icon: <WebIcon />, label: t`WebUI` },
-        { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: t`Server` },
-    ];
-
     return (
         <List sx={{ padding: 0 }}>
-            {items.map((item) => (
+            {SETTING_MENU_ITEMS.map((item) => (
                 <ListItemLink key={item.to} to={item.to} selected={pathname.startsWith(item.to)}>
                     <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.label} />
+                    <ListItemText primary={t(item.label)} />
                 </ListItemLink>
             ))}
         </List>
@@ -66,86 +65,51 @@ function SettingsMenu() {
 
 export function SettingsIndex() {
     const { t } = useLingui();
-    const isWide = useMediaQuery('(min-width: 900px)');
-    const navigate = useNavigate();
-
-    useAppTitle(t`Settings`);
-
-    useEffect(() => {
-        if (isWide) {
-            navigate(AppRoutes.settings.children.appearance.path, { replace: true });
-        }
-    }, [isWide, navigate]);
-
-    if (isWide) {
-        return null;
-    const { t } = useLingui();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
     const navigate = useNavigate();
 
     useAppTitle(t`Settings`);
 
     useEffect(() => {
-        if (!isMobileWidth ) {
+        if (!isMobileWidth) {
             navigate(AppRoutes.settings.children.appearance.path, { replace: true });
         }
-    }, [isMobileWidth , navigate]);
+    }, [isMobileWidth, navigate]);
 
-    if (!isMobileWidth ) {
+    if (!isMobileWidth) {
         return null;
     }
+
     return <SettingsMenu />;
 }
 
 export function Settings() {
-    const isWide = useMediaQuery('(min-width: 900px)');
-    const { appBarHeight, bottomBarHeight } = useNavBarContext();
-    const scrollbarWidth = MediaQuery.useGetClassicScrollbarSize('Y');
-    const [settingsScrollHost, setSettingsScrollHost] = useState<HTMLElement | null>(null);
-
     const isMobileWidth = MediaQuery.useIsMobileWidth();
     const { appBarHeight, bottomBarHeight } = useNavBarContext();
-    const scrollbarWidth = MediaQuery.useGetClassicScrollbarSize('Y');
-    const [settingsScrollHost, setSettingsScrollHost] = useState<HTMLElement | null>(null);
 
-    if (isMobileWidth ) {
+    if (isMobileWidth) {
         return <Outlet />;
     }
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                height: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
-                overflow: 'hidden',
-                mr: `${-scrollbarWidth}px`,
-            }}
-        >
+        <Box sx={{ display: 'flex' }}>
             <Box
                 sx={{
+                    position: 'sticky',
+                    top: appBarHeight,
+                    alignSelf: 'flex-start',
+                    maxHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
                     width: 280,
                     flexShrink: 0,
                     overflowY: 'auto',
                     borderRight: 1,
                     borderColor: 'divider',
-                    minHeight: 0,
                 }}
             >
                 <SettingsMenu />
             </Box>
-            <Box
-                ref={(el: HTMLDivElement | null) => {
-                    if (el && !settingsScrollHost) {
-                        setSettingsScrollHost(el);
-                    }
-                }}
-                sx={{ flex: 1, overflowY: 'auto', minHeight: 0 }}
-            >
-                {settingsScrollHost ? (
-                    <ScrollHostProvider value={settingsScrollHost}>
-                        <Outlet />
-                    </ScrollHostProvider>
-                ) : null}
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Outlet />
             </Box>
         </Box>
     );

@@ -27,7 +27,6 @@ import Collapse from '@mui/material/Collapse';
 import { Virtuoso } from 'react-virtuoso';
 import Stack from '@mui/material/Stack';
 import { ChapterCardExpandButton } from '@/features/chapter/components/buttons/ChapterCardExpandButton.tsx';
-import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 export const ChapterHistoryCard = memo(
     ({
@@ -91,7 +90,7 @@ export const ChapterHistoryCard = memo(
                 {isGroup && (
                     <Collapse in={isExpanded}>
                         <Virtuoso
-                            customScrollParent={getMainScrollHost()}
+                            useWindowScroll
                             data={otherChapters}
                             computeItemKey={(index) => otherChapters[index].id}
                             itemContent={(_index, otherChapter) => <ChapterHistoryCard chapter={otherChapter} />}
