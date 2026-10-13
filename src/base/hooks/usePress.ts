@@ -79,7 +79,7 @@ export const usePress = (
 
                 if (!isTouchDevice) {
                     onLongPress(event, { context });
-                    armNativeContextMenuOnSecondRightClick({ x: event.clientX, y: event.clientY });
+                    armNativeContextMenuOnSecondRightClick(event.currentTarget);
                 }
             },
             onClick: (event: React.MouseEvent | React.TouchEvent) => {

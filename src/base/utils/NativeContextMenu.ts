@@ -8,11 +8,8 @@
 
 export const SECONDARY_MOUSE_BUTTON = 2;
 
-const SAME_SPOT_TOLERANCE_PX = 8;
 const APP_MENU_SELECTOR = '[role="menu"]';
 const MENU_BACKDROP_CLASS = 'MuiBackdrop-root';
-
-type Point = { x: number; y: number };
 
 let disarmPrevious: (() => void) | null = null;
 
@@ -24,18 +21,18 @@ function isMenuBackdrop(target: EventTarget | null): target is HTMLElement {
     return target instanceof HTMLElement && target.classList.contains(MENU_BACKDROP_CLASS);
 }
 
-function isSameSpot(a: Point, b: Point): boolean {
-    return Math.hypot(a.x - b.x, a.y - b.y) <= SAME_SPOT_TOLERANCE_PX;
+function isOriginUnderClick(origin: Element, event: MouseEvent): boolean {
+    return document.elementsFromPoint(event.clientX, event.clientY).includes(origin);
 }
 
 /**
  * The app menu replaces the native one on the first right click.
- * A second right click on the same spot, while the app menu is still open, has to show the native menu.
+ * A second right click on the origin element (or any of its children), while the app menu is still open, has to show the native menu.
  *
  * The second right click lands on the backdrop of the app menu (not on the card), thus it has to be handled globally.
  * It stays armed until the next right click, a click/tap or the escape key.
  */
-export const armNativeContextMenuOnSecondRightClick = (origin: Point): void => {
+export const armNativeContextMenuOnSecondRightClick = (origin: Element): void => {
     disarmPrevious?.();
 
     const handleContextMenu = (event: MouseEvent): void => {
@@ -51,7 +48,7 @@ export const armNativeContextMenuOnSecondRightClick = (origin: Point): void => {
         // stop here to prevent the card from handling the event, as it would open the app menu again
         event.stopPropagation();
 
-        if (!isSameSpot(origin, { x: event.clientX, y: event.clientY })) {
+        if (!isOriginUnderClick(origin, event)) {
             event.preventDefault();
         }
     };
