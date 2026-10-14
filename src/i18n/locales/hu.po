@@ -2021,11 +2021,6 @@ msgstr "Menü"
 msgid "Migrate"
 msgstr "Átmozgatás"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "\"{0}\" átmozgatása"
-
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Manga átmozgatás alatt…"
