@@ -3737,11 +3737,6 @@ msgstr "Đã tìm thấy kết quả phù hợp"
 msgid "Matches"
 msgstr "Kết quả"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Di chuyển \"{0}\""
-
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"
 msgstr "Di chuyển"
