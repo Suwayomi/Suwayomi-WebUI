@@ -8,11 +8,13 @@
 
 import { useEffect } from 'react';
 import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { clearReaderAutoCropCache } from '@/features/reader/services/ReaderAutoCropService.ts';
 
 export const useReaderResetStates = () => {
     useEffect(
         () => () => {
             getReaderStore().reset();
+            clearReaderAutoCropCache();
         },
         [],
     );

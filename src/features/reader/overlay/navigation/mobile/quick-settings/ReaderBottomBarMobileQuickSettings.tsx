@@ -24,10 +24,11 @@ import {
 const BaseReaderBottomBarMobileQuickSettings = () => {
     const { t } = useLingui();
     const isActive = useReaderAutoScrollStore('isActive');
-    const { readingMode, readingDirection, autoScroll } = useReaderSettingsStore(
+    const { readingMode, readingDirection, autoScroll, shouldCropBorders } = useReaderSettingsStore(
         'readingMode',
         'readingDirection',
         'autoScroll',
+        'shouldCropBorders',
     );
 
     return (
@@ -49,6 +50,11 @@ const BaseReaderBottomBarMobileQuickSettings = () => {
                 label={t`Auto scroll`}
                 checked={isActive}
                 onChange={() => getReaderAutoScrollStore().toggleActive()}
+            />
+            <CheckboxInput
+                label={t`Auto crop borders`}
+                checked={shouldCropBorders}
+                onChange={(_, checked) => ReaderService.updateSetting('shouldCropBorders', checked)}
             />
             <ReaderSettingAutoScroll
                 autoScroll={autoScroll}

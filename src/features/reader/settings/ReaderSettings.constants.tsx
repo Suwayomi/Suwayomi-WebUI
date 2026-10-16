@@ -157,6 +157,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     scrollAmount: undefined,
     shouldUseInfiniteScroll: undefined,
     shouldShowTransitionPage: undefined,
+    shouldCropBorders: undefined,
     safeAreaInset: undefined,
     shouldEnterFullscreen: undefined,
 };
@@ -248,6 +249,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
+    shouldCropBorders: false,
     safeAreaInset: {
         top: true,
         right: true,
