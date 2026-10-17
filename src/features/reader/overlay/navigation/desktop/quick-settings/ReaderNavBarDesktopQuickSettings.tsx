@@ -9,6 +9,7 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CropIcon from '@mui/icons-material/Crop';
 import { memo } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { ReaderNavBarDesktopPageScale } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx';
@@ -22,15 +23,23 @@ import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts'
 
 const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
     const { t } = useLingui();
-    const { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection, autoScroll } =
-        useReaderSettingsStore(
-            'readingMode',
-            'shouldOffsetDoubleSpreads',
-            'pageScaleMode',
-            'shouldStretchPage',
-            'readingDirection',
-            'autoScroll',
-        );
+    const {
+        readingMode,
+        shouldOffsetDoubleSpreads,
+        pageScaleMode,
+        shouldStretchPage,
+        readingDirection,
+        autoScroll,
+        shouldCropBorders,
+    } = useReaderSettingsStore(
+        'readingMode',
+        'shouldOffsetDoubleSpreads',
+        'pageScaleMode',
+        'shouldStretchPage',
+        'readingDirection',
+        'autoScroll',
+        'shouldCropBorders',
+    );
 
     return (
         <Stack sx={{ gap: 1 }}>
@@ -62,6 +71,16 @@ const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBa
                 autoScroll={autoScroll}
                 setAutoScroll={(...args) => ReaderService.updateSetting('autoScroll', ...args)}
             />
+            <Button
+                sx={{ justifyContent: 'start', textTransform: 'unset' }}
+                size="large"
+                onClick={() => ReaderService.updateSetting('shouldCropBorders', !shouldCropBorders)}
+                color={shouldCropBorders ? 'secondary' : 'primary'}
+                variant="contained"
+                startIcon={<CropIcon />}
+            >
+                {t`Auto crop borders`}
+            </Button>
             <Button
                 onClick={() => openSettings()}
                 size="large"

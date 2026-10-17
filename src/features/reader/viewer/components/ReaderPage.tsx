@@ -18,9 +18,10 @@ import {
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { useReaderScrollbarStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderScrollbarStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ScrollDirection } from '@/base/Base.types.ts';
 import { getSafeAreaInsets } from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import { useReaderAutoCrop } from '@/features/reader/services/ReaderAutoCropService.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -91,6 +92,8 @@ const BaseReaderPage = ({
         isLoaded?: boolean;
     }) => {
     const { src } = props;
+    const shouldCropBorders = useReaderSettingsStore('shouldCropBorders');
+    const autoCroppedSrc = useReaderAutoCrop(src, Boolean(shouldCropBorders && (shouldLoad || isLoaded)));
 
     const isTabletWidth = MediaQuery.useIsTabletWidth();
     const scrollbar = useReaderScrollbarStore((state) => state);
@@ -109,6 +112,7 @@ const BaseReaderPage = ({
     return (
         <SpinnerImage
             {...props}
+            src={autoCroppedSrc ?? src}
             onLoad={handleLoad}
             onError={handleError}
             shouldLoad={shouldLoad}

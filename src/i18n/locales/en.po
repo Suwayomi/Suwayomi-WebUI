@@ -529,6 +529,12 @@ msgstr "Author"
 msgid "Auto"
 msgstr "Auto"
 
+#: src/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx
+#: src/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Auto crop borders"
+msgstr "Auto crop borders"
+
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Auto download while reading"
 msgstr "Auto download while reading"
@@ -565,6 +571,10 @@ msgstr "Automatic update interval"
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 msgid "Automatic updates"
 msgstr "Automatic updates"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Automatically crop blank borders around manga pages"
+msgstr "Automatically crop blank borders around manga pages"
 
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "Automatically download the latest version"

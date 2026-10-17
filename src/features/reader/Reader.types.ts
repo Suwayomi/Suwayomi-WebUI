@@ -179,6 +179,7 @@ export interface IReaderSettingsGlobal {
     scrollAmount: ReaderScrollAmount;
     shouldUseInfiniteScroll: boolean;
     shouldShowTransitionPage: boolean;
+    shouldCropBorders: boolean;
     safeAreaInset: SafeAreaInset;
     shouldEnterFullscreen: boolean;
 }
