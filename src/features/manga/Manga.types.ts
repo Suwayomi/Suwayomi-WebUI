@@ -16,6 +16,7 @@ import type { GridLayout } from '@/base/Base.types.ts';
 import type {
     ChapterIdInfo,
     ChapterListOptions,
+    ChapterMangaInfo,
     ChapterNameInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
@@ -37,7 +38,12 @@ type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId' | 'inLi
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
     Partial<Pick<MangaTypeGql, 'downloadCount' | 'unreadCount'>> & {
         firstUnreadChapter?:
-            | (ChapterIdInfo & ChapterSourceOrderInfo & ChapterReadInfo & ChapterNumberInfo & ChapterNameInfo)
+            | (ChapterIdInfo &
+                  ChapterSourceOrderInfo &
+                  ChapterReadInfo &
+                  ChapterNumberInfo &
+                  ChapterNameInfo &
+                  ChapterMangaInfo)
             | null;
     };
 

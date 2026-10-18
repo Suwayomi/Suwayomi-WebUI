@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import type {
+    ChapterMangaInfo,
     ChapterNameInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
@@ -19,6 +20,7 @@ import type {
     ChapterSourceOrderInfo,
 } from '@/features/chapter/Chapter.types.ts';
 import { ContinueReadingTooltip } from '@/features/manga/components/ContinueReadingTooltip.tsx';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 export const ContinueReadingButton = ({
     showContinueReadingButton,
@@ -27,7 +29,12 @@ export const ContinueReadingButton = ({
 }: {
     showContinueReadingButton: boolean;
     chapter?:
-        | (ChapterSourceOrderInfo & ChapterReadInfo & ChapterNumberInfo & ChapterNameInfo & ChapterScanlatorInfo)
+        | (ChapterSourceOrderInfo &
+              ChapterReadInfo &
+              ChapterNumberInfo &
+              ChapterNameInfo &
+              ChapterScanlatorInfo &
+              ChapterMangaInfo)
         | null;
     mangaLinkTo: string;
 }) => {
@@ -52,7 +59,11 @@ export const ContinueReadingButton = ({
                 component={Link}
                 to={`${mangaLinkTo}/chapter/${sourceOrder}`}
                 state={Chapters.getReaderOpenChapterLocationState(chapter)}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    void ReaderService.openReader(chapter);
+                }}
             >
                 <PlayArrowIcon />
             </Button>
