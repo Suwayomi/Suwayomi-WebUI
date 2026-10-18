@@ -67,7 +67,7 @@ export function DefaultNavBar() {
 
         return path === pathname;
     });
-    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
+    const actualNavBarWidth = isMobileWidth || isTabletWidth || isCollapsed ? 0 : navBarWidth;
 
     const visibleNavBarItems = useMemo(
         () =>

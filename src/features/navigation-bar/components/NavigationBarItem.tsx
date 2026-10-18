@@ -20,7 +20,6 @@ import ListItem from '@mui/material/ListItem';
 import Badge from '@mui/material/Badge';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 export const NavigationBarItem = ({
     path,
@@ -29,20 +28,17 @@ export const NavigationBarItem = ({
     SelectedIconComponent,
     useBadge,
     slots,
-    forceCollapsed,
+    isCollapsed,
 }: NavbarItem & {
     slots?: {
         listItemLink?: Partial<ComponentProps<typeof ListItemLink>>;
     };
-    forceCollapsed?: boolean;
+    isCollapsed: boolean;
 }) => {
     const { t } = useLingui();
     const location = useLocation();
-    const { isCollapsed: isCollapsedContext } = useNavBarContext();
     const theme = useTheme();
     const badgeInfo = useBadge?.();
-
-    const isCollapsed = forceCollapsed ?? isCollapsedContext;
 
     const isActive = location.pathname.startsWith(path);
     const Icon = isActive ? SelectedIconComponent : IconComponent;

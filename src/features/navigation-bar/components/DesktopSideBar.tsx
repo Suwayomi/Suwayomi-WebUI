@@ -20,6 +20,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { NavigationBarItem } from '@/features/navigation-bar/components/NavigationBarItem.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -37,6 +38,8 @@ const MAX_WIDTH_EXTENDED = 400;
 
 export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { isCollapsed, setIsCollapsed, navBarWidth, setNavBarWidth } = useNavBarContext();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
     const getOptionForDirection = useGetOptionForDirection();
 
     const ref = useRef<HTMLDivElement | null>(null);
@@ -44,6 +47,9 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
         ref,
         useCallback(() => setNavBarWidth(ref.current?.clientWidth ?? 0), [ref.current]),
     );
+
+    const isCollapsible = !isMobileWidth && !isTabletWidth;
+    const finalIsCollapsed = !isCollapsible || isCollapsed;
 
     return (
         <Drawer
@@ -64,8 +70,8 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                 sx={{
                     pt: 'env(safe-area-inset-top)',
                     pl: 'env(safe-area-inset-left)',
-                    minWidth: isCollapsed ? MIN_WIDTH_COLLAPSED : MIN_WIDTH_EXTENDED,
-                    maxWidth: isCollapsed ? MAX_WIDTH_COLLAPSED : MAX_WIDTH_EXTENDED,
+                    minWidth: finalIsCollapsed ? MIN_WIDTH_COLLAPSED : MIN_WIDTH_EXTENDED,
+                    maxWidth: finalIsCollapsed ? MAX_WIDTH_COLLAPSED : MAX_WIDTH_EXTENDED,
                 }}
             >
                 <DrawerHeader>
@@ -74,9 +80,9 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <List sx={{ p: 1 }} dense={isCollapsed}>
+                <List sx={{ p: 1 }} dense={finalIsCollapsed}>
                     {navBarItems.map((navBarItem) => (
-                        <NavigationBarItem key={navBarItem.path} {...navBarItem} />
+                        <NavigationBarItem key={navBarItem.path} {...navBarItem} isCollapsed={finalIsCollapsed} />
                     ))}
                 </List>
             </Box>
