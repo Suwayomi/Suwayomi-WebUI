@@ -38,6 +38,10 @@ export class MediaQuery {
         return this.useIsBelowWidth(this.TABLET_WIDTH);
     }
 
+    static useIsDesktopWidth(): boolean {
+        return !MediaQuery.useIsBelowWidth(this.TABLET_WIDTH);
+    }
+
     private static getScrollbarSize(type: 'X' | 'Y'): number {
         const outer = document.createElement('div');
         outer.style.position = 'absolute';

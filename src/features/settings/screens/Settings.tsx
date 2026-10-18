@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import type { ListProps } from '@mui/material/List';
 import List from '@mui/material/List';
 import BackupIcon from '@mui/icons-material/Backup';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -21,90 +23,101 @@ import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
 import ImageIcon from '@mui/icons-material/Image';
+import Box from '@mui/material/Box';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
+import type { ComponentProps } from 'react';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { OffsetComponent, useOffsetComponent } from '@/base/OffsetComponent.tsx';
 
-export function Settings() {
+const SETTING_MENU_ITEMS = [
+    { to: AppRoutes.settings.children.appearance.path, icon: <PaletteIcon />, label: msg`Appearance` },
+    { to: AppRoutes.settings.children.reader.path, icon: <AutoStoriesIcon />, label: msg`Reader` },
+    { to: AppRoutes.settings.children.library.path, icon: <CollectionsOutlinedBookmarkIcon />, label: msg`Library` },
+    { to: AppRoutes.settings.children.download.path, icon: <GetAppOutlinedIcon />, label: msg`Downloads` },
+    { to: AppRoutes.settings.children.images.path, icon: <ImageIcon />, label: msg`Images` },
+    { to: AppRoutes.settings.children.tracking.path, icon: <SyncIcon />, label: msg`Tracking` },
+    { to: AppRoutes.settings.children.backup.path, icon: <BackupIcon />, label: msg`Backup` },
+    { to: AppRoutes.settings.children.browse.path, icon: <ExploreOutlinedIcon />, label: msg`Browse` },
+    { to: AppRoutes.settings.children.history.path, icon: <HistoryIcon />, label: msg`History` },
+    { to: AppRoutes.settings.children.device.path, icon: <DevicesIcon />, label: msg`Device` },
+    { to: AppRoutes.settings.children.webui.path, icon: <WebIcon />, label: msg`WebUI` },
+    { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: msg`Server` },
+];
+
+function SettingsMenu({
+    slots,
+}: {
+    slots?: {
+        list?: ListProps;
+        listItemLink?: Omit<ComponentProps<typeof ListItemLink>, 'to' | 'key' | 'selected'>;
+    };
+}) {
     const { t } = useLingui();
+    const { pathname } = useLocation();
+
+    return (
+        <List {...slots?.list} sx={{ padding: 0 }}>
+            {SETTING_MENU_ITEMS.map((item) => (
+                <ListItemLink
+                    {...slots?.listItemLink}
+                    key={item.to}
+                    to={item.to}
+                    selected={pathname.startsWith(item.to)}
+                >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={t(item.label)} />
+                </ListItemLink>
+            ))}
+        </List>
+    );
+}
+
+export function SettingsIndex() {
+    const { t } = useLingui();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     useAppTitle(t`Settings`);
 
+    if (!isMobileWidth) {
+        return <Navigate to={AppRoutes.settings.children.appearance.path} replace />;
+    }
+
+    return <SettingsMenu />;
+}
+
+export function Settings() {
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isDesktopWidth = MediaQuery.useIsDesktopWidth();
+    const { topOffset } = useOffsetComponent();
+    const { bottomBarHeight } = useNavBarContext();
+
+    if (isMobileWidth) {
+        return <Outlet />;
+    }
+
     return (
-        <List sx={{ padding: 0 }}>
-            <ListItemLink to={AppRoutes.settings.children.appearance.path}>
-                <ListItemIcon>
-                    <PaletteIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Appearance`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.reader.path}>
-                <ListItemIcon>
-                    <AutoStoriesIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Reader`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.library.path}>
-                <ListItemIcon>
-                    <CollectionsOutlinedBookmarkIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Library`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.download.path}>
-                <ListItemIcon>
-                    <GetAppOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Downloads`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.images.path}>
-                <ListItemIcon>
-                    <ImageIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Images`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.tracking.path}>
-                <ListItemIcon>
-                    <SyncIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Tracking`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.backup.path}>
-                <ListItemIcon>
-                    <BackupIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Backup`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.browse.path}>
-                <ListItemIcon>
-                    <ExploreOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Browse`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.history.path}>
-                <ListItemIcon>
-                    <HistoryIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`History`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.device.path}>
-                <ListItemIcon>
-                    <DevicesIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Device`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.webui.path}>
-                <ListItemIcon>
-                    <WebIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`WebUI`} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.children.server.path}>
-                <ListItemIcon>
-                    <DnsIcon />
-                </ListItemIcon>
-                <ListItemText primary={t`Server`} />
-            </ListItemLink>
-        </List>
+        <Box sx={{ display: 'flex' }}>
+            <OffsetComponent
+                sx={{
+                    minWidth: isDesktopWidth ? 250 : undefined,
+                    height: `calc(100vh - ${topOffset + bottomBarHeight}px)`,
+                    flexShrink: 0,
+                    overflowY: 'auto',
+                    borderRight: 1,
+                    borderColor: 'divider',
+                }}
+            >
+                <SettingsMenu slots={{ listItemLink: { sx: { pr: 8 } } }} />
+            </OffsetComponent>
+
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Outlet />
+            </Box>
+        </Box>
     );
 }
