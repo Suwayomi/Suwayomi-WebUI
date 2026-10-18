@@ -56,7 +56,6 @@ export const MangaGridCard = memo(
         mangaBadges,
         mode,
     }: SpecificMangaCardProps) => {
-        const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
         const optionButtonRef = useRef<HTMLButtonElement>(null);
 
         const { id, title } = manga;
@@ -67,7 +66,6 @@ export const MangaGridCard = memo(
                 {...longPressBind(() => popupState.open(optionButtonRef.current))}
                 to={mangaLinkTo}
                 state={Mangas.createLocationState(manga, mode)}
-                onContextMenu={preventMobileContextMenu}
                 sx={MUIUtil.mergeSx(MediaQuery.preventMobileContextMenuSx(), { textDecoration: 'none' })}
             >
                 <Box

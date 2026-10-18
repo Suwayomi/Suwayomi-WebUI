@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - (**Global**) Force the navigation bar to be collapsed on smaller devices
+- (**Global/Manga/Chapter**) Show app context menu on the first right click and the native context menu on the second right click
 - (**Manga**) Show the `Default` category in the category selection dialog
 - (**Migration**) Use the bulk migration flow for single entry migrations
 
