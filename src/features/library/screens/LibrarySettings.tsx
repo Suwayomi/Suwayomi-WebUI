@@ -14,7 +14,7 @@ import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
-import { useLingui } from '@lingui/react/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
 import { GlobalUpdateSettings } from '@/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -217,20 +217,23 @@ export function LibrarySettings() {
 
                             if (notificationPermission === 'default') {
                                 return (
-                                    <Link
-                                        component="button"
-                                        onClick={() =>
-                                            Notifications.requestPermission().then(() =>
-                                                setNotificationPermission(Notifications.getPermission()),
-                                            )
-                                        }
-                                    >
-                                        {t`Only while Suwayomi is in use. Allow browser notifications`}
-                                    </Link>
+                                    <Trans>
+                                        Only while Suwayomi is in use.{' '}
+                                        <Link
+                                            component="button"
+                                            onClick={() =>
+                                                Notifications.requestPermission().then(() =>
+                                                    setNotificationPermission(Notifications.getPermission()),
+                                                )
+                                            }
+                                        >
+                                            Allow browser notifications
+                                        </Link>
+                                    </Trans>
                                 );
                             }
 
-                            return t`Only while Suwayomi is in use, this browser does not allow notifications`;
+                            return t`Only while Suwayomi is in use, notification permission have not been granted`;
                         })()}
                     />
                     <Switch

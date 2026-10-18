@@ -2889,12 +2889,12 @@ msgid "Only outdated matches found"
 msgstr "Only outdated matches found"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Only while Suwayomi is in use, this browser does not allow notifications"
-msgstr "Only while Suwayomi is in use, this browser does not allow notifications"
+msgid "Only while Suwayomi is in use, notification permission have not been granted"
+msgstr "Only while Suwayomi is in use, notification permission have not been granted"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Only while Suwayomi is in use. Allow browser notifications"
-msgstr "Only while Suwayomi is in use. Allow browser notifications"
+msgid "Only while Suwayomi is in use. <0>Allow browser notifications</0>"
+msgstr "Only while Suwayomi is in use. <0>Allow browser notifications</0>"
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."
