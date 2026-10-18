@@ -30,6 +30,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { OffsetComponent, useOffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const SETTING_MENU_ITEMS = [
     { to: AppRoutes.settings.children.appearance.path, icon: <PaletteIcon />, label: msg`Appearance` },
@@ -78,8 +79,9 @@ export function SettingsIndex() {
 }
 
 export function Settings() {
-    const { appBarHeight, bottomBarHeight } = useNavBarContext();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const { topOffset } = useOffsetComponent();
+    const { bottomBarHeight } = useNavBarContext();
 
     if (isMobileWidth) {
         return <Outlet />;
@@ -87,12 +89,10 @@ export function Settings() {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <Box
+            <OffsetComponent
                 sx={{
-                    position: 'sticky',
-                    top: appBarHeight,
                     alignSelf: 'flex-start',
-                    maxHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                    height: `calc(100vh - ${topOffset + bottomBarHeight}px)`,
                     width: SETTINGS_MENU_WIDTH,
                     flexShrink: 0,
                     overflowY: 'auto',
@@ -101,7 +101,8 @@ export function Settings() {
                 }}
             >
                 <SettingsMenu />
-            </Box>
+            </OffsetComponent>
+
             <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Outlet />
             </Box>
