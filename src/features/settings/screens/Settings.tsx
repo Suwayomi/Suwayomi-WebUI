@@ -66,11 +66,11 @@ function SettingsMenu() {
 
 export function SettingsIndex() {
     const { t } = useLingui();
-    const isWiderWidth = MediaQuery.useIsWiderWidth();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     useAppTitle(t`Settings`);
 
-    if (isWiderWidth) {
+    if (!isMobileWidth) {
         return <Navigate to={AppRoutes.settings.children.appearance.path} replace />;
     }
 
@@ -78,10 +78,10 @@ export function SettingsIndex() {
 }
 
 export function Settings() {
-    const isWiderWidth = MediaQuery.useIsWiderWidth();
     const { appBarHeight, bottomBarHeight } = useNavBarContext();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
-    if (!isWiderWidth) {
+    if (isMobileWidth) {
         return <Outlet />;
     }
 

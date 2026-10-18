@@ -18,8 +18,6 @@ export class MediaQuery {
 
     static readonly TABLET_WIDTH: Breakpoint | number = 1025;
 
-    static readonly WIDE_WIDTH: Breakpoint | number = 'md';
-
     static isTouchDevice(): boolean {
         return window.matchMedia('not (pointer: fine)').matches;
     }
@@ -38,10 +36,6 @@ export class MediaQuery {
 
     static useIsTabletWidth(): boolean {
         return this.useIsBelowWidth(this.TABLET_WIDTH);
-    }
-
-    static useIsWiderWidth(): boolean {
-        return !this.useIsBelowWidth(this.WIDE_WIDTH);
     }
 
     private static getScrollbarSize(type: 'X' | 'Y'): number {
