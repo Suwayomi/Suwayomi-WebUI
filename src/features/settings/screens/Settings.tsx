@@ -84,7 +84,7 @@ export function SettingsIndex() {
     useAppTitle(t`Settings`);
 
     if (!isMobileWidth) {
-        return <Navigate to={AppRoutes.settings.children.appearance.path} replace />;
+        return <Navigate to={SETTING_MENU_ITEMS[0].to} replace />;
     }
 
     return <SettingsMenu />;
