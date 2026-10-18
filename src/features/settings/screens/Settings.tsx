@@ -8,6 +8,7 @@
 
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import type { ListProps } from '@mui/material/List';
 import List from '@mui/material/List';
 import BackupIcon from '@mui/icons-material/Backup';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,6 +26,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Box from '@mui/material/Box';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
+import type { ComponentProps } from 'react';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -47,16 +49,26 @@ const SETTING_MENU_ITEMS = [
     { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: msg`Server` },
 ];
 
-const SETTINGS_MENU_WIDTH = 280;
-
-function SettingsMenu() {
+function SettingsMenu({
+    slots,
+}: {
+    slots?: {
+        list?: ListProps;
+        listItemLink?: Omit<ComponentProps<typeof ListItemLink>, 'to' | 'key' | 'selected'>;
+    };
+}) {
     const { t } = useLingui();
     const { pathname } = useLocation();
 
     return (
-        <List sx={{ padding: 0 }}>
+        <List {...slots?.list} sx={{ padding: 0 }}>
             {SETTING_MENU_ITEMS.map((item) => (
-                <ListItemLink key={item.to} to={item.to} selected={pathname.startsWith(item.to)}>
+                <ListItemLink
+                    {...slots?.listItemLink}
+                    key={item.to}
+                    to={item.to}
+                    selected={pathname.startsWith(item.to)}
+                >
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={t(item.label)} />
                 </ListItemLink>
@@ -80,6 +92,7 @@ export function SettingsIndex() {
 
 export function Settings() {
     const isMobileWidth = MediaQuery.useIsMobileWidth();
+    const isDesktopWidth = MediaQuery.useIsDesktopWidth();
     const { topOffset } = useOffsetComponent();
     const { bottomBarHeight } = useNavBarContext();
 
@@ -91,16 +104,15 @@ export function Settings() {
         <Box sx={{ display: 'flex' }}>
             <OffsetComponent
                 sx={{
-                    alignSelf: 'flex-start',
+                    minWidth: isDesktopWidth ? 250 : undefined,
                     height: `calc(100vh - ${topOffset + bottomBarHeight}px)`,
-                    width: SETTINGS_MENU_WIDTH,
                     flexShrink: 0,
                     overflowY: 'auto',
                     borderRight: 1,
                     borderColor: 'divider',
                 }}
             >
-                <SettingsMenu />
+                <SettingsMenu slots={{ listItemLink: { sx: { pr: 8 } } }} />
             </OffsetComponent>
 
             <Box sx={{ flex: 1, minWidth: 0 }}>
