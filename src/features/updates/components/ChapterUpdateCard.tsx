@@ -64,31 +64,7 @@ export const ChapterUpdateCard = memo(
                                 mangaTitle={manga.title}
                                 thumbnailUrl={manga.thumbnailUrl}
                                 thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}
-                                slots={
-                                    isGroup
-                                        ? {
-                                              listCardAvatar: {
-                                                  slots: {
-                                                      spinnerImageProps: {
-                                                          spinnerStyle: {
-                                                              height: 74,
-                                                              aspectRatio: '3 / 4',
-                                                          },
-                                                          imgStyle: {
-                                                              height: 74,
-                                                              aspectRatio: '3 / 4',
-                                                          },
-                                                      },
-                                                      avatarProps: {
-                                                          sx: {
-                                                              height: 74,
-                                                          },
-                                                      },
-                                                  },
-                                              },
-                                          }
-                                        : undefined
-                                }
+                                isGroup={isGroup}
                             />
                             <Stack>
                                 <ChapterCardMetadata

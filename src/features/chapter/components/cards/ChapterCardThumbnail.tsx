@@ -19,10 +19,12 @@ export const ChapterCardThumbnail = ({
     mangaTitle,
     thumbnailUrl,
     thumbnailUrlLastFetched,
+    isGroup,
     slots,
 }: MangaThumbnailInfo & {
     mangaId: MangaIdInfo['id'];
     mangaTitle: MangaTitleInfo['title'];
+    isGroup?: boolean;
     slots?: {
         listCardAvatar?: Omit<ComponentProps<typeof ListCardAvatar>, 'alt' | 'iconUrl'>;
     };
@@ -38,7 +40,28 @@ export const ChapterCardThumbnail = ({
             iconUrl={Mangas.getThumbnailUrl({ thumbnailUrl, thumbnailUrlLastFetched })}
             alt={mangaTitle}
             slots={merge(
-                { spinnerImageProps: { imgStyle: { imageRendering: 'pixelated' } } },
+                {
+                    spinnerImageProps: { imgStyle: { imageRendering: 'pixelated' } },
+                    ...(isGroup
+                        ? {
+                              spinnerImageProps: {
+                                  spinnerStyle: {
+                                      height: 74,
+                                      aspectRatio: '3 / 4',
+                                  },
+                                  imgStyle: {
+                                      height: 74,
+                                      aspectRatio: '3 / 4',
+                                  },
+                              },
+                              avatarProps: {
+                                  sx: {
+                                      height: 74,
+                                  },
+                              },
+                          }
+                        : {}),
+                },
                 slots?.listCardAvatar?.slots,
             )}
         />

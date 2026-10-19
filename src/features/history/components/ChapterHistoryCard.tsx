@@ -65,6 +65,7 @@ export const ChapterHistoryCard = memo(
                                 mangaTitle={manga.title}
                                 thumbnailUrl={manga.thumbnailUrl}
                                 thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}
+                                isGroup={isGroup}
                             />
 
                             <Stack>
