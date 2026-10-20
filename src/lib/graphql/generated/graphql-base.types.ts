@@ -1962,6 +1962,7 @@ export type PartialSettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -2064,6 +2065,7 @@ export type PartialSettingsTypeInput = {
     backupTTL?: InputMaybe<Scalars['Int']['input']>;
     backupTime?: InputMaybe<Scalars['String']['input']>;
     databasePassword?: InputMaybe<Scalars['String']['input']>;
+    databaseSchema?: InputMaybe<Scalars['String']['input']>;
     databaseType?: InputMaybe<DatabaseType>;
     databaseUrl?: InputMaybe<Scalars['String']['input']>;
     databaseUsername?: InputMaybe<Scalars['String']['input']>;
@@ -2612,6 +2614,7 @@ export type Settings = {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername?: Maybe<Scalars['String']['output']>;
     databasePassword?: Maybe<Scalars['String']['output']>;
+    databaseSchema?: Maybe<Scalars['String']['output']>;
     databaseType?: Maybe<DatabaseType>;
     databaseUrl?: Maybe<Scalars['String']['output']>;
     databaseUsername?: Maybe<Scalars['String']['output']>;
@@ -2767,6 +2770,7 @@ export type SettingsType = Settings & {
     /** @deprecated Removed - prefer authUsername, replace with authUsername */
     basicAuthUsername: Scalars['String']['output'];
     databasePassword: Scalars['String']['output'];
+    databaseSchema: Scalars['String']['output'];
     databaseType: DatabaseType;
     databaseUrl: Scalars['String']['output'];
     databaseUsername: Scalars['String']['output'];

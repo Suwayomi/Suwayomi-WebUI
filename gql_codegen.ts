@@ -25,6 +25,7 @@ const config: CodegenConfig = {
             Cursor: 'string',
             Duration: 'string',
         },
+        inputValueDeprecation: true,
     },
     generates: {
         'src/lib/graphql/generated/graphql-base.types.ts': {

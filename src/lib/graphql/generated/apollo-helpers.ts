@@ -1186,6 +1186,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1285,6 +1286,7 @@ export type PartialSettingsTypeFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1615,6 +1617,7 @@ export type SettingsKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1714,6 +1717,7 @@ export type SettingsFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1864,6 +1868,7 @@ export type SettingsTypeKeySpecifier = (
     | 'basicAuthPassword'
     | 'basicAuthUsername'
     | 'databasePassword'
+    | 'databaseSchema'
     | 'databaseType'
     | 'databaseUrl'
     | 'databaseUsername'
@@ -1963,6 +1968,7 @@ export type SettingsTypeFieldPolicy = {
     basicAuthPassword?: FieldPolicy<any> | FieldReadFunction<any>;
     basicAuthUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     databasePassword?: FieldPolicy<any> | FieldReadFunction<any>;
+    databaseSchema?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseType?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     databaseUsername?: FieldPolicy<any> | FieldReadFunction<any>;

@@ -3318,6 +3318,10 @@ msgstr "Scale type"
 msgid "Scanlator"
 msgstr "Scanlator"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Schema"
+msgstr "Schema"
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Score"

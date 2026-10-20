@@ -718,6 +718,12 @@ export const ServerSettings = () => {
                     disabled={isH2Database}
                     isPassword
                 />
+                <TextSetting
+                    settingName={t`Schema`}
+                    value={serverSettings.databaseSchema}
+                    handleChange={(schema) => updateSetting('databaseSchema', schema)}
+                    disabled={isH2Database}
+                />
                 <ListItem>
                     <ListItemText
                         primary={t`Hikari connection pool`}

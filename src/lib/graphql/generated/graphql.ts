@@ -3167,6 +3167,7 @@ export type ServerSettingsFragment = {
     databaseUrl: string;
     databaseUsername: string;
     databasePassword: string;
+    databaseSchema: string;
     useHikariConnectionPool: boolean;
     kcefEnabled: boolean;
     syncDataCategories: boolean;
@@ -3280,6 +3281,7 @@ export type ResetServerSettingsMutation = {
             databaseUrl: string;
             databaseUsername: string;
             databasePassword: string;
+            databaseSchema: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
@@ -3403,6 +3405,7 @@ export type UpdateServerSettingsMutation = {
             databaseUrl: string;
             databaseUsername: string;
             databasePassword: string;
+            databaseSchema: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
@@ -3522,6 +3525,7 @@ export type GetServerSettingsQuery = {
         databaseUrl: string;
         databaseUsername: string;
         databasePassword: string;
+        databaseSchema: string;
         useHikariConnectionPool: boolean;
         kcefEnabled: boolean;
         syncDataCategories: boolean;
