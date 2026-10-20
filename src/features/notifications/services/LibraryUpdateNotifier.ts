@@ -8,6 +8,7 @@
 
 import { plural } from '@lingui/core/macro';
 import { distinctUntilChanged, map } from 'rxjs';
+import uniq from 'lodash/fp/uniq';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_CHAPTERS_UPDATES } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { UPDATER_JOB_INFO_FIELDS } from '@/lib/graphql/updater/UpdaterFragments.ts';
@@ -59,6 +60,10 @@ type UpdatesSearch = {
     page: number;
     after?: string;
 };
+
+const isRecognizedChapterNumber = ({ chapterNumber }: Pick<Chapter, 'chapterNumber'>): boolean => chapterNumber >= 0;
+
+const getDuplicateKey = ({ chapterNumber, manga }: Chapter): string => `${manga.id}-${chapterNumber}`;
 
 const notify = (title: string, options: Parameters<typeof Notifications.show>[1]) =>
     Notifications.show(title, options).catch(defaultPromiseErrorHandler('LibraryUpdateNotifier::notify'));
@@ -190,8 +195,8 @@ export class LibraryUpdateNotifier {
 
     /**
      * The chapters of entries that got their chapter list fetched for the first time, e.g. because they were added to
-     * the library, are no updates. They get excluded once they are known, and pages get fetched until enough updates
-     * were found.
+     * the library, are no updates, the same as another scanlator's version of a known chapter. They get excluded, and
+     * pages get fetched until enough updates were found.
      *
      * The returned cursor is set when there are more chapters.
      */
@@ -217,16 +222,19 @@ export class LibraryUpdateNotifier {
         const uncheckedMangaIds = [...new Set(nodes.map((chapter) => chapter.manga.id))].filter(
             (mangaId) => !previous.checkedMangaIds.includes(mangaId),
         );
-        const isInitialFetchList = await Promise.all(
-            uncheckedMangaIds.map((mangaId) => LibraryUpdateNotifier.isInitialFetch(mangaId, lastNotifiedAt)),
-        );
+        const [isInitialFetchList, unknownChapters] = await Promise.all([
+            Promise.all(
+                uncheckedMangaIds.map((mangaId) => LibraryUpdateNotifier.isInitialFetch(mangaId, lastNotifiedAt)),
+            ),
+            LibraryUpdateNotifier.removeKnownChapters(nodes, lastNotifiedAt),
+        ]);
         const initialFetchMangaIds = uncheckedMangaIds.filter((_, index) => isInitialFetchList[index]);
 
         const search: UpdatesSearch = {
-            chapters: [
+            chapters: LibraryUpdateNotifier.removeDuplicates([
                 ...previous.chapters,
-                ...nodes.filter((chapter) => !initialFetchMangaIds.includes(chapter.manga.id)),
-            ],
+                ...unknownChapters.filter((chapter) => !initialFetchMangaIds.includes(chapter.manga.id)),
+            ]),
             newestFetchedAt: Math.max(previous.newestFetchedAt, ...nodes.map((chapter) => Number(chapter.fetchedAt))),
             initialFetchMangaIds: [...previous.initialFetchMangaIds, ...initialFetchMangaIds],
             checkedMangaIds: [...previous.checkedMangaIds, ...uncheckedMangaIds],
@@ -240,6 +248,65 @@ export class LibraryUpdateNotifier {
         }
 
         return LibraryUpdateNotifier.searchUpdates(lastNotifiedAt, search);
+    }
+
+    /**
+     * Keeps one scanlator's version of a chapter. Chapters with the same number from the same scanlator are different
+     * chapters, e.g. a "part 1" and "part 2", or chapters of sources that restart the numbering with every volume
+     */
+    private static removeDuplicates(chapters: Chapter[]): Chapter[] {
+        const scanlatorByKey = new Map<string, Chapter['scanlator']>();
+
+        return chapters.filter((chapter) => {
+            if (!isRecognizedChapterNumber(chapter)) {
+                return true;
+            }
+
+            const key = getDuplicateKey(chapter);
+            if (!scanlatorByKey.has(key)) {
+                scanlatorByKey.set(key, chapter.scanlator);
+                return true;
+            }
+
+            return scanlatorByKey.get(key) === chapter.scanlator;
+        });
+    }
+
+    /**
+     * A chapter is no new chapter, in case another scanlator's version of it got fetched before the last notification
+     * or got read already
+     */
+    private static async removeKnownChapters(chapters: Chapter[], lastNotifiedAt: number): Promise<Chapter[]> {
+        const chaptersByMangaId = Object.groupBy(
+            chapters.filter(isRecognizedChapterNumber),
+            (chapter) => chapter.manga.id,
+        );
+        if (!Object.keys(chaptersByMangaId).length) {
+            return chapters;
+        }
+
+        // a top level "or" gets combined with all other conditions via "or" as well, thus, both have to be in the "and"
+        const { nodes: knownChapters } = await LibraryUpdateNotifier.fetchChapters(
+            {
+                and: [
+                    {
+                        or: Object.entries(chaptersByMangaId).map(([mangaId, mangaChapters]) => ({
+                            mangaId: { equalTo: Number(mangaId) },
+                            chapterNumber: { in: uniq(mangaChapters!.map(({ chapterNumber }) => chapterNumber)) },
+                        })),
+                    },
+                    { or: [{ fetchedAt: { lessThanOrEqualTo: `${lastNotifiedAt}` } }, { isRead: { equalTo: true } }] },
+                ],
+            },
+            {},
+            false,
+        );
+        const knownChaptersByKey = Object.groupBy(knownChapters, getDuplicateKey);
+
+        return chapters.filter(
+            (chapter) =>
+                !knownChaptersByKey[getDuplicateKey(chapter)]?.some(({ scanlator }) => scanlator !== chapter.scanlator),
+        );
     }
 
     private static showNotifications({ chapters, isTruncated }: LibraryUpdates): void {
@@ -303,7 +370,7 @@ export class LibraryUpdateNotifier {
 
     private static async fetchChapters(
         filter: ChapterFilterInput,
-        { first, after }: { first: number; after?: string },
+        { first, after }: { first?: number; after?: string },
         isInLibrary: boolean = true,
     ): Promise<GetChaptersUpdatesQuery['chapters']> {
         const { data } = await requestManager.getChapters<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables>(
