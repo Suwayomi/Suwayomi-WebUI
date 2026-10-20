@@ -36,7 +36,7 @@ type BaseProps = {
     maxValue?: number;
     stepSize?: number;
     dialogTitle?: string;
-    dialogDescription?: string;
+    dialogDescription?: string | React.ReactNode;
     dialogDisclaimer?: string;
     valueUnit: string;
     handleUpdate: (value: number) => void;

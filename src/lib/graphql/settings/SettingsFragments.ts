@@ -134,6 +134,7 @@ export const SERVER_SETTINGS = gql`
         databasePassword
         databaseSchema
         useHikariConnectionPool
+        hikariMaxPoolSize
 
         # WebView
         kcefEnabled

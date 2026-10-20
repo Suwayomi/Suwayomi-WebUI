@@ -3169,6 +3169,7 @@ export type ServerSettingsFragment = {
     databasePassword: string;
     databaseSchema: string;
     useHikariConnectionPool: boolean;
+    hikariMaxPoolSize: number;
     kcefEnabled: boolean;
     syncDataCategories: boolean;
     syncDataChapters: boolean;
@@ -3283,6 +3284,7 @@ export type ResetServerSettingsMutation = {
             databasePassword: string;
             databaseSchema: string;
             useHikariConnectionPool: boolean;
+            hikariMaxPoolSize: number;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
@@ -3407,6 +3409,7 @@ export type UpdateServerSettingsMutation = {
             databasePassword: string;
             databaseSchema: string;
             useHikariConnectionPool: boolean;
+            hikariMaxPoolSize: number;
             kcefEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
@@ -3527,6 +3530,7 @@ export type GetServerSettingsQuery = {
         databasePassword: string;
         databaseSchema: string;
         useHikariConnectionPool: boolean;
+        hikariMaxPoolSize: number;
         kcefEnabled: boolean;
         syncDataCategories: boolean;
         syncDataChapters: boolean;

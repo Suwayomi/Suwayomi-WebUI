@@ -1986,6 +1986,7 @@ export type PartialSettingsType = Settings & {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2085,6 +2086,7 @@ export type PartialSettingsTypeInput = {
     flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
     flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
     globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
+    hikariMaxPoolSize?: InputMaybe<Scalars['Int']['input']>;
     initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     ip?: InputMaybe<Scalars['String']['input']>;
     jwtAudience?: InputMaybe<Scalars['String']['input']>;
@@ -2638,6 +2640,7 @@ export type Settings = {
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
+    hikariMaxPoolSize?: Maybe<Scalars['Int']['output']>;
     initialOpenInBrowserEnabled?: Maybe<Scalars['Boolean']['output']>;
     ip?: Maybe<Scalars['String']['output']>;
     jwtAudience?: Maybe<Scalars['String']['output']>;
@@ -2794,6 +2797,7 @@ export type SettingsType = Settings & {
     globalUpdateInterval: Scalars['Float']['output'];
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled: Scalars['Boolean']['output'];
+    hikariMaxPoolSize: Scalars['Int']['output'];
     initialOpenInBrowserEnabled: Scalars['Boolean']['output'];
     ip: Scalars['String']['output'];
     jwtAudience: Scalars['String']['output'];

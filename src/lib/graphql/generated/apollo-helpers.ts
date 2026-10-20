@@ -1208,6 +1208,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1308,6 +1309,7 @@ export type PartialSettingsTypeFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1639,6 +1641,7 @@ export type SettingsKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1739,6 +1742,7 @@ export type SettingsFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1890,6 +1894,7 @@ export type SettingsTypeKeySpecifier = (
     | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
+    | 'hikariMaxPoolSize'
     | 'initialOpenInBrowserEnabled'
     | 'ip'
     | 'jwtAudience'
@@ -1990,6 +1995,7 @@ export type SettingsTypeFieldPolicy = {
     flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
     initialOpenInBrowserEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     ip?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
