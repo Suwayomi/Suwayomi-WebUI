@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Source**) Fix potential white screen when opening the language/source filter in the browse source page
 - (**Manga**) Fix incorrect markdown parsing of descriptions (e.g., \~text\~ being shown as ~~text~~)
 - (**Reader**) Fix entering fullscreen when opening the reader from the library continue read button
+- (**Reader**) Fix reader trying to open/opening the previous/next chapter randomly when first opening the reader or changing the page via the progress bar with a continuous vertical reading mode and original image scale type
 
 ## [20260929.01] (r3518) - 2026-09-29
 

@@ -142,7 +142,7 @@ export const getImagePlaceholderStyling = (
             return {
                 ...defaultStyling,
                 ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                    height: undefined,
+                    height: 'auto',
                 }),
             };
         default:
