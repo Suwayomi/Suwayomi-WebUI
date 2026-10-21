@@ -141,6 +141,18 @@ export const ReaderBehaviourSettings = ({
                 checked={settings.shouldWakeLockScreen}
                 onChange={(_, checked) => updateSetting('shouldWakeLockScreen', checked)}
             />
+            <CheckboxInput
+                label={
+                    <Box>
+                        <Typography>{t`Auto crop borders`}</Typography>
+                        <Typography variant="body2" color="textDisabled">
+                            {t`Automatically crop blank borders around manga pages`}
+                        </Typography>
+                    </Box>
+                }
+                checked={settings.shouldCropBorders}
+                onChange={(_, checked) => updateSetting('shouldCropBorders', checked)}
+            />
             <ReaderSettingAutoScroll
                 autoScroll={settings.autoScroll}
                 setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
