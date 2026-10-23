@@ -3081,6 +3081,14 @@ msgstr "Progress bar size"
 msgid "Progress bar style"
 msgstr "Progress bar style"
 
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Progress: {page} of {pageCount}"
+msgstr "Progress: {page} of {pageCount}"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Progress: page {page}"
+msgstr "Progress: page {page}"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Prompt"
 msgstr "Prompt"
