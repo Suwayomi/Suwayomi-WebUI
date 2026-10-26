@@ -426,6 +426,8 @@ export class Mangas {
             return;
         }
 
+        MigrationManager.reset();
+
         const mangas = mangaIds.map((mangaId) => {
             const manga = Mangas.getFromCache(mangaId, MANGA_MIGRATION_FIELDS, 'MANGA_MIGRATION_FIELDS');
             assertIsDefined(manga);
