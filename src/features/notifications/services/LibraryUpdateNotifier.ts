@@ -10,10 +10,16 @@ import { plural } from '@lingui/core/macro';
 import { distinctUntilChanged, map } from 'rxjs';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_CHAPTERS_UPDATES } from '@/lib/graphql/chapter/ChapterQuery.ts';
+import { GET_MANGAS_LIBRARY } from '@/lib/graphql/manga/MangaQuery.ts';
+import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
+import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
+import { DEFAULT_CHAPTER_OPTIONS } from '@/features/chapter/Chapter.constants.ts';
 import { UPDATER_JOB_INFO_FIELDS } from '@/lib/graphql/updater/UpdaterFragments.ts';
 import type {
     GetChaptersUpdatesQuery,
     GetChaptersUpdatesQueryVariables,
+    GetMangasLibraryQuery,
+    GetMangasLibraryQueryVariables,
     UpdaterJobInfoFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import type { ChapterFilterInput } from '@/lib/graphql/generated/graphql-base.types.ts';
@@ -56,6 +62,7 @@ type UpdatesSearch = {
     newestFetchedAt: number;
     initialFetchMangaIds: MangaIdInfo['id'][];
     checkedMangaIds: MangaIdInfo['id'][];
+    excludedScanlatorsByMangaId: Record<MangaIdInfo['id'], string[]>;
     page: number;
     after?: string;
 };
@@ -190,8 +197,8 @@ export class LibraryUpdateNotifier {
 
     /**
      * The chapters of entries that got their chapter list fetched for the first time, e.g. because they were added to
-     * the library, are no updates. They get excluded once they are known, and pages get fetched until enough updates
-     * were found.
+     * the library, are no updates, the same as chapters of scanlators that are excluded in the chapter list of the
+     * entry. They get excluded, and pages get fetched until enough updates were found.
      *
      * The returned cursor is set when there are more chapters.
      */
@@ -202,6 +209,7 @@ export class LibraryUpdateNotifier {
             newestFetchedAt: lastNotifiedAt,
             initialFetchMangaIds: [],
             checkedMangaIds: [],
+            excludedScanlatorsByMangaId: {},
             page: 0,
         },
     ): Promise<UpdatesSearch> {
@@ -217,19 +225,33 @@ export class LibraryUpdateNotifier {
         const uncheckedMangaIds = [...new Set(nodes.map((chapter) => chapter.manga.id))].filter(
             (mangaId) => !previous.checkedMangaIds.includes(mangaId),
         );
-        const isInitialFetchList = await Promise.all(
-            uncheckedMangaIds.map((mangaId) => LibraryUpdateNotifier.isInitialFetch(mangaId, lastNotifiedAt)),
-        );
+        const [isInitialFetchList, uncheckedExcludedScanlatorsByMangaId] = await Promise.all([
+            Promise.all(
+                uncheckedMangaIds.map((mangaId) => LibraryUpdateNotifier.isInitialFetch(mangaId, lastNotifiedAt)),
+            ),
+            LibraryUpdateNotifier.getExcludedScanlators(uncheckedMangaIds),
+        ]);
         const initialFetchMangaIds = uncheckedMangaIds.filter((_, index) => isInitialFetchList[index]);
+        const excludedScanlatorsByMangaId = {
+            ...previous.excludedScanlatorsByMangaId,
+            ...uncheckedExcludedScanlatorsByMangaId,
+        };
+
+        const updatedChapters = Object.entries(Object.groupBy(nodes, (chapter) => chapter.manga.id))
+            .filter(([mangaId]) => !initialFetchMangaIds.includes(Number(mangaId)))
+            .flatMap(([mangaId, mangaChapters]) =>
+                filterChapters(mangaChapters!, {
+                    ...DEFAULT_CHAPTER_OPTIONS,
+                    excludedScanlators: excludedScanlatorsByMangaId[Number(mangaId)] ?? [],
+                }),
+            );
 
         const search: UpdatesSearch = {
-            chapters: [
-                ...previous.chapters,
-                ...nodes.filter((chapter) => !initialFetchMangaIds.includes(chapter.manga.id)),
-            ],
+            chapters: [...previous.chapters, ...updatedChapters],
             newestFetchedAt: Math.max(previous.newestFetchedAt, ...nodes.map((chapter) => Number(chapter.fetchedAt))),
             initialFetchMangaIds: [...previous.initialFetchMangaIds, ...initialFetchMangaIds],
             checkedMangaIds: [...previous.checkedMangaIds, ...uncheckedMangaIds],
+            excludedScanlatorsByMangaId,
             page: previous.page + 1,
             // an empty page can come without a cursor, using none would start over from the first page
             after: (pageInfo.hasNextPage && pageInfo.endCursor) || undefined,
@@ -240,6 +262,25 @@ export class LibraryUpdateNotifier {
         }
 
         return LibraryUpdateNotifier.searchUpdates(lastNotifiedAt, search);
+    }
+
+    private static async getExcludedScanlators(
+        mangaIds: MangaIdInfo['id'][],
+    ): Promise<UpdatesSearch['excludedScanlatorsByMangaId']> {
+        if (!mangaIds.length) {
+            return {};
+        }
+
+        const { data } = await requestManager.getMangas<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>(
+            GET_MANGAS_LIBRARY,
+            { filter: { id: { in: mangaIds } } },
+        ).response;
+
+        assertIsDefined(data);
+
+        return Object.fromEntries(
+            data.mangas.nodes.map((manga) => [manga.id, getMangaMetadata(manga).excludedScanlators]),
+        );
     }
 
     private static showNotifications({ chapters, isTruncated }: LibraryUpdates): void {
