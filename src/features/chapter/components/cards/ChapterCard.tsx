@@ -37,6 +37,7 @@ import type {
     ChapterNameInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
+    ChapterReadProgressInfo,
     ChapterScanlatorInfo,
     ChapterSourceOrderInfo,
 } from '@/features/chapter/Chapter.types.ts';
@@ -45,11 +46,13 @@ import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts'
 import { usePress } from '@/base/hooks/usePress.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
     ChapterDownloadInfo &
     ChapterReadInfo &
+    ChapterReadProgressInfo &
     ChapterBookmarkInfo &
     ChapterNumberInfo &
     ChapterScanlatorInfo &
@@ -93,7 +96,10 @@ export const ChapterCard = memo((props: IProps) => {
     } = props;
     const isSelecting = selected !== null;
 
-    const { isDownloaded } = chapter;
+    const { isDownloaded, pageCount } = chapter;
+    const isReadInProgress = !chapter.isRead && chapter.lastPageRead > 0;
+    const page = coerceIn(chapter.lastPageRead, 0, pageCount > 0 ? pageCount - 1 : undefined) + 1;
+    const readProgress = pageCount > 0 ? t`Page: ${page}/${pageCount}` : t`Page: ${page}`;
 
     const handleClick = (event: MouseEvent | TouchEvent) => {
         if (!isSelecting) {
@@ -147,8 +153,8 @@ export const ChapterCard = memo((props: IProps) => {
                                     title={showChapterNumber ? `${t`Chapter`} ${chapter.chapterNumber}` : chapter.name}
                                     secondaryText={chapter.scanlator}
                                     ternaryText={`${getDateString(Number(chapter.uploadDate ?? 0), true)}${
-                                        isDownloaded ? ` — ${t`Downloaded`}` : ''
-                                    }`}
+                                        isReadInProgress ? ` — ${readProgress}` : ''
+                                    }${isDownloaded ? ` — ${t`Downloaded`}` : ''}`}
                                     infoIcons={
                                         chapter.isBookmarked && (
                                             <BookmarkIcon

@@ -2991,6 +2991,14 @@ msgstr "Page"
 msgid "Page gap"
 msgstr "Page gap"
 
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Page: {page}"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}/{pageCount}"
+msgstr "Page: {page}/{pageCount}"
+
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
 msgstr "Parallel source requests"
