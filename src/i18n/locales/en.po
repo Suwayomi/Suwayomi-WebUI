@@ -2991,6 +2991,14 @@ msgstr "Page"
 msgid "Page gap"
 msgstr "Page gap"
 
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Page: {page}"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}/{pageCount}"
+msgstr "Page: {page}/{pageCount}"
+
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
 msgstr "Parallel source requests"
@@ -3080,14 +3088,6 @@ msgstr "Progress bar size"
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
 msgid "Progress bar style"
 msgstr "Progress bar style"
-
-#: src/features/chapter/components/cards/ChapterCard.tsx
-msgid "Progress: {page} of {pageCount}"
-msgstr "Progress: {page} of {pageCount}"
-
-#: src/features/chapter/components/cards/ChapterCard.tsx
-msgid "Progress: page {page}"
-msgstr "Progress: page {page}"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Prompt"

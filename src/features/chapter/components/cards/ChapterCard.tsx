@@ -99,7 +99,7 @@ export const ChapterCard = memo((props: IProps) => {
     const { isDownloaded, pageCount } = chapter;
     const isReadInProgress = !chapter.isRead && chapter.lastPageRead > 0;
     const page = coerceIn(chapter.lastPageRead, 0, pageCount > 0 ? pageCount - 1 : undefined) + 1;
-    const readProgress = pageCount > 0 ? t`Progress: ${page} of ${pageCount}` : t`Progress: page ${page}`;
+    const readProgress = pageCount > 0 ? t`Page: ${page}/${pageCount}` : t`Page: ${page}`;
 
     const handleClick = (event: MouseEvent | TouchEvent) => {
         if (!isSelecting) {
