@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.916Z\n"
-"PO-Revision-Date: 2026-09-08 06:53+0000\n"
-"Last-Translator: Sazuru <sazuru@gmail.com>\n"
+"PO-Revision-Date: 2026-10-26 21:51+0000\n"
+"Last-Translator: Andrei Stepanov <adem@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -3621,11 +3621,6 @@ msgstr "Выйти из {0}"
 msgid "Logging in to {trackerName}…"
 msgstr "Вход в {trackerName}…"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Мигрировать \"{0}\""
-
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Minute"
@@ -3732,7 +3727,6 @@ msgid "Sync started"
 msgstr "Синхронизация началась"
 
 #: src/features/settings/screens/ServerSettings.tsx
-#, fuzzy
 msgid "SyncYomi"
 msgstr "SyncYomi"
 
@@ -3813,3 +3807,871 @@ msgid "This does not prevent unofficial or potentially incorrectly flagged exten
 msgstr ""
 "Это не мешает неофициальным или потенциально неправильно помеченным "
 "расширениям показывать в приложении контент для взрослых (18+)."
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "— State: {0}"
+msgstr "— Состояние: {0}"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr ""
+"{0, plural, one {1 прерванная запись} few{# прерванные записи} many{# "
+"прерванных записей} other{# прерванные записи}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 запись без совпадений} few{# записи без совпадений} many"
+"{# записей без совпадений} other{# записи без совпадений}}"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 запись только с устаревшими совпадениями} few{# записи "
+"только с устаревшими совпадениями} many{# записей только с устаревшими "
+"совпадениями} other{# записи только с устаревшими совпадениями}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+"{0, plural, one {1 исключённая запись} few{# исключённые записи} many{# "
+"исключённых записей} other{# исключённые записи}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+"{0, plural, one {1 запись с ошибкой} few{# записи с ошибкой} many{# записей "
+"с ошибкой} other{# записи с ошибкой}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr ""
+"{0, plural, one {1 найденная запись} few{# найденные записи} many{# "
+"найденных записей} other{# найденные записи}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr ""
+"{0, plural, one {1 перенесённая запись} few{# перенесённые записи} many{# "
+"перенесённых записей} other{# перенесённые записи}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+"{0, plural, one {1 переносимая запись} few{# переносимые записи} many{# "
+"переносимых записей} other{# переносимые записи}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr ""
+"{0, plural, one {1 в поиске} few{# в поиске} many{# в поиске} other{# в "
+"поиске}}"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr ""
+"{0, plural, one {Не удалось изменить порядок загрузки} few{Не удалось "
+"изменить порядок загрузок} many{Не удалось изменить порядок загрузок} other"
+"{Не удалось изменить порядок загрузок}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {# new chapter} other {# new chapters}}"
+msgstr ""
+"{count, plural, one {# новая глава} few{# новые главы} many{# новых глав} "
+"other{# новые главы}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
+msgstr ""
+"{count, plural, one {#+ новая глава} few{#+ новые главы} many{#+ новых глав} "
+"other{#+ новые главы}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr ""
+"{count, plural, one {Не удалось отменить загрузку} few{Не удалось отменить "
+"загрузки} many{Не удалось отменить загрузки} other{Не удалось отменить "
+"загрузки}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr ""
+"{count, plural, one {Загрузка отменена} few{Отменено загрузок: #} many"
+"{Отменено загрузок: #} other{Отменено загрузок: #}}"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{count, plural, one {Показать ещё # главу} few{Показать ещё # главы} many"
+"{Показать ещё # глав} other{Показать ещё # главы}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr ""
+"{count, plural, one {Вы собираетесь отменить одну загрузку} few{Вы "
+"собираетесь отменить # загрузки} many{Вы собираетесь отменить # загрузок} "
+"other{Вы собираетесь отменить # загрузки}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{entryCount, plural, one {in # entry} other {in # entries}}"
+msgstr ""
+"{entryCount, plural, one {в # записи} few{в # записях} many{в # записях} "
+"other{в # записях}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr ""
+"{extensionCount, plural, one {# расширение} few{# расширения} many{# "
+"расширений} other{# расширения}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr ""
+"{extensionStoreCount, plural, one {# хранилище расширений} few{# хранилища "
+"расширений} many{# хранилищ расширений} other{# хранилища расширений}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr ""
+"{installedExtensionCount, plural, one {# установлено} few{# установлено} many"
+"{# установлено} other{# установлено}}"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr ""
+"{libraryMangaCount, plural, one {# запись в библиотеке} few{# записи в "
+"библиотеке} many{# записей в библиотеке} other{# записи в библиотеке}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {ещё # совпадение} few{ещё # совпадения} many"
+"{ещё # совпадений} other{ещё # совпадения}}"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Миграция уже выполняется"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Abort"
+msgstr "Прервать"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Прервать миграцию"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Прервано"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Активная настройка ({title})"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "Добавить приватную заметку об этой манге"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "Добавить хранилище расширений"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "Добавить заметки"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Расширенный режим поиска"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "An entry can not be in the Default category and other categories at the same time"
+msgstr ""
+"Запись не может одновременно находиться в категории «По умолчанию» и в "
+"других категориях"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "и"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Применять отступы безопасной области"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Прервать миграцию?"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Автоматическая резервная копия"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Автоматически выбирать совпадения, если у них есть дополнительные главы"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Автоматически выбирать совпадения, если у них есть как минимум та же "
+"последняя глава"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Автоматически выбирать совпадения, если у них нет пропущенных глав"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
+msgstr "Доступно"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Разбивает название на ключевые слова для более широкого поиска"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Ручной поиск при массовой миграции"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "Нельзя перенести запись саму в себя"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "Отменить всё для этой серии"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "Отменить загрузку"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "Отменить загрузки выбранных"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "Очистить cookies и кэш"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "Очистить заметки"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "Cookies и кэш WebView очищены"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "Comic"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Connection"
+msgstr "Подключение"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Продолжить"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "Скопировано в буфер обмена"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "Скопировать URL индекса"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "Не удалось добавить хранилище расширений"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "Не удалось очистить cookies и кэш WebView"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Не удалось скопировать в буфер обмена"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "Не удалось удалить категорию"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "Не удалось загрузить данные"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "Не удалось открыть случайную запись"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "Не удалось удалить хранилище расширений «{name}»"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "Не удалось сбросить фильтры"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "Не удалось повторить «{title}»"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "Не удалось повторить неудачные загрузки"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "Не удалось сохранить заметки"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/sync/components/SyncButton.tsx
+msgid "Could not start sync"
+msgstr "Не удалось запустить синхронизацию"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "Создание резервной копии"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr "Текущий источник"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "Ежедневно"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Отладочная информация"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Default (Suwayomi)"
+msgstr "По умолчанию (Suwayomi)"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination — {0}"
+msgstr "Назначение — {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Готово"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Перетащите для приоритизации"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "Изменить заметки"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "Автоматический цвет фона в режиме непрерывного чтения"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "Включить WebView через CEF (Chromium)"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "Включённые языки"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "Включённые языки и источники"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr "Запись «{0} ({1}; {sourceTitle} ({2}))» в недопустимом состоянии «{3}»"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "Запись «{id}» не найдена"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "Каждые 12 часов"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "Каждые 3 часа"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "Каждые 30 минут"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "Каждые 6 часов"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "Каждый час"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Исключить"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "Исключить: {excludedSyncDataText}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Исключено"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "Хранилища расширений"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr ""
+"При желании помогите с переводом проекта на Weblate (<0>WebUI</0> и <1>"
+"Server</1>)"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Режим фильтрации"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"FlareSolverr — это <0><1>отдельная</1></0> программа, <2><3>не связанная</3>"
+"</2> с Suwayomi; её нужно вручную <4><5>установить</5></4> и <6><7>"
+"запустить</7></6>.<8/>Смотрите <9>FlareSolverr</9>, чтобы узнать, как её "
+"настроить<10/><11/>Если она <12><13>не</13></12> настроена и не запущена, "
+"включение этой настройки <14><15>ничего не даст</15></14>"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Подтверждение настройки FlareSolverr"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "Полноэкранный режим"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "Нечёткий поиск"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari max pool size"
+msgstr "Макс. размер пула Hikari"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"Если включено, выбирается совпадение, ушедшее дальше всего вперёд.\n"
+"Иначе берётся первое совпадение по приоритету источников."
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Игнорировать совпадения, отстающие по главам"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Игнорировать совпадения с пропущенными главами"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Игнорировать совпадения без более новых глав"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Включить"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "Включить: {includedSyncDataText}"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "Не выключать экран"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "Последняя синхронизация: {syncDate}"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "Последняя: {latestChapterNumber}"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "Long strip"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "Manga"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "Manhua"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "Manhwa"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Ручной поиск при миграции для «{title}»"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Ручной поиск"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Сопоставлять по номеру главы"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "Совпадение найдено"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
+msgstr ""
+"Учитывать поиск по библиотеке даже при опечатках и другом порядке слов, "
+"показывая ближайшие совпадения первыми"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Совпадения"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "Объединение"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Перенести выбранное"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "Перенос"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "Перенос…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Миграция завершена"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "Миграция не удалась"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "Миграция «{title}» завершилась ошибкой:"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Сведения о миграции"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Параметры миграции"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Пропущено: {0}"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "Переместить серию вниз"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "Переместить серию вверх"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "Переместить вниз"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "Переместить вверх"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "Многоязычный"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "Совпадений не найдено"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "Нет доступных источников для переноса"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "Заметки"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "Заметки сохранены"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters"
+msgstr "Уведомлять о новых главах"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters of library entries"
+msgstr "Уведомлять о новых главах записей библиотеки"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "Источники NSFW (18+)"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Найдены только устаревшие совпадения"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use, notification permission have not been granted"
+msgstr "Только пока Suwayomi используется; разрешение на уведомления не выдано"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use. <0>Allow browser notifications</0>"
+msgstr ""
+"Только пока Suwayomi используется. <0>Разрешить уведомления браузера</0>"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open discord"
+msgstr "Открыть Discord"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "Открыть случайную запись"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open website"
+msgstr "Открыть сайт"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "или"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Ожидание…"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr "Не даёт контенту перекрывать вырезы устройства и края экрана"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "Случайно"
+
+#: src/base/components/AppbarSearch.tsx
+msgid "Recent searches"
+msgstr "Недавние запросы"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "Восстановление"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "Повторить всё"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Schema"
+msgstr "Схема"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "Поиск не удался"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "Поиск «{title}» завершился ошибкой:"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Параметры поиска"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "Поиск…"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Выберите целевые источники"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Выбрать включённые источники"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Выбрать закреплённые источники"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr "Выбрано"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Показать"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Показывать в списках источников и расширений"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "Пропускать ленту метаданных глав"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "The maximum number of actual connections to the database; see <0>HikariCP: About-Pool-Sizing</0>"
+msgstr ""
+"Максимальное число реальных подключений к базе данных; см. <0>HikariCP: "
+"About-Pool-Sizing</0>"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The next chapter has a different scanlator than the current one.\n"
+"Current: {currentScanlator}\n"
+"Next: {nextScanlator}"
+msgstr ""
+"Следующая глава от другого сканалятора, чем текущая.\n"
+"Текущая: {currentScanlator}\n"
+"Следующая: {nextScanlator}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The previous chapter has a different scanlator than the current one.\n"
+"Previous: {nextScanlator}\n"
+"Current: {currentScanlator}"
+msgstr ""
+"Предыдущая глава от другого сканалятора, чем текущая.\n"
+"Предыдущая: {nextScanlator}\n"
+"Текущая: {currentScanlator}"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "Сверху"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "Не удалось загрузить хранилища расширений"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "Не удалось загрузить источники"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Понятно"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Неизвестный источник"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "Отправка"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "Webtoon"
+
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "WebUI должен оставаться открытым. Миграцию нельзя будет возобновить"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "Еженедельно"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr ""
+"Если включено, ссылки на скачивание и потоковую передачу предоставляются "
+"прямо в списке глав. Стратегии KoSync применяются, но конфликты PROMPT "
+"игнорируются (локальный прогресс считается приоритетным)"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Вы собираетесь удалить категорию «{0}»"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "Вы собираетесь удалить «{name}» из хранилищ расширений"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr "Чтобы устанавливать расширения, нужно добавить хранилище расширений"
