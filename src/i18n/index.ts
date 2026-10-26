@@ -30,7 +30,6 @@ export const i18nResources = [
     'hu',
     'id',
     'ko',
-    'pl',
     'pt',
     'ru',
     'vi',
