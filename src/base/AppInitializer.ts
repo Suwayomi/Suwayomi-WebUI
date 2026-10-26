@@ -65,8 +65,6 @@ export class AppInitializer {
         await AppInitializer.executeActions([
             ['globalMeta', () => requestManager.getGlobalMeta().response],
             ['serverSettings', () => requestManager.getServerSettings().response],
-            // Load the full download status once on startup to fill the cache
-            ['downloadStatus', () => requestManager.getDownloadStatus().response],
         ]);
     }
 
@@ -93,6 +91,8 @@ export class AppInitializer {
 
     private static async fetchBackgroundData(): Promise<void> {
         await AppInitializer.executeActions([
+            // Load the full download status once on startup to fill the cache
+            ['downloadStatus', () => requestManager.getDownloadStatus().response],
             // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
             // without having to open the extensions page.
             ['fetchExtensionList', () => requestManager.getExtensionListFetch().response],
