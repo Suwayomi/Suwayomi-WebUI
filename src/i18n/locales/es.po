@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.820Z\n"
-"PO-Revision-Date: 2026-07-18 14:37+0000\n"
-"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-10-14 16:51+0000\n"
+"Last-Translator: Clara Bujeda <cbujeda@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/es/>\n"
 "Language: es\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3954,3 +3954,17 @@ msgstr "Permitir el WebView a través de CEF (Chromium)"
 #: src/features/migration/MigrationManager.ts
 msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
 msgstr "Entrada \"{0} ({1}; {sourceTitle} ({2})\" en estado inválido \"{3}\""
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Default (Suwayomi)"
+msgstr "Por Defecto"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Información de debug"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "An entry can not be in the Default category and other categories at the same time"
+msgstr ""
+"Una entrada no puede pertenecer a la categoría por defecto y a otras "
+"categorías al mismo tiempo."

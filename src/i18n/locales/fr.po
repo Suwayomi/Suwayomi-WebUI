@@ -3,8 +3,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-09-29 05:51+0000\n"
-"Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
+"PO-Revision-Date: 2026-10-26 21:51+0000\n"
+"Last-Translator: Damien O'Neil <maxiburning@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
 "Language: fr\n"
@@ -12,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3742,11 +3743,6 @@ msgstr "Correspondance trouvée"
 msgid "Matches"
 msgstr "Correspondances"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
-msgid "Migrate \"{0}\""
-msgstr "Migrer \"{0}\""
-
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"
 msgstr "Migration"
@@ -4617,3 +4613,72 @@ msgstr ""
 "Le chapitre précédent a été traduit par un groupe différent de l'actuel.\n"
 "Précédent : {nextScanlator}\n"
 "Actuel : {currentScanlator}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "et"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "ou"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "An entry can not be in the Default category and other categories at the same time"
+msgstr ""
+"Une entrée ne peut pas être à la fois dans la catégorie par défaut et dans "
+"d'autres catégories"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Default (Suwayomi)"
+msgstr "Par défaut (Suwayomi)"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {# new chapter} other {# new chapters}}"
+msgstr "{count, plural, one {# nouveau chapitre} other {# nouveaux chapitres}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
+msgstr ""
+"{count, plural, one {#+ nouveau chapitre} other {#+ nouveaux chapitres}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{entryCount, plural, one {in # entry} other {in # entries}}"
+msgstr "{entryCount, plural, one {dans # entrée} other {dans # entrées}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Connection"
+msgstr "Connexion"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari max pool size"
+msgstr "Taille maximale du pool Hikari"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters"
+msgstr "M'informer des nouveaux chapitres"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters of library entries"
+msgstr "M'informer des nouveaux chapitres des entrées de la bibliothèque"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use, notification permission have not been granted"
+msgstr ""
+"Uniquement lorsque Suwayomi est en cours d'utilisation, l'autorisation de "
+"notification n'a pas été accordée"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use. <0>Allow browser notifications</0>"
+msgstr ""
+"Uniquement lorsque Suwayomi est en cours d'utilisation. <0>Autoriser les "
+"notifications du navigateur</0>"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Schema"
+msgstr "Schéma"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "The maximum number of actual connections to the database; see <0>HikariCP: About-Pool-Sizing</0>"
+msgstr ""
+"Le nombre maximum de connexions réelles à la base de données ; voir <0>"
+"HikariCP : About-Pool-Sizing</0>"
