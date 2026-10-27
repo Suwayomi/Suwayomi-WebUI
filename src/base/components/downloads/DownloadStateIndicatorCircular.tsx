@@ -20,6 +20,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 
 const DOWNLOAD_STATE_TO_TRANSLATION_MAP: { [state in DownloadState]: MessageDescriptor } = {
     DOWNLOADING: msg`Downloading`,
@@ -77,7 +78,31 @@ export const DownloadStateIndicatorCircular = ({
                 <Typography
                     variant="caption"
                     component="div"
-                    sx={{ color, position: 'absolute', opacity: Number(!hovered) }}
+                    sx={{
+                        color: download.state === DownloadState.Error ? 'error.main' : color,
+                        position: 'absolute',
+                        opacity: Number(!hovered),
+                        ...(download.state === DownloadState.Error
+                            ? {
+                                  cursor: 'pointer',
+                                  textDecoration: 'underline',
+                                  textUnderlineOffset: '2px',
+                              }
+                            : {}),
+                    }}
+                    onClick={
+                        download.state === DownloadState.Error
+                            ? (e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  makeToast(
+                                      t`Download error`,
+                                      'error',
+                                      download.errorMessage ?? t`No error details available`,
+                                  );
+                              }
+                            : undefined
+                    }
                 >
                     <>
                         {isDownloading && progress}
