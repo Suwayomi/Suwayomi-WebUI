@@ -136,7 +136,7 @@ export class AppInitializer {
             return;
         }
 
-        const inFlightActions = actions.map(([key, fn]) => [key, fn()] satisfies InFlightAction);
+        const inFlightActions = actions.map(([key, fn]) => [key, Promise.resolve().then(fn)] satisfies InFlightAction);
 
         const actionWithSuccessState = await Promise.all(
             inFlightActions.map(async ([key, inFlightAction]) => {
