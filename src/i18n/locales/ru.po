@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.916Z\n"
-"PO-Revision-Date: 2026-10-26 21:51+0000\n"
+"PO-Revision-Date: 2026-10-28 10:51+0000\n"
 "Last-Translator: Andrei Stepanov <adem@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/ru/>\n"
@@ -4675,3 +4675,11 @@ msgstr "Вы собираетесь удалить «{name}» из хранил�
 #: src/features/browse/extensions/Extensions.tsx
 msgid "You have to add a extension store to be able to install extensions"
 msgstr "Чтобы устанавливать расширения, нужно добавить хранилище расширений"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Страница: {page}"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}/{pageCount}"
+msgstr "Страница: {page}/{pageCount}"
