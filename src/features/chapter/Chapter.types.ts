@@ -52,7 +52,7 @@ export type ChapterBookmarkInfo = Pick<ChapterType, 'isBookmarked'>;
 
 export type ChapterReadInfo = Pick<ChapterType, 'isRead'>;
 
-export type ChapterReadProgressInfo = Pick<ChapterType, 'lastPageRead' | 'pageCount'>;
+export type ChapterReadProgressInfo = ChapterReadInfo & Pick<ChapterType, 'lastPageRead' | 'pageCount'>;
 
 export type ChapterNumberInfo = Pick<ChapterType, 'chapterNumber'>;
 

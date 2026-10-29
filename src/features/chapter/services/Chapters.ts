@@ -21,7 +21,7 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { coerceIn, getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/download/DownloadFragments.ts';
 import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 import {
@@ -35,6 +35,7 @@ import type {
     ChapterIdInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
+    ChapterReadProgressInfo,
     ChapterScanlatorInfo,
 } from '@/features/chapter/Chapter.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
@@ -155,6 +156,14 @@ export class Chapters {
 
     static getNonBookmarked<Chapter extends ChapterBookmarkInfo>(chapters: Chapter[]): Chapter[] {
         return chapters.filter((chapter) => !Chapters.isBookmarked(chapter));
+    }
+
+    static isPartiallyRead<Chapter extends ChapterReadProgressInfo>(chapter: Chapter): boolean {
+        return !Chapters.isRead(chapter) && chapter.lastPageRead > 0;
+    }
+
+    static getPartiallyRead<Chapter extends ChapterReadProgressInfo>(chapters: Chapter[]): Chapter[] {
+        return chapters.filter(Chapters.isPartiallyRead);
     }
 
     static isRead({ isRead }: ChapterReadInfo): boolean {
@@ -496,5 +505,16 @@ export class Chapters {
                 chapters.map((chapter) => chapter.scanlator).filter((scanlator) => typeof scanlator === 'string'),
             ),
         ];
+    }
+
+    static getProgressString<Chapter extends ChapterReadProgressInfo>(chapter: Chapter): string {
+        if (!Chapters.isPartiallyRead(chapter)) {
+            return '';
+        }
+
+        const page = coerceIn(chapter.lastPageRead, 0, chapter.pageCount > 0 ? chapter.pageCount - 1 : undefined) + 1;
+        const readProgress = chapter.pageCount > 0 ? t`Page: ${page}/${chapter.pageCount}` : t`Page: ${page}`;
+
+        return readProgress;
     }
 }

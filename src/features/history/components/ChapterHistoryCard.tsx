@@ -72,7 +72,11 @@ export const ChapterHistoryCard = memo(
                                 <ChapterCardMetadata
                                     title={manga.title}
                                     secondaryText={chapter.scanlator}
-                                    ternaryText={`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}`}
+                                    ternaryText={`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}${
+                                        Chapters.isPartiallyRead(chapter)
+                                            ? ` — ${Chapters.getProgressString(chapter)}`
+                                            : ''
+                                    }`}
                                 />
                                 {isGroup && (
                                     <ChapterCardExpandButton

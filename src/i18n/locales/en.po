@@ -2995,13 +2995,14 @@ msgstr "Page"
 msgid "Page gap"
 msgstr "Page gap"
 
-#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/chapter/services/Chapters.ts
 msgid "Page: {page}"
 msgstr "Page: {page}"
 
-#: src/features/chapter/components/cards/ChapterCard.tsx
-msgid "Page: {page}/{pageCount}"
-msgstr "Page: {page}/{pageCount}"
+#. placeholder {0}: chapter.pageCount
+#: src/features/chapter/services/Chapters.ts
+msgid "Page: {page}/{0}"
+msgstr "Page: {page}/{0}"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
