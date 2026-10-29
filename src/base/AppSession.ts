@@ -25,6 +25,10 @@ class AppSessionClass {
     isSecureContext(): boolean {
         return window.isSecureContext;
     }
+
+    isActivelyUsed(): boolean {
+        return document.visibilityState === 'visible' && document.hasFocus();
+    }
 }
 
 export const AppSession = new AppSessionClass();

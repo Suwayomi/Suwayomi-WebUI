@@ -28,7 +28,6 @@ import {
     getMetadataServerSettings,
     updateMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -36,6 +35,7 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const LOCK_NAME = 'library-update-notifier';
 
@@ -66,9 +66,6 @@ type UpdatesSearch = {
     page: number;
     after?: string;
 };
-
-const notify = (title: string, options: Parameters<typeof DeviceNotifications.show>[1]) =>
-    DeviceNotifications.show(title, options).catch(defaultPromiseErrorHandler('LibraryUpdateNotifier::notify'));
 
 export class LibraryUpdateNotifier {
     private static updateStatusSubscription: { unsubscribe: () => void } | undefined;
@@ -291,13 +288,13 @@ export class LibraryUpdateNotifier {
             const count = chapters.length;
             const entryCount = mangaIds.length;
 
-            notify(
+            Notifications.info(
                 isTruncated
                     ? plural(count, { one: '#+ new chapter', other: '#+ new chapters' })
                     : plural(count, { one: '# new chapter', other: '# new chapters' }),
+                isTruncated ? undefined : plural(entryCount, { one: 'in # entry', other: 'in # entries' }),
                 {
-                    body: isTruncated ? undefined : plural(entryCount, { one: 'in # entry', other: 'in # entries' }),
-                    tag: 'new-chapters',
+                    id: 'new-chapters',
                     onClick: () => ReactRouter.navigate(AppRoutes.updates.path),
                 },
             );
@@ -314,12 +311,13 @@ export class LibraryUpdateNotifier {
             const [{ manga }] = mangaChapters;
             const count = mangaChapters.length;
 
-            notify(manga.title, {
-                body: plural(count, { one: '# new chapter', other: '# new chapters' }),
-                icon: canShowIcon && manga.thumbnailUrl ? Mangas.getThumbnailUrl(manga) : undefined,
+            Notifications.info(manga.title, plural(count, { one: '# new chapter', other: '# new chapters' }), {
                 // replaces a previous notification of the same entry instead of stacking them up
-                tag: `new-chapters-${mangaId}`,
+                id: `new-chapters-${mangaId}`,
                 onClick: () => ReactRouter.navigate(AppRoutes.manga.path(mangaId)),
+                device: {
+                    icon: canShowIcon && manga.thumbnailUrl ? Mangas.getThumbnailUrl(manga) : undefined,
+                },
             });
         });
     }

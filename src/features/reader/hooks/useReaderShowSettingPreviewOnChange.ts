@@ -44,7 +44,7 @@ export const useReaderShowSettingPreviewOnChange = (
         const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
         if (showReadingModePreview) {
             Notifications.info(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as MessageDescriptor), {
-                autoHideDuration: HIDE_PREVIEW_TIMEOUT,
+                app: { autoHideDuration: HIDE_PREVIEW_TIMEOUT },
             });
         }
         previousReadingMode.current = readingMode;

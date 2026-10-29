@@ -6,8 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Notifications } from '@/base/Notifications.ts';
-
 /**
  * The notification API is not available in every browser, e.g. Safari on iOS does not provide it,
  * and browsers only expose it in a secure context (https or localhost)
@@ -53,11 +51,6 @@ export class DeviceNotifications {
 
     /** Shows a toast while the app is in use, and a notification of the browser otherwise */
     static async show(title: string, { onClick, ...options }: NotificationOptions & { onClick?: () => void } = {}) {
-        if (document.visibilityState === 'visible' && document.hasFocus()) {
-            Notifications.info(title, options.body);
-            return;
-        }
-
         const api = getApi();
 
         if (api?.permission !== 'granted') {
