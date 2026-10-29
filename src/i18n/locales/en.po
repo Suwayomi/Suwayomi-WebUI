@@ -147,11 +147,11 @@ msgstr "{availableUpdates, plural, one {# update available} other {# updates ava
 msgid "{categoryCount, plural, one {# category} other {# categories}}"
 msgstr "{categoryCount, plural, one {# category} other {# categories}}"
 
-#: src/features/notifications/services/LibraryUpdateNotifier.ts
+#: src/features/updates/LibraryUpdateNotifier.ts
 msgid "{count, plural, one {# new chapter} other {# new chapters}}"
 msgstr "{count, plural, one {# new chapter} other {# new chapters}}"
 
-#: src/features/notifications/services/LibraryUpdateNotifier.ts
+#: src/features/updates/LibraryUpdateNotifier.ts
 msgid "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
 msgstr "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
 
@@ -317,7 +317,7 @@ msgstr "{currentAutoUpdateIntervalHours}h"
 msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 
-#: src/features/notifications/services/LibraryUpdateNotifier.ts
+#: src/features/updates/LibraryUpdateNotifier.ts
 msgid "{entryCount, plural, one {in # entry} other {in # entries}}"
 msgstr "{entryCount, plural, one {in # entry} other {in # entries}}"
 

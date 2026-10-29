@@ -13,7 +13,7 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LibraryUpdateNotifier } from '@/features/notifications/services/LibraryUpdateNotifier.ts';
+import { LibraryUpdateNotifier } from '@/features/updates/LibraryUpdateNotifier.ts';
 
 type ActionConfig = [Key: string, Setup: () => Promise<unknown> | unknown][];
 type InFlightAction = [Key: string, InFlightSetup: Promise<unknown> | unknown];
