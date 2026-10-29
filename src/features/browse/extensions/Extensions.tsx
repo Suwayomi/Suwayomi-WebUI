@@ -21,7 +21,6 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { LanguageSelect } from '@/base/components/inputs/LanguageSelect.tsx';
 import { ExtensionCard } from '@/features/browse/extensions/components/ExtensionCard.tsx';
 import { StyledGroupedVirtuoso } from '@/base/components/virtuoso/StyledGroupedVirtuoso.tsx';
@@ -31,10 +30,10 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import {
-    groupExtensionsByLanguage,
-    getLanguagesFromExtensions,
-    translateExtensionLanguage,
     filterExtensions,
+    getLanguagesFromExtensions,
+    groupExtensionsByLanguage,
+    translateExtensionLanguage,
 } from '@/features/extension/Extensions.utils.ts';
 import type { TExtension } from '@/features/extension/Extensions.types.ts';
 import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/features/extension/Extensions.types.ts';
@@ -50,6 +49,7 @@ import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { i18n } from '@/i18n';
+import { Notifications } from '@/base/Notifications.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -93,13 +93,12 @@ const GroupHeader = ({
                             .updateExtensions(groupExtensionIds, { update: true })
                             .response.then(() => handleExtensionUpdate())
                             .catch((e) =>
-                                makeToast(
+                                Notifications.error(
                                     /* lingui-extract-ignore */
                                     i18n.t({
                                         ...EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP[ExtensionAction.UPDATE],
                                         values: { count: groupExtensionIds.length },
                                     }),
-                                    'error',
                                     getErrorMessage(e),
                                 ),
                             )
@@ -125,7 +124,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataBrowseSettings, 'browseLanguages'>
-    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+    >((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
 
@@ -183,18 +182,18 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     const submitExternalExtension = (file: File) => {
         if (!file.name.toLowerCase().match(/\.(apk|jar)$/g)) {
-            makeToast(t`Invalid filetype`, 'error');
+            Notifications.error(t`Invalid filetype`);
             return;
         }
 
-        makeToast(t`Installing extension file…`, 'info');
+        Notifications.info(t`Installing extension file…`);
         requestManager
             .installExternalExtension(file)
             .response.then(() => {
                 handleExtensionUpdate();
-                makeToast(t`Extension installed`, 'success');
+                Notifications.success(t`Extension installed`);
             })
-            .catch((e) => makeToast(t`Could not install the extension`, 'error', getErrorMessage(e)));
+            .catch((e) => Notifications.error(t`Could not install the extension`, getErrorMessage(e)));
     };
 
     useEffect(() => {

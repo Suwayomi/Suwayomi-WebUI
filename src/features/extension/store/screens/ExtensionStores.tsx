@@ -25,7 +25,6 @@ import { plural } from '@lingui/core/macro';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { DiscordIcon } from '@/assets/icons/svg/DiscordIcon.tsx';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import Box from '@mui/material/Box';
@@ -37,6 +36,7 @@ import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDi
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
+import { Notifications } from '@/base/Notifications.ts';
 
 const ExtensionStoreCard = ({
     indexUrl,
@@ -158,9 +158,8 @@ const ExtensionStoreCard = ({
                                                 ),
                                             );
                                         } catch (e) {
-                                            makeToast(
+                                            Notifications.error(
                                                 t`Could not remove extension store "${name}"`,
-                                                'error',
                                                 getErrorMessage(e),
                                             );
                                         }
@@ -272,7 +271,7 @@ export const ExtensionStores = () => {
 
                                 addStoreDialog.submit();
                             } catch (e) {
-                                makeToast(t`Could not add extension store`, 'error', getErrorMessage(e));
+                                Notifications.error(t`Could not add extension store`, getErrorMessage(e));
 
                                 addStoreDialog.update({ processing: false });
                             }

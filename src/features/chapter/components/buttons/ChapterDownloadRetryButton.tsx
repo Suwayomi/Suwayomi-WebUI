@@ -13,10 +13,10 @@ import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const ChapterDownloadRetryButton = ({ chapterId }: { chapterId: ChapterIdInfo['id'] }) => {
     const { t } = useLingui();
@@ -26,7 +26,7 @@ export const ChapterDownloadRetryButton = ({ chapterId }: { chapterId: ChapterId
         try {
             await requestManager.addChapterToDownloadQueue(chapterId).response;
         } catch (e) {
-            makeToast(t`Could not retry failed download.`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not retry failed download.`, getErrorMessage(e));
         }
     };
 

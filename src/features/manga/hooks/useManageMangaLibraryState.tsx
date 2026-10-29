@@ -11,7 +11,6 @@ import gql from 'graphql-tag';
 import { AwaitableComponent } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Categories } from '@/features/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -23,6 +22,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import type { MangaIdInfo, MangaInLibraryInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const useManageMangaLibraryState = (
     manga: MangaIdInfo & MangaTitleInfo & Partial<MangaInLibraryInfo>,
@@ -43,10 +43,10 @@ export const useManageMangaLibraryState = (
                     updateManga: { inLibrary: true },
                     updateMangaCategories: { addToCategories, removeFromCategories },
                 })
-                .response.then(() => makeToast(t`Added manga to library!`, 'success'))
+                .response.then(() => Notifications.success(t`Added manga to library!`))
                 .then(() => setIsInLibrary(true))
                 .catch((e) => {
-                    makeToast(t`Could not add manga to library!`, 'error', getErrorMessage(e));
+                    Notifications.error(t`Could not add manga to library!`, getErrorMessage(e));
                 });
         },
         [manga.id],
@@ -85,7 +85,7 @@ export const useManageMangaLibraryState = (
             try {
                 ({ showAddToLibraryCategorySelectDialog } = await getMetadataServerSettings());
             } catch (e) {
-                makeToast(t`Unable to load data`, 'error', getErrorMessage(e));
+                Notifications.error(t`Unable to load data`, getErrorMessage(e));
                 return;
             }
 
@@ -100,7 +100,7 @@ export const useManageMangaLibraryState = (
                     GetCategoriesBaseQueryVariables
                 >(GET_CATEGORIES_BASE).response;
             } catch (e) {
-                makeToast(t`Could not load categories`, 'error', getErrorMessage(e));
+                Notifications.error(t`Could not load categories`, getErrorMessage(e));
                 return;
             }
             if (!categories.data) {

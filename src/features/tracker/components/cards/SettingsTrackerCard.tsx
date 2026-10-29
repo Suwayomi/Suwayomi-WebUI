@@ -12,13 +12,13 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import { useLingui } from '@lingui/react/macro';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import type { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useLingui();
@@ -29,7 +29,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         try {
             await requestManager.logoutFromTracker(tracker.id).response;
         } catch (e) {
-            makeToast(t`Could not log out from ${tracker.name}`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not log out from ${tracker.name}`, getErrorMessage(e));
         }
     };
 
@@ -49,7 +49,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         try {
             await requestManager.loginTrackerCredentials(tracker.id, username, password).response;
         } catch (e) {
-            makeToast(t`Could not log in to ${tracker.name}`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not log in to ${tracker.name}`, getErrorMessage(e));
         }
     };
 
@@ -85,7 +85,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
 
                             controlled.submit();
                         } catch (e) {
-                            makeToast(t`Could not log out from ${tracker.name}`, 'error', getErrorMessage(e));
+                            Notifications.error(t`Could not log out from ${tracker.name}`, getErrorMessage(e));
                         }
 
                         return;
@@ -96,7 +96,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
 
                         controlled.submit();
                     } catch (e) {
-                        makeToast(t`Could not log in to ${tracker.name}`, 'error', getErrorMessage(e));
+                        Notifications.error(t`Could not log in to ${tracker.name}`, getErrorMessage(e));
 
                         const RETRY_KEY = '__retry__';
                         const retry = await Promise.race([controlled.promise, Promise.resolve(RETRY_KEY)]);

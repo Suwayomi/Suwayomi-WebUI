@@ -17,8 +17,6 @@ import {
 } from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { ImageProcessingType } from '@/features/settings/Settings.types.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -35,6 +33,8 @@ import {
 import { Processing } from '@/features/settings/components/images/Processing.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { PartialSettingsType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) => {
     const { t } = useLingui();
@@ -60,7 +60,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
 
     const updateSetting = (value: PartialSettingsType[typeof settingKey]): Promise<any> => {
         const mutation = mutateSettings({ variables: { input: { settings: { [settingKey]: value } } } });
-        mutation.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+        mutation.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
         return mutation;
     };

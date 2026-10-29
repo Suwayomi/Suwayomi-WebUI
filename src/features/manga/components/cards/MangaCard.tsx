@@ -20,7 +20,6 @@ import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { t } from '@lingui/core/macro';
 import { useParams } from 'react-router-dom';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
@@ -33,6 +32,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { usePress } from '@/base/hooks/usePress.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const getMangaLinkTo = (mode: MangaCardMode, mangaId: number): string => {
     switch (mode) {
@@ -134,7 +134,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
                             mangaIdToMigrateTo: id,
                             isMigrating: false,
                             startMigration: async (options) => {
-                                makeToast(t`Migrating manga…`, 'info');
+                                Notifications.info(t`Migrating manga…`);
 
                                 optionsDialog.update({ isMigrating: true });
 
@@ -142,9 +142,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                     try {
                                         await MangaMigration.migrateByIdWithFetch(migrationSourceMangaId, id, options);
                                     } catch (e) {
-                                        makeToast(
+                                        Notifications.error(
                                             t(MANGA_ACTION_TO_TRANSLATION['migrate'].error),
-                                            'error',
                                             getErrorMessage(e),
                                         );
                                     }

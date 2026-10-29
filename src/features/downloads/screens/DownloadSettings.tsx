@@ -20,7 +20,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/features/category/components/CategoriesInclusionSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
@@ -38,6 +37,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -105,13 +105,13 @@ export const DownloadSettings = () => {
         value: DownloadSettingsType[Setting],
     ): Promise<any> => {
         const mutation = mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
-        mutation.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+        mutation.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
         return mutation;
     };
 
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     return (

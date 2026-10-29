@@ -12,10 +12,10 @@ import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { StartSyncResult, SyncState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { SYNC_START_RESULT_TRANSLATION, SYNC_STATE_TRANSLATION } from '@/features/settings/Settings.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export function SyncButton() {
     const { t } = useLingui();
@@ -35,13 +35,12 @@ export function SyncButton() {
             const response = await requestManager.startSync().response;
             const result = response.data?.startSync.result;
             if (result) {
-                makeToast(
-                    t(SYNC_START_RESULT_TRANSLATION[result]),
-                    result === StartSyncResult.Success ? 'success' : 'warning',
-                );
+                Notifications.show(t(SYNC_START_RESULT_TRANSLATION[result]), {
+                    variant: result === StartSyncResult.Success ? 'success' : 'warning',
+                });
             }
         } catch (e) {
-            makeToast(t`Could not start sync`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not start sync`, getErrorMessage(e));
         }
     };
 

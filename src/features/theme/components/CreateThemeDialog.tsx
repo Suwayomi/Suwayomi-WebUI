@@ -28,7 +28,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -37,6 +36,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { createAppColorTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { Notifications } from '@/base/Notifications.ts';
 
 type DialogMode = 'create' | 'edit' | 'save_dynamic';
 
@@ -249,12 +249,12 @@ export const ThemeCreationDialog = ({
                         <Button
                             disabled={invalidTheme || invalidName || isCreating || !didThemeChange || !theme.id.length}
                             onClick={() => {
-                                makeToast(t(dialogModeToTranslation[mode].action), 'info');
+                                Notifications.info(t(dialogModeToTranslation[mode].action));
 
                                 setIsCreating(true);
                                 updateCustomThemes('customThemes', { ...customThemes, [theme.id]: theme })
                                     .then(() => {
-                                        makeToast(t(dialogModeToTranslation[mode].success), 'success');
+                                        Notifications.success(t(dialogModeToTranslation[mode].success));
 
                                         if (setAsActiveTheme) {
                                             setAppTheme(theme.getName());
@@ -263,9 +263,8 @@ export const ThemeCreationDialog = ({
                                         onSubmit();
                                     })
                                     .catch((updateError) =>
-                                        makeToast(
+                                        Notifications.error(
                                             t(dialogModeToTranslation[mode].failure),
-                                            'error',
                                             getErrorMessage(updateError),
                                         ),
                                     )

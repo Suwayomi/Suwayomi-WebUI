@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -23,8 +23,6 @@ import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCo
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/features/category/services/Categories.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type {
@@ -39,6 +37,8 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import Box from '@mui/material/Box';
+import { Notifications } from '@/base/Notifications.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }>;
 
@@ -167,7 +167,7 @@ export function CategorySelect(props: CategorySelectProps) {
 
         if (doNotShowAddToLibraryDialogAgain) {
             updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch((e) =>
-                makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
+                Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
             );
         }
 

@@ -50,7 +50,6 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
@@ -64,6 +63,7 @@ import groupBy from 'lodash/fp/groupBy';
 import mapValues from 'lodash/fp/mapValues';
 import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { plural } from '@lingui/core/macro';
+import { Notifications } from '@/base/Notifications.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -343,7 +343,7 @@ export const SearchAll = ({
     );
 
     const updateMetadataSettings = createUpdateMetadataServerSettings<'shouldShowOnlySourcesWithResults'>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     useAppTitleAndAction(

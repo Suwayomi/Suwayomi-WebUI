@@ -20,14 +20,14 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import type { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 export const TrackingSettings = () => {
     const { t } = useLingui();
@@ -40,7 +40,7 @@ export const TrackingSettings = () => {
         request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
     } = useMetadataServerSettings();
     const updateTrackingSettings = createUpdateMetadataServerSettings<keyof MetadataTrackingSettings>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     const {

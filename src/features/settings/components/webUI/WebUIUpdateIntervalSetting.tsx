@@ -15,10 +15,10 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { WEB_UI_UPDATE_INTERVAL } from '@/features/settings/Settings.constants.ts';
+import type { ServerSettings } from '@/features/settings/Settings.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const WebUIUpdateIntervalSetting = ({
     disabled = false,
@@ -44,7 +44,7 @@ export const WebUIUpdateIntervalSetting = ({
                 webUIUpdateCheckInterval === 0 ? currentUpdateCheckInterval : webUIUpdateCheckInterval,
             );
             mutateSettings({ variables: { input: { settings: { webUIUpdateCheckInterval } } } }).catch((e) =>
-                makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+                Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
             );
         },
         [currentUpdateCheckInterval],

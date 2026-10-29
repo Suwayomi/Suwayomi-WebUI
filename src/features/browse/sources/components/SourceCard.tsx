@@ -26,11 +26,11 @@ import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { SourceContentType } from '@/features/source/Source.types.ts';
 import { isNsfw } from '@/features/extension/Extensions.utils.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -57,7 +57,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const sourceName = Sources.isLocalSource(source) ? t`Local source` : name;
 
     const updateSetting = createUpdateSourceMetadata(source, (e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     return (

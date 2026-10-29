@@ -9,7 +9,6 @@
 import type { DocumentNode, MaybeMasked, Unmasked } from '@apollo/client';
 import { useFragment } from '@apollo/client/react';
 import { t } from '@lingui/core/macro';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import type { ChapterListFieldsFragment, DownloadTypeFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
@@ -42,6 +41,7 @@ import { assertIsDefined } from '@/base/Asserts.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { i18n } from '@/i18n';
+import { Notifications } from '@/base/Notifications.ts';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
@@ -307,16 +307,15 @@ export class Chapters {
             }
 
             await fnToExecute();
-            makeToast(
+            Notifications.success(
                 /* lingui-extract-ignore */
                 i18n.t({ ...CHAPTER_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),
                 'success',
             );
         } catch (e) {
-            makeToast(
+            Notifications.error(
                 /* lingui-extract-ignore */
                 i18n.t({ ...CHAPTER_ACTION_TO_TRANSLATION[action].error, values: { count: itemCount } }),
-                'error',
                 getErrorMessage(e),
             );
             throw e;

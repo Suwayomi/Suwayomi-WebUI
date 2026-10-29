@@ -20,7 +20,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import type { CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const CategorySettingsCard = ({
@@ -41,7 +41,7 @@ export const CategorySettingsCard = ({
         try {
             await requestManager.deleteCategory(category.id).response;
         } catch (e) {
-            makeToast(t`Could not delete category`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not delete category`, getErrorMessage(e));
         }
     };
 

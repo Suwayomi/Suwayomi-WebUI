@@ -22,11 +22,11 @@ import {
 } from '@/features/extension/Extensions.constants.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { i18n } from '@/i18n';
 import { t } from '@lingui/core/macro';
 import { ContentWarning } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const isNsfw = (contentWarning: ContentWarning): boolean => contentWarning !== ContentWarning.Safe;
 
@@ -158,10 +158,9 @@ export const updateExtension = async (
                 throw new Error(`Unexpected ExtensionAction "${action}"`);
         }
     } catch (e) {
-        makeToast(
+        Notifications.error(
             /* lingui-extract-ignore */
             i18n.t({ ...EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP[action], values: { count: 1 } }),
-            'error',
             getErrorMessage(e),
         );
         throw e;

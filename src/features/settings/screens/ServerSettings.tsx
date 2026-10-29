@@ -26,7 +26,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -63,6 +62,7 @@ import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/bac
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { getDateString } from '@/base/utils/DateHelper.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
+import { Notifications } from '@/base/Notifications.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,
@@ -106,7 +106,7 @@ export const ServerSettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate' | 'serverInformVersionUpdated'>
-    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+    >((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
     const {
         data,
@@ -128,7 +128,7 @@ export const ServerSettings = () => {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
             onCompletion?.(true);
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
             onCompletion?.(false);
         }
     };
@@ -137,7 +137,7 @@ export const ServerSettings = () => {
             await mutateSettings({ variables: { input: { settings } } });
             onCompletion?.(true);
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
             onCompletion?.(false);
         }
     };
@@ -776,9 +776,9 @@ export const ServerSettings = () => {
                 <ListItemButton
                     onClick={() =>
                         clearWebViewCookiesCache[0]()
-                            .then(() => makeToast(t`Cleared WebView cookies and cache`, 'success'))
+                            .then(() => Notifications.success(t`Cleared WebView cookies and cache`))
                             .catch((e) =>
-                                makeToast(t`Could not clear WebView cookies and cache`, 'error', getErrorMessage(e)),
+                                Notifications.error(t`Could not clear WebView cookies and cache`, getErrorMessage(e)),
                             )
                     }
                     disabled={clearWebViewCookiesCache[1].loading}
@@ -801,12 +801,11 @@ export const ServerSettings = () => {
                             .response.then((response) => {
                                 const startResult = response.data?.startSync.result;
 
-                                makeToast(
-                                    t(SYNC_START_RESULT_TRANSLATION[startResult!]),
-                                    startResult === StartSyncResult.Success ? 'success' : 'error',
-                                );
+                                Notifications.show(t(SYNC_START_RESULT_TRANSLATION[startResult!]), {
+                                    variant: startResult === StartSyncResult.Success ? 'success' : 'error',
+                                });
                             })
-                            .catch((e) => makeToast(t`Could not start sync`, 'error', getErrorMessage(e)))
+                            .catch((e) => Notifications.error(t`Could not start sync`, getErrorMessage(e)))
                     }
                 >
                     <ListItemText

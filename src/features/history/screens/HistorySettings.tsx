@@ -18,10 +18,10 @@ import {
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { MetadataHistorySettings } from '@/features/history/History.types.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const HistorySettings = () => {
     const { t } = useLingui();
@@ -33,7 +33,7 @@ export const HistorySettings = () => {
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataHistorySettings>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     if (loading) {

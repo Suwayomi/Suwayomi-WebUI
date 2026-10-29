@@ -19,14 +19,14 @@ import type { WebUiUpdateStatus } from '@/lib/graphql/generated/graphql-base.typ
 import { UpdateState, WebUiChannel } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/server/InfoFragments.ts';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { AppSession } from '@/base/AppSession.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/server/InfoFragments.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -91,7 +91,7 @@ export const WebUIUpdateChecker = () => {
     useEffect(() => {
         const isError = webUIUpdateState === UpdateState.Error;
         if (isError) {
-            makeToast(t`Could not update WebUI`, 'error');
+            Notifications.error(t`Could not update WebUI`);
         }
 
         const updateFinished = webUIUpdateState === UpdateState.Finished;
@@ -144,7 +144,7 @@ export const WebUIUpdateChecker = () => {
                 onAction={() =>
                     requestManager
                         .updateWebUI()
-                        .response.catch((e) => makeToast(t`Could not update WebUI`, 'error', getErrorMessage(e)))
+                        .response.catch((e) => Notifications.error(t`Could not update WebUI`, getErrorMessage(e)))
                 }
                 actionTitle={isUpdateInProgress ? t`${updateStatus.progress}% | Updating…` : t`Update`}
                 updateCheckerProps={[

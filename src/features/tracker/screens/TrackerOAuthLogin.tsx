@@ -10,9 +10,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const TrackerOAuthLogin = () => {
     const { t } = useLingui();
@@ -28,7 +28,7 @@ export const TrackerOAuthLogin = () => {
             try {
                 await requestManager.loginToTrackerOauth(trackerId, window.location.href).response;
             } catch (e) {
-                makeToast(t`Could not log in to ${trackerName}`, 'error', getErrorMessage(e));
+                Notifications.error(t`Could not log in to ${trackerName}`, getErrorMessage(e));
             }
 
             navigate(AppRoutes.settings.children.tracking.path, { replace: true });

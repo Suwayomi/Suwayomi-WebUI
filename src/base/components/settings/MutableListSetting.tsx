@@ -14,7 +14,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState, type JSX } from 'react';
+import { type JSX, useEffect, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import List from '@mui/material/List';
@@ -27,7 +27,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { TextSettingProps } from '@/base/components/settings/text/TextSetting.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDialog.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const MutableListItem = ({
     handleDelete,
@@ -130,7 +130,7 @@ export const MutableListSetting = ({
         }
 
         if (!validateItem?.(newValue, dialogValues)) {
-            makeToast(invalidItemError ?? t`Invalid input`, 'error');
+            Notifications.error(invalidItemError ?? t`Invalid input`);
             return;
         }
 

@@ -18,8 +18,6 @@ import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { IncludeOrExclude } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
 import type {
@@ -29,6 +27,8 @@ import type {
     CategoryUpdateInclusionInfo,
 } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { IncludeOrExclude } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 type CategoryType = CategoryIdInfo & CategoryNameInfo & CategoryUpdateInclusionInfo & CategoryDownloadInclusionInfo;
 
@@ -141,7 +141,7 @@ export const CategoriesInclusionSetting = ({
             // TODO - update cache immediately
             // mutate(categoriesEndpoint, [...dialogCategories], { revalidate: false });
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
             // mutate(categoriesEndpoint, [...categories]);
         }
     };

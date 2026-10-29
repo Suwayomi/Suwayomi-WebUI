@@ -15,11 +15,11 @@ import { plural } from '@lingui/core/macro';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
 import type { MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
+import type { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const DownloadAheadSetting = ({
     downloadAheadLimit,
@@ -39,7 +39,7 @@ export const DownloadAheadSetting = ({
     const updateSetting = (value: MetadataDownloadSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
         updateMetadataServerSettings('downloadAheadLimit', value).catch((e) =>
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
         );
     };
 

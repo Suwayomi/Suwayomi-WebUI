@@ -28,7 +28,7 @@ import {
     getMetadataServerSettings,
     updateMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { Notifications } from '@/features/notifications/services/Notifications.ts';
+import { DeviceNotifications } from '@/features/notifications/services/DeviceNotifications.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -67,8 +67,8 @@ type UpdatesSearch = {
     after?: string;
 };
 
-const notify = (title: string, options: Parameters<typeof Notifications.show>[1]) =>
-    Notifications.show(title, options).catch(defaultPromiseErrorHandler('LibraryUpdateNotifier::notify'));
+const notify = (title: string, options: Parameters<typeof DeviceNotifications.show>[1]) =>
+    DeviceNotifications.show(title, options).catch(defaultPromiseErrorHandler('LibraryUpdateNotifier::notify'));
 
 export class LibraryUpdateNotifier {
     private static updateStatusSubscription: { unsubscribe: () => void } | undefined;

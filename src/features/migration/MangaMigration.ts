@@ -22,7 +22,7 @@ import type {
 } from '@/features/migration/Migration.types.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { t } from '@lingui/core/macro';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export class MangaMigration {
     static async migrate(
@@ -44,7 +44,7 @@ export class MangaMigration {
         }
 
         if (mangaToMigrate.id === mangaToMigrateTo.id) {
-            makeToast(t`Can't migrate an entry to itself`, 'error');
+            Notifications.error(t`Can't migrate an entry to itself`);
             return;
         }
 

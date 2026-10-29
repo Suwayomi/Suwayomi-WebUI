@@ -17,11 +17,6 @@ import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
 import { GlobalUpdateSettings } from '@/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import {
-    createUpdateMetadataServerSettings,
-    useMetadataServerSettings,
-} from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -40,8 +35,13 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { Notifications } from '@/features/notifications/services/Notifications.ts';
+import { DeviceNotifications } from '@/features/notifications/services/DeviceNotifications.ts';
 import { LibraryUpdateNotifier } from '@/features/notifications/services/LibraryUpdateNotifier.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -64,9 +64,9 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
                 clearCategories: true,
             }).response;
         }
-        makeToast(translate`Removed non library manga from categories`, 'success');
+        Notifications.success(translate`Removed non library manga from categories`);
     } catch (e) {
-        makeToast(translate`Could not remove non library manga from categories`, 'error', getErrorMessage(e));
+        Notifications.error(translate`Could not remove non library manga from categories`, getErrorMessage(e));
     }
 };
 
@@ -77,14 +77,14 @@ const setNotifyNewChapters = async (enable: boolean) => {
     }
 
     // without the permission, updates still get shown while Suwayomi is in use
-    await Notifications.requestPermission();
+    await DeviceNotifications.requestPermission();
     await LibraryUpdateNotifier.enable();
 };
 
 export function LibrarySettings() {
     const { t } = useLingui();
 
-    const [notificationPermission, setNotificationPermission] = useState(Notifications.getPermission());
+    const [notificationPermission, setNotificationPermission] = useState(DeviceNotifications.getPermission());
 
     useAppTitle(t`Library`);
 
@@ -99,7 +99,7 @@ export function LibrarySettings() {
     } = useMetadataServerSettings();
 
     const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
-        makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
     );
 
     // -1 for the DEFAULT category
@@ -222,8 +222,8 @@ export function LibrarySettings() {
                                         <Link
                                             component="button"
                                             onClick={() =>
-                                                Notifications.requestPermission().then(() =>
-                                                    setNotificationPermission(Notifications.getPermission()),
+                                                DeviceNotifications.requestPermission().then(() =>
+                                                    setNotificationPermission(DeviceNotifications.getPermission()),
                                                 )
                                             }
                                         >
@@ -241,9 +241,9 @@ export function LibrarySettings() {
                         checked={settings.notifyNewChapters}
                         onChange={(e) =>
                             setNotifyNewChapters(e.target.checked)
-                                .then(() => setNotificationPermission(Notifications.getPermission()))
+                                .then(() => setNotificationPermission(DeviceNotifications.getPermission()))
                                 .catch((saveError) =>
-                                    makeToast(t`Failed to save changes`, 'error', getErrorMessage(saveError)),
+                                    Notifications.error(t`Failed to save changes`, getErrorMessage(saveError)),
                                 )
                         }
                     />

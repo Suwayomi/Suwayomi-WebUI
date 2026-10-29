@@ -15,7 +15,6 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { MutableListSetting } from '@/base/components/settings/MutableListSetting.tsx';
 import { useDeviceContext } from '@/features/device/DeviceContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
@@ -26,6 +25,7 @@ import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import type { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const DeviceSetting = () => {
     const { t } = useLingui();
@@ -55,7 +55,7 @@ export const DeviceSetting = () => {
         }
 
         updateMetadataServerSettings(setting, value).catch((e) =>
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
         );
     };
 

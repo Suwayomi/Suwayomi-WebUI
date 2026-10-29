@@ -35,7 +35,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MigrationEntryThumbnail } from '@/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const EntryStatus = ({
     sourceMangaId,
@@ -137,7 +137,7 @@ const EntryError = ({
                     startIcon={<ReplayIcon />}
                     onClick={() =>
                         MigrationManager.retryEntry(id).catch((e) =>
-                            makeToast(t`Could not retry "${title}"`, 'error', getErrorMessage(e)),
+                            Notifications.error(t`Could not retry "${title}"`, getErrorMessage(e)),
                         )
                     }
                 >

@@ -19,8 +19,8 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,
@@ -49,14 +49,14 @@ export const CreateOrEditCategoryDialog = ({
         if (isEditMode) {
             requestManager
                 .updateCategory(category.id, { name: newName, default: dialogDefault })
-                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+                .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
             return;
         }
 
         requestManager
             .createCategory({ name: newName, default: dialogDefault })
-            .response.catch((e) => makeToast(t`Could not create category`, 'error', getErrorMessage(e)));
+            .response.catch((e) => Notifications.error(t`Could not create category`, getErrorMessage(e)));
     };
 
     return (

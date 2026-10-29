@@ -22,8 +22,6 @@ import {
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import type { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -33,6 +31,8 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath'>;
 
@@ -52,7 +52,7 @@ export const BrowseSettings = () => {
         value: ExtensionsSettings[Setting],
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
         );
     };
 
@@ -60,7 +60,7 @@ export const BrowseSettings = () => {
         settings: { hideLibraryEntries, showNsfw },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     if (loading) {

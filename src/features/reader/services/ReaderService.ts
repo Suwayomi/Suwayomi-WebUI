@@ -23,8 +23,6 @@ import type { IReaderSettings, RouteStateReader } from '@/features/reader/Reader
 import { ReaderExitMode, ReaderOverlayMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { READER_REGEX, useBackButton } from '@/base/hooks/useBackButton.ts';
 import {
     DEFAULT_READER_SETTINGS,
@@ -69,6 +67,8 @@ import type {
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { getReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -443,7 +443,7 @@ export class ReaderService {
                 delete: keysToDelete as AppMetadataKeys[],
                 keyPrefixes: profile !== undefined ? [profile.toString()] : undefined,
             }).catch((e) => {
-                makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e));
+                Notifications.error(t`Could not save the reader settings to the server`, getErrorMessage(e));
             });
         }
     }
@@ -474,7 +474,7 @@ export class ReaderService {
         getMetadataUpdateFunction(metaHolderType, { id: manga.id, meta: convertFromGqlMeta(updatedMetadata) })({
             delete: [setting],
             keyPrefixes: profile !== undefined ? [`${profile}`] : undefined,
-        }).catch((e) => makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)));
+        }).catch((e) => Notifications.error(t`Could not save the reader settings to the server`, getErrorMessage(e)));
     }
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {

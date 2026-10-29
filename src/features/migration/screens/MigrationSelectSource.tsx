@@ -25,10 +25,10 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { Notifications } from '@/base/Notifications.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const MigrationSelectSource = () => {
     const { t } = useLingui();
@@ -37,7 +37,7 @@ export const MigrationSelectSource = () => {
         settings: { migrateSortSettings },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<'migrateSortSettings'>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     const { sortBy, sortOrder } = migrateSortSettings;

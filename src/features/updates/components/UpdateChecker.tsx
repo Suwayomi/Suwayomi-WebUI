@@ -17,7 +17,6 @@ import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { CircularProgressWithText } from '@/base/components/feedback/CircularProgressWithText.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
@@ -25,6 +24,7 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 let lastRunningState = false;
 
@@ -75,7 +75,7 @@ export function UpdateChecker({
             reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
             lastRunningState = false;
-            makeToast(t`Could not check for updates`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not check for updates`, getErrorMessage(e));
         }
     };
 
@@ -83,7 +83,7 @@ export function UpdateChecker({
         try {
             await requestManager.resetGlobalUpdate();
         } catch (e) {
-            makeToast(t`Could not stop global update`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not stop global update`, getErrorMessage(e));
         }
     };
 

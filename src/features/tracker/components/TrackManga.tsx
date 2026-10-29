@@ -15,8 +15,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/features/tracker/components/cards/TrackerCard.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { GetMangaTrackRecordsQuery, GetTrackersBindQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_BIND } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/manga/MangaQuery.ts';
@@ -25,6 +23,8 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -80,7 +80,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & MangaTitleInfo }) =
             mangaTrackRecords
                 .filter((trackRecord) => trackersInUseIds.includes(trackRecord.trackerId))
                 .map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
-        ).catch((e) => makeToast(t`Could not load latest track info from tracker`, 'error', getErrorMessage(e)));
+        ).catch((e) => Notifications.error(t`Could not load latest track info from tracker`, getErrorMessage(e)));
     }, [mangaTrackRecords]);
 
     const trackerComponents = useMemo(

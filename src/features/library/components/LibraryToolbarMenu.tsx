@@ -15,12 +15,12 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const LibraryToolbarMenu = ({
     category,
@@ -64,7 +64,7 @@ export const LibraryToolbarMenu = ({
 
                             ReactRouter.navigate(AppRoutes.manga.path(randomManga.id));
                         } catch (e) {
-                            makeToast(t`Could not open random entry`, 'error', getErrorMessage(e));
+                            Notifications.error(t`Could not open random entry`, getErrorMessage(e));
                         }
                     }}
                     color="inherit"

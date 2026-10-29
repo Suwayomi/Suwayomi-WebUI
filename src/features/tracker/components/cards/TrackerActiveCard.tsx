@@ -34,7 +34,6 @@ import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { ListPreference } from '@/features/source/configuration/components/ListPreference.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/base/components/settings/DateSetting.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { CARD_STYLING, UNSET_DATE } from '@/features/tracker/Tracker.constants.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
@@ -45,6 +44,7 @@ import type { TrackRecordType } from '@/lib/graphql/generated/graphql-base.types
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
+import { Notifications } from '@/base/Notifications.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -72,8 +72,8 @@ const TrackerActiveRemoveBind = ({
         onClose();
         requestManager
             .unbindTracker(trackerRecordId, removeRemoteTracking)
-            .response.then(() => makeToast(t`Untracked manga`, 'success'))
-            .catch((e) => makeToast(t`Could not untrack manga`, 'error', getErrorMessage(e)));
+            .response.then(() => Notifications.success(t`Untracked manga`))
+            .catch((e) => Notifications.error(t`Could not untrack manga`, getErrorMessage(e)));
     };
 
     return (
@@ -159,7 +159,7 @@ const TrackerUpdatePrivateStatus = ({
             onClick={() => {
                 requestManager
                     .updateTrackerBind(trackRecordId, { private: !isPrivate })
-                    .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+                    .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
                 closeMenu();
             }}
         >
@@ -299,7 +299,7 @@ export const TrackerActiveCard = ({
     const updateTrackerBind = (patch: Parameters<typeof requestManager.updateTrackerBind>[1]) => {
         requestManager
             .updateTrackerBind(trackRecord.id, patch)
-            .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+            .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
     };
 
     return (

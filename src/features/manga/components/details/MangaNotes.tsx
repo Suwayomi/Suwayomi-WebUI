@@ -15,7 +15,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
-import { makeToast } from '@/base/utils/Toast.ts';
 import type { MangaIdInfo, MangaMetaInfo } from '@/features/manga/Manga.types.ts';
 import { updateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -40,6 +39,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
 import Typography from '@mui/material/Typography';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
@@ -64,10 +64,10 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
 
         void updateMangaMetadata(manga, 'notes', nextNotes)
             .then(() => {
-                makeToast(t`Notes saved`, 'success');
+                Notifications.success(t`Notes saved`);
                 setIsOpen(false);
             })
-            .catch((error) => makeToast(t`Could not save notes`, 'error', getErrorMessage(error)));
+            .catch((error) => Notifications.error(t`Could not save notes`, getErrorMessage(error)));
     };
 
     return (

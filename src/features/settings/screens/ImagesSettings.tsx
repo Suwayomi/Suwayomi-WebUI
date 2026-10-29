@@ -16,7 +16,7 @@ import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
+import { Notifications } from '@/base/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ImagesSettings = () => {
@@ -32,9 +32,9 @@ export const ImagesSettings = () => {
                 triggerClearServerCache({ variables: { input: { cachedPages: true, cachedThumbnails: true } } }),
                 ImageCache.clearAll(),
             ]);
-            makeToast(t`Cleared the cache`, 'success');
+            Notifications.success(t`Cleared the cache`);
         } catch (e) {
-            makeToast(t`Could not clear the cache`, 'error', getErrorMessage(e));
+            Notifications.error(t`Could not clear the cache`, getErrorMessage(e));
         }
     };
 

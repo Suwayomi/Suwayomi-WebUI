@@ -13,8 +13,8 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import {
-    SwitchPreferenceCompat,
     CheckBoxPreference,
+    SwitchPreferenceCompat,
 } from '@/features/source/configuration/components/TwoStatePreference.tsx';
 import { ListPreference } from '@/features/source/configuration/components/ListPreference.tsx';
 import { EditTextPreference } from '@/features/source/configuration/components/EditTextPreference.tsx';
@@ -24,11 +24,11 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/source/SourceQuery.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { PreferenceProps } from '@/features/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { PreferenceProps } from '@/features/source/Source.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -64,7 +64,7 @@ export function SourceConfigure() {
         (type, value) => {
             requestManager
                 .setSourcePreferences(sourceId, { position, [type]: value })
-                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+                .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
         };
 
     if (loading) {

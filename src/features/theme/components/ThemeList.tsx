@@ -14,7 +14,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -22,6 +21,7 @@ import { CreateThemeButton } from '@/features/theme/components/CreateThemeButton
 import { ThemePreview } from '@/features/theme/components/ThemePreview.tsx';
 import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const ThemeList = () => {
     const { t } = useLingui();
@@ -70,14 +70,14 @@ export const ThemeList = () => {
                     key={theme.id}
                     appTheme={theme}
                     onDelete={() => {
-                        makeToast(t`Deleting theme "${theme.getName()}"…`, 'info');
+                        Notifications.info(t`Deleting theme "${theme.getName()}"…`);
                         updateCustomThemes(
                             'customThemes',
                             Object.fromEntries(Object.entries(customThemes).filter(([id]) => id !== theme.id)),
                         )
-                            .then(() => makeToast(t`Deleted theme "${theme.getName()}"`, 'success'))
+                            .then(() => Notifications.success(t`Deleted theme "${theme.getName()}"`))
                             .catch((e) =>
-                                makeToast(t`Could not delete theme "${theme.getName()}"`, 'error', getErrorMessage(e)),
+                                Notifications.error(t`Could not delete theme "${theme.getName()}"`, getErrorMessage(e)),
                             );
                     }}
                 />

@@ -24,10 +24,10 @@ import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import type { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
@@ -95,10 +95,10 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                 return;
                             }
 
-                            makeToast(t`Loading theme fonts…`, 'info');
+                            Notifications.info(t`Loading theme fonts…`);
                             ThemeFontLoader.load(appTheme.muiTheme)
                                 .then(() => setAppTheme(appTheme.id))
-                                .catch((e) => makeToast(t`Could not load theme fonts`, 'error', getErrorMessage(e)));
+                                .catch((e) => Notifications.error(t`Could not load theme fonts`, getErrorMessage(e)));
                         }}
                     >
                         <Stack sx={{ height: '100%', m: 0 }}>

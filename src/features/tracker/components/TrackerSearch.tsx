@@ -26,9 +26,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { SearchTextField } from '@/base/components/inputs/SearchTextField.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMangaCard.tsx';
-import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { MangaIdInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
@@ -40,6 +37,9 @@ import { Tracker } from '@/features/tracker/Tracker.types.ts';
 import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
+import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
+import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMangaCard.tsx';
 
 const TrackButton = ({
     mangaId,
@@ -66,10 +66,10 @@ const TrackButton = ({
             variables: { input: { mangaId, remoteId: selectedTrackerRemoteId, trackerId, private: asPrivate } },
         })
             .then(() => {
-                makeToast(t`Tracked manga`, 'success');
+                Notifications.success(t`Tracked manga`);
                 closeSearchMode();
             })
-            .catch((e) => makeToast(t`Could not track manga`, 'error', getErrorMessage(e)));
+            .catch((e) => Notifications.error(t`Could not track manga`, getErrorMessage(e)));
     };
 
     return (

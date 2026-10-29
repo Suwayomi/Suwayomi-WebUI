@@ -17,12 +17,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import type { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION } from '@/features/settings/Settings.constants.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];
@@ -81,7 +81,7 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
         try {
             await mutateSettings({ variables: { input: { settings: dialogSettings } } });
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
         }
     };
 

@@ -17,9 +17,9 @@ import { CategoriesInclusionSetting } from '@/features/category/components/Categ
 import { GlobalUpdateSettingsEntries } from '@/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { LibrarySettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import type { LibrarySettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const GlobalUpdateSettings = ({
     serverSettings,
@@ -40,7 +40,7 @@ export const GlobalUpdateSettings = ({
         try {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
         } catch (e) {
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e));
         }
     };
 

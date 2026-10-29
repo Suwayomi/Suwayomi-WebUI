@@ -8,7 +8,7 @@
 
 import type { MenuProps } from '@mui/material/Menu';
 import MuiMenu from '@mui/material/Menu';
-import { useState, type JSX } from 'react';
+import { type JSX, useState } from 'react';
 
 export const Menu = ({
     children,

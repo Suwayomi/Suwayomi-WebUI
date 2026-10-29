@@ -24,8 +24,6 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import type { WebUISettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -34,6 +32,8 @@ import {
     WEB_UI_FLAVOR_SELECT_VALUES,
     WEB_UI_INTERFACE_SELECT_VALUES,
 } from '@/features/settings/Settings.constants.ts';
+import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const WebUISettings = () => {
     const { t } = useLingui();
@@ -47,7 +47,7 @@ export const WebUISettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate' | 'webUIInformVersionUpdated'>
-    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+    >((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
 
     const {
         data,
@@ -66,7 +66,7 @@ export const WebUISettings = () => {
         }
 
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+            Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
         );
     };
 

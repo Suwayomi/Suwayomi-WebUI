@@ -12,10 +12,10 @@ import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const ChapterDownloadButton = ({
     chapterId,
@@ -30,7 +30,7 @@ export const ChapterDownloadButton = ({
     const downloadChapter = () => {
         requestManager
             .addChapterToDownloadQueue(chapterId)
-            .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+            .response.catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
     };
 
     if (download != null || isDownloaded) {

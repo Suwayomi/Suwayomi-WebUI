@@ -22,8 +22,6 @@ import { translateExtensionLanguage } from '@/features/extension/Extensions.util
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import type {
     SourceConfigurableInfo,
     SourceIdInfo,
@@ -33,6 +31,8 @@ import type {
 import { useMemo } from 'react';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 import Stack from '@mui/material/Stack';
+import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;
@@ -45,7 +45,7 @@ export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguag
     const finalIsEnabled = useMemo(() => Sources.isEnabled(source, languages), [source, languages]);
 
     const updateSetting = createUpdateSourceMetadata(source, (e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     return (

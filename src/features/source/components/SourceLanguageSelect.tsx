@@ -37,11 +37,11 @@ import { Sources } from '@/features/source/services/Sources';
 import { batchUpdateSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-component';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const SourceLanguageSelectDialog = ({
     isVisible,
@@ -264,7 +264,7 @@ export const SourceLanguageSelect = ({
                         await Promise.all([
                             setSelectedLanguages(updatedSelectedLanguages),
                             batchUpdateSourceMetadata(sourceEnabledStateMetaUpdatePayload),
-                        ]).catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+                        ]).catch((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
                     } catch (e) {
                         // Ignore
                     }

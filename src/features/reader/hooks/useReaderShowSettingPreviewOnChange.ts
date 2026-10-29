@@ -11,9 +11,9 @@ import { useEffect, useRef } from 'react';
 import { d } from 'koration';
 import { useLingui } from '@lingui/react/macro';
 import type { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import { READING_MODE_VALUE_TO_DISPLAY_DATA } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const HIDE_PREVIEW_TIMEOUT = d(5).seconds.inWholeMilliseconds;
 
@@ -43,7 +43,7 @@ export const useReaderShowSettingPreviewOnChange = (
         const didReadingModeChange = JSON.stringify(readingMode) !== JSON.stringify(previousReadingMode.current);
         const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
         if (showReadingModePreview) {
-            makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as MessageDescriptor), {
+            Notifications.info(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as MessageDescriptor), {
                 autoHideDuration: HIDE_PREVIEW_TIMEOUT,
             });
         }

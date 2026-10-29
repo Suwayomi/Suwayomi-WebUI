@@ -29,7 +29,6 @@ import {
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
 import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -39,6 +38,7 @@ import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/s
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 import Typography from '@mui/material/Typography';
+import { Notifications } from '@/base/Notifications.ts';
 
 export const Appearance = () => {
     const { t } = useLingui();
@@ -53,7 +53,7 @@ export const Appearance = () => {
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     const isDarkMode = MediaQuery.getThemeMode(actualThemeMode) === ThemeMode.DARK;
@@ -152,10 +152,10 @@ export const Appearance = () => {
                         value={locale}
                         onChange={({ target: { value: newLocale } }) => {
                             updateMetadataSetting('locale', newLocale).catch((e) =>
-                                makeToast(t`Could not save changes`, 'error', getErrorMessage(e)),
+                                Notifications.error(t`Could not save changes`, getErrorMessage(e)),
                             );
                             loadCatalog(newLocale).catch((e: Error) => {
-                                makeToast(t`Could not load language`, 'error', getErrorMessage(e));
+                                Notifications.error(t`Could not load language`, getErrorMessage(e));
                             });
                         }}
                         renderValue={(selected) => {

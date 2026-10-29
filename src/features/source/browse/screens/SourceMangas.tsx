@@ -41,8 +41,6 @@ import {
 import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
 import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
 import type { IPos, RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
 import { SourceContentType } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -61,6 +59,8 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import type { FilterChangeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
+import { Notifications } from '@/base/Notifications.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -309,7 +309,7 @@ export function SourceMangas() {
     const filters = source?.filters ?? STABLE_EMPTY_ARRAY;
     const { savedSearches = {} } = useGetSourceMetadata(source ?? DEFAULT_SOURCE);
     const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, (e) =>
-        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
     );
 
     const selectSavedSearch = useCallback(
