@@ -28,7 +28,7 @@ import {
     getMetadataServerSettings,
     updateMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { DeviceNotifications } from '@/features/notifications/services/DeviceNotifications.ts';
+import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';

@@ -35,7 +35,7 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { DeviceNotifications } from '@/features/notifications/services/DeviceNotifications.ts';
+import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
 import { LibraryUpdateNotifier } from '@/features/notifications/services/LibraryUpdateNotifier.ts';
 import {
     createUpdateMetadataServerSettings,
