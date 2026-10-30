@@ -202,6 +202,7 @@ export interface IReaderSettingsManga {
         value: number;
         enabled: boolean;
     };
+    shouldCropBorders: boolean;
 }
 
 export type IReaderSettings = IReaderSettingsGlobal & IReaderSettingsManga;

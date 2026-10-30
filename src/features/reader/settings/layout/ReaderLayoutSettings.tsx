@@ -22,6 +22,8 @@ import { ReaderSettingWidth } from '@/features/reader/settings/layout/components
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
 import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 
 export const ReaderLayoutSettings = ({
     settings,
@@ -105,6 +107,14 @@ export const ReaderLayoutSettings = ({
                 updateSetting={(...args) => updateSetting(...args)}
                 setTransparent={setTransparent}
             />
+            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <CheckboxInput
+                    label={t`Crop borders`}
+                    checked={settings.shouldCropBorders.value}
+                    onChange={(_, checked) => updateSetting('shouldCropBorders', checked)}
+                />
+                {isDefaultable && <ResetButton onClick={() => onDefault?.('shouldCropBorders')} variant="outlined" />}
+            </Stack>
             {isSeriesMode && (
                 <>
                     <Divider />

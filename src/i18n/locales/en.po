@@ -1316,6 +1316,10 @@ msgstr "Creating theme…"
 msgid "Crimson"
 msgstr "Crimson"
 
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Crop borders"
+msgstr "Crop borders"
+
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
 msgstr "Current source"

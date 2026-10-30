@@ -248,6 +248,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
+    shouldCropBorders: false,
     safeAreaInset: {
         top: true,
         right: true,

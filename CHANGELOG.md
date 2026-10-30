@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**) Add setting to notify about new chapters of library entries
 - (**Manga**) Show the reading progress of partially read chapters in the chapter list
 - (**Settings**) Add `databaseSchema`, `hikariMaxPoolSize` settings
+- (**Reader**) Add option to automatically crop blank borders around pages
 
 ### Changed
 
