@@ -34,7 +34,7 @@ import { useForceUpdate } from '@mantine/hooks';
 import List from '@mui/material/List';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Button from '@mui/material/Button';
-import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetContainer } from '@/base/components/OffsetComponent.tsx';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;

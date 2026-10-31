@@ -29,7 +29,7 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import mapValues from 'lodash/fp/mapValues';
 import difference from 'lodash/fp/difference';
 import uniqBy from 'lodash/fp/uniqBy';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 import { useElementSize } from '@mantine/hooks';
 
 export const Updates: React.FC = () => {

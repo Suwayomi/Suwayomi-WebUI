@@ -21,7 +21,7 @@ import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryGroup } from '@/features/migration/components/MIgrationEntryGroup.tsx';
 import { plural } from '@lingui/core/macro';
 import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 
 export const MigrationSearch = () => {
     const { t } = useLingui();

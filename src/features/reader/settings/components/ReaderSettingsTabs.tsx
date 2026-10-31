@@ -23,7 +23,7 @@ import { ReaderBehaviourSettings } from '@/features/reader/settings/behaviour/Re
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 
 const BaseReaderSettingsTabs = ({
     activeTab,

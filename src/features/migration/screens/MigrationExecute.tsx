@@ -18,7 +18,7 @@ import { MigrationContinueButton } from '@/features/migration/components/Migrati
 import { plural } from '@lingui/core/macro';
 import { MigrationEntryGroup } from '@/features/migration/components/MIgrationEntryGroup.tsx';
 import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 
 export const MigrationExecute = () => {
     const { t } = useLingui();

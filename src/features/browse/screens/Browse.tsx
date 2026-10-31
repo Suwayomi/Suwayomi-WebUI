@@ -19,7 +19,7 @@ import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { Migration } from '@/features/migration/screens/Migration.tsx';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 import { useElementSize } from '@mantine/hooks';
 
 export function Browse() {

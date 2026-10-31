@@ -32,7 +32,7 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { MigrationFABIndicator } from '@/features/migration/components/MigrationFABIndicator.tsx';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
-import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetContainer } from '@/base/components/OffsetComponent.tsx';
 import { AppInitializer } from '@/base/AppInitializer.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);

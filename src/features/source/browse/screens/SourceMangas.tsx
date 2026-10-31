@@ -58,7 +58,7 @@ import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import type { FilterChangeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
 

@@ -52,7 +52,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const TitleWithSizeTag = styled('span')({

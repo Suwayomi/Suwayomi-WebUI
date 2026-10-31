@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { MigrationEntry } from '@/features/migration/components/migration-entry/MigrationEntry.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
-import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { OffsetComponentWithContainer } from '@/base/components/OffsetComponent.tsx';
 import { Virtuoso } from 'react-virtuoso';
 
 const VirtuosoListWrapper = memo(({ children, ...props }: { children?: ReactNode }) => (

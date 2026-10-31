@@ -11,7 +11,7 @@ import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GroupedVirtuosoPersisted } from '@/lib/virtuoso/Component/GroupedVirtuosoPersisted.tsx';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 
 const StickyVirtuosoHeaderWithOffset =
     () =>

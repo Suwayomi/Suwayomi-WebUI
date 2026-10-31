@@ -9,7 +9,7 @@
 import type { ListSubheaderProps } from '@mui/material/ListSubheader';
 // oxlint-disable-next-line no-restricted-imports
 import MuiListSubheader from '@mui/material/ListSubheader';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 import type { ComponentProps } from 'react';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
