@@ -430,6 +430,7 @@ export type DownloadStatusFieldPolicy = {
 };
 export type DownloadTypeKeySpecifier = (
     | 'chapter'
+    | 'errorMessage'
     | 'manga'
     | 'position'
     | 'progress'
@@ -439,6 +440,7 @@ export type DownloadTypeKeySpecifier = (
 )[];
 export type DownloadTypeFieldPolicy = {
     chapter?: FieldPolicy<any> | FieldReadFunction<any>;
+    errorMessage?: FieldPolicy<any> | FieldReadFunction<any>;
     manga?: FieldPolicy<any> | FieldReadFunction<any>;
     position?: FieldPolicy<any> | FieldReadFunction<any>;
     progress?: FieldPolicy<any> | FieldReadFunction<any>;
