@@ -63,6 +63,7 @@ import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts
 import { getDateString } from '@/base/utils/DateHelper.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { Notifications } from '@/base/Notifications.ts';
+import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,
@@ -332,6 +333,12 @@ export const ServerSettings = () => {
 
                             if (mode !== AuthMode.UiLogin) {
                                 AuthManager.removeTokens();
+                            }
+
+                            if (mode !== AuthMode.BasicAuth) {
+                                BasicAuthDeprecationReminder.resolve();
+                            } else {
+                                BasicAuthDeprecationReminder.start();
                             }
 
                             AuthManager.setAuthRequired(mode === AuthMode.UiLogin);

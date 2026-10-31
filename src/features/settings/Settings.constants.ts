@@ -113,6 +113,7 @@ const AUTH_MODES_TO_TRANSLATION: { [mode in AuthMode]: SelectSettingValueDisplay
     [AuthMode.BasicAuth]: {
         text: msg`Basic Authentication`,
         description: msg`Your browser will prompt you to enter credentials with a dialog.`,
+        disclaimer: msg`This mode is deprecated and will be removed in the future`,
     },
     [AuthMode.SimpleLogin]: {
         text: msg`Simple Login`,

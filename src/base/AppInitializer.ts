@@ -14,6 +14,7 @@ import { assertIsDefined } from '@/base/Asserts.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LibraryUpdateNotifier } from '@/features/updates/LibraryUpdateNotifier.ts';
+import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
 
 type ActionConfig = [Key: string, Setup: () => Promise<unknown> | unknown][];
 type InFlightAction = [Key: string, InFlightSetup: Promise<unknown> | unknown];
@@ -100,6 +101,7 @@ export class AppInitializer {
             ['updaterSubscription', () => this.subscriptions.push(requestManager.updaterSubscription().subscribe())],
             ['webUISubscription', () => this.subscriptions.push(requestManager.webUIUpdateSubscription().subscribe())],
             ['syncSubscription', () => this.subscriptions.push(requestManager.syncSubscription().subscribe())],
+            ['basicAuthDeprecationReminder', () => BasicAuthDeprecationReminder.start()],
         ]);
     }
 

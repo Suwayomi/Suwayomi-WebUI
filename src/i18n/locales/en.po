@@ -659,6 +659,10 @@ msgstr "Badges"
 msgid "Basic Authentication"
 msgstr "Basic Authentication"
 
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Basic Authentication deprecation"
+msgstr "Basic Authentication deprecation"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Behaviour"
 msgstr "Behaviour"
@@ -840,6 +844,10 @@ msgstr "Category selection dialog"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "CBZ MIME-Type"
 msgstr "CBZ MIME-Type"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Change"
+msgstr "Change"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Change categories"
@@ -3888,6 +3896,10 @@ msgstr "Target mode"
 msgid "That haven't been started"
 msgstr "That haven't been started"
 
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
+msgstr "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "The address of the FlareSolverr server"
 msgstr "The address of the FlareSolverr server"
@@ -4001,6 +4013,10 @@ msgstr "This icon will be shown on the system that is running the server"
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "This is the latest version"
 msgstr "This is the latest version"
+
+#: src/features/settings/Settings.constants.ts
+msgid "This mode is deprecated and will be removed in the future"
+msgstr "This mode is deprecated and will be removed in the future"
 
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "This will delete the saved search \"{savedSearch}\""

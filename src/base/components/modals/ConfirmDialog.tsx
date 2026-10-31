@@ -39,11 +39,13 @@ export const ConfirmDialog = ({
     onSubmit,
     isVisible,
     onExitComplete,
+    requireExplicitAction = false,
 }: AwaitableComponentProps & {
     title: ReactNode;
     message: ReactNode;
     actions?: Actions;
     onExtra?: () => void;
+    requireExplicitAction?: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -72,7 +74,11 @@ export const ConfirmDialog = ({
     } satisfies Actions;
 
     return (
-        <Dialog open={isVisible} onTransitionExited={onExitComplete} onClose={onDismiss}>
+        <Dialog
+            open={isVisible}
+            onTransitionExited={onExitComplete}
+            onClose={requireExplicitAction ? undefined : onDismiss}
+        >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent
                 sx={{
