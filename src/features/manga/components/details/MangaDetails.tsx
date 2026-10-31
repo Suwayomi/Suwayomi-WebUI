@@ -57,7 +57,7 @@ import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { copyToClipboard } from '@/lib/HelperFunctions.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',

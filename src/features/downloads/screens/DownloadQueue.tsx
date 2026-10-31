@@ -45,7 +45,7 @@ import { plural } from '@lingui/core/macro';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import Refresh from '@mui/icons-material/Refresh';
 import { useOffsetComponent } from '@/base/OffsetComponent.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();

@@ -36,7 +36,7 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { isNsfw as isNsfwFnc } from '@/features/extension/Extensions.utils.ts';
 import { SortBy, SortOrder, type SortSettings, type TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';

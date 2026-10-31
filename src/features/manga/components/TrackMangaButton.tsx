@@ -23,7 +23,7 @@ import type { MangaTitleInfo, MangaTrackRecordInfo } from '@/features/manga/Mang
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & MangaTitleInfo }) => {
     const { t } = useLingui();

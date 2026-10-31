@@ -35,7 +35,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MigrationEntryThumbnail } from '@/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const EntryStatus = ({
     sourceMangaId,

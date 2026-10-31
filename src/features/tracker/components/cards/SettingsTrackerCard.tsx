@@ -18,7 +18,7 @@ import type { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useLingui();

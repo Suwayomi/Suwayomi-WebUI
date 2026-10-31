@@ -41,7 +41,7 @@ import { assertIsDefined } from '@/base/Asserts.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { i18n } from '@/i18n';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {

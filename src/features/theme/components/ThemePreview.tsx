@@ -27,7 +27,7 @@ import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDial
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',

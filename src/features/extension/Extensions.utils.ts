@@ -26,7 +26,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { i18n } from '@/i18n';
 import { t } from '@lingui/core/macro';
 import { ContentWarning } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const isNsfw = (contentWarning: ContentWarning): boolean => contentWarning !== ContentWarning.Safe;
 

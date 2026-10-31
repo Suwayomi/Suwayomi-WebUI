@@ -24,7 +24,7 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 let lastRunningState = false;
 

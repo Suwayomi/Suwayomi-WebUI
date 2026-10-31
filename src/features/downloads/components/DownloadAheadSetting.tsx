@@ -19,7 +19,7 @@ import type { MetadataServerSettings } from '@/features/settings/Settings.types.
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
 import type { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const DownloadAheadSetting = ({
     downloadAheadLimit,

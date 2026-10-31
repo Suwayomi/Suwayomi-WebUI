@@ -27,7 +27,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { TextSettingProps } from '@/base/components/settings/text/TextSetting.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDialog.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const MutableListItem = ({
     handleDelete,

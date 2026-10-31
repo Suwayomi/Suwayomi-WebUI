@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const TrackerOAuthLogin = () => {

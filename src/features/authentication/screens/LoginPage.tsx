@@ -23,7 +23,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const LoginPage = ({ redirect = true }: { redirect?: boolean }) => {
     const theme = useTheme();

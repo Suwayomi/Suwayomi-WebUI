@@ -36,7 +36,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { createAppColorTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 type DialogMode = 'create' | 'edit' | 'save_dynamic';
 

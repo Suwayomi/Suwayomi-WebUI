@@ -13,7 +13,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { READING_MODE_VALUE_TO_DISPLAY_DATA } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const HIDE_PREVIEW_TIMEOUT = d(5).seconds.inWholeMilliseconds;
 

@@ -25,7 +25,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { AppSession } from '@/base/AppSession.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/server/InfoFragments.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();

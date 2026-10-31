@@ -15,7 +15,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { StartSyncResult, SyncState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { SYNC_START_RESULT_TRANSLATION, SYNC_STATE_TRANSLATION } from '@/features/settings/Settings.constants.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export function SyncButton() {
     const { t } = useLingui();

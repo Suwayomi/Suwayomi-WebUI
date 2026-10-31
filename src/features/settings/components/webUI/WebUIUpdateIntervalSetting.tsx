@@ -18,7 +18,7 @@ import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePe
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { WEB_UI_UPDATE_INTERVAL } from '@/features/settings/Settings.constants.ts';
 import type { ServerSettings } from '@/features/settings/Settings.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const WebUIUpdateIntervalSetting = ({
     disabled = false,

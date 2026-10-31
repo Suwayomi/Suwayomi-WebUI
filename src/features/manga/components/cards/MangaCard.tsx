@@ -32,7 +32,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { usePress } from '@/base/hooks/usePress.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const getMangaLinkTo = (mode: MangaCardMode, mangaId: number): string => {
     switch (mode) {

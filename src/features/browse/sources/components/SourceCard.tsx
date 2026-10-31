@@ -30,7 +30,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { SourceContentType } from '@/features/source/Source.types.ts';
 import { isNsfw } from '@/features/extension/Extensions.utils.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];

@@ -20,7 +20,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import type { CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const CategorySettingsCard = ({

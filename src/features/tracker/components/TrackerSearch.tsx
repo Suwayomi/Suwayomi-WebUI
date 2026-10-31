@@ -37,7 +37,7 @@ import { Tracker } from '@/features/tracker/Tracker.types.ts';
 import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMangaCard.tsx';
 

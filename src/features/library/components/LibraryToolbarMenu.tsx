@@ -20,7 +20,7 @@ import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const LibraryToolbarMenu = ({
     category,

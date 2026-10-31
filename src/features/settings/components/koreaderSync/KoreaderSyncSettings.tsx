@@ -28,7 +28,7 @@ import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 import type { ServerSettings as ServerSettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const KoreaderSyncSettings = ({
     settings: {

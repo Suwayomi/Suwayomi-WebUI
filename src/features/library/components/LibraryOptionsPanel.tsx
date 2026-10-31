@@ -44,7 +44,7 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,

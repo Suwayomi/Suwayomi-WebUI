@@ -21,7 +21,7 @@ import { CreateThemeButton } from '@/features/theme/components/CreateThemeButton
 import { ThemePreview } from '@/features/theme/components/ThemePreview.tsx';
 import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const ThemeList = () => {
     const { t } = useLingui();

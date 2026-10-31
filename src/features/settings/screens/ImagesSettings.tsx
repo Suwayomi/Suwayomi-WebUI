@@ -16,7 +16,7 @@ import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ImagesSettings = () => {

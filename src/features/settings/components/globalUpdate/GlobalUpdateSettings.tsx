@@ -19,7 +19,7 @@ import { GlobalUpdateSettingsInterval } from '@/features/settings/components/glo
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { LibrarySettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const GlobalUpdateSettings = ({
     serverSettings,

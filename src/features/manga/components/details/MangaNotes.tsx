@@ -39,7 +39,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
 import Typography from '@mui/material/Typography';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();

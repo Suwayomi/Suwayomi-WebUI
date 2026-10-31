@@ -47,7 +47,7 @@ import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.ts
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useElementSize } from '@mantine/hooks';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;

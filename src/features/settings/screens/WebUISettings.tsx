@@ -33,7 +33,7 @@ import {
     WEB_UI_INTERFACE_SELECT_VALUES,
 } from '@/features/settings/Settings.constants.ts';
 import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const WebUISettings = () => {
     const { t } = useLingui();

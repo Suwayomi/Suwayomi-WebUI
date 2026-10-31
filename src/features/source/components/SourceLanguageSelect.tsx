@@ -41,7 +41,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-component';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const SourceLanguageSelectDialog = ({
     isVisible,

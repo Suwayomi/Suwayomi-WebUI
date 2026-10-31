@@ -61,7 +61,7 @@ import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import mapValues from 'lodash/fp/mapValues';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const I18N_PLURAL = 9999;
 

@@ -22,7 +22,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import type { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION } from '@/features/settings/Settings.constants.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];

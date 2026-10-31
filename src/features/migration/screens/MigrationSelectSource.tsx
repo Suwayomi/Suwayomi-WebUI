@@ -27,7 +27,7 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Sources } from '@/features/source/services/Sources';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const MigrationSelectSource = () => {

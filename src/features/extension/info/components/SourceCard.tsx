@@ -32,7 +32,7 @@ import { useMemo } from 'react';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 import Stack from '@mui/material/Stack';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;

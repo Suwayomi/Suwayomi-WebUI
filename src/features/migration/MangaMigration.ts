@@ -22,7 +22,7 @@ import type {
 } from '@/features/migration/Migration.types.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { t } from '@lingui/core/macro';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export class MangaMigration {
     static async migrate(

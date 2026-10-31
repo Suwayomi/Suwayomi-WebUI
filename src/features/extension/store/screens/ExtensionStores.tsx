@@ -36,7 +36,7 @@ import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDi
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const ExtensionStoreCard = ({
     indexUrl,

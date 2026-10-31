@@ -30,7 +30,7 @@ import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getLanguageReadingDirection } from '@/lib/ISOLanguageUtil.ts';
 import { loadCatalog } from '@/i18n';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',

@@ -35,7 +35,7 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const LOCK_NAME = 'library-update-notifier';
 

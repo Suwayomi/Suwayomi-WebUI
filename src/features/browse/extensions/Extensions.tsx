@@ -49,7 +49,7 @@ import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { i18n } from '@/i18n';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;

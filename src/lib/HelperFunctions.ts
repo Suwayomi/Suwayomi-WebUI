@@ -8,7 +8,7 @@
 
 import { CombinedGraphQLErrors } from '@apollo/client';
 import type { ReactNode } from 'react';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { t } from '@lingui/core/macro';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {

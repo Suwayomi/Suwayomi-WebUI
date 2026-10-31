@@ -62,7 +62,7 @@ import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/bac
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { getDateString } from '@/base/utils/DateHelper.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({

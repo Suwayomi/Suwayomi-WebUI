@@ -37,7 +37,7 @@ import {
     getBackupCleanupDisplayValue,
 } from '@/features/backup/Backup.utils.ts';
 import type { BackupSettingsType } from '@/features/backup/Backup.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 let backupRestoreId: string | undefined;
 

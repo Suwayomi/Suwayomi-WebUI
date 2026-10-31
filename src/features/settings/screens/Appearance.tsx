@@ -38,7 +38,7 @@ import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/s
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 import Typography from '@mui/material/Typography';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 
 export const Appearance = () => {
     const { t } = useLingui();

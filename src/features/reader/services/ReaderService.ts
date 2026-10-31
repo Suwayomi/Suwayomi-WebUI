@@ -67,7 +67,7 @@ import type {
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { getReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {

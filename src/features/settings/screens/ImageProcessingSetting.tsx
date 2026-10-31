@@ -33,7 +33,7 @@ import {
 import { Processing } from '@/features/settings/components/images/Processing.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { PartialSettingsType } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { Notifications } from '@/base/Notifications.ts';
+import { Notifications } from '@/base/notification/Notifications.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) => {
