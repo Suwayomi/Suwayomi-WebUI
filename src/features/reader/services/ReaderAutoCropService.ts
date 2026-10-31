@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { usePrevious } from '@mantine/hooks';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const MAX_DETECTION_DIMENSION = 400;
 const MAX_CROP_CACHE_SIZE = 150;
@@ -19,7 +20,7 @@ const TRANSPARENT_ALPHA_THRESHOLD = 32;
 const cropCache = new Map<string, string>();
 const pendingPromises = new Map<string, ControlledPromise<string>>();
 
-export interface CropBounds {
+interface CropBounds {
     left: number;
     top: number;
     width: number;
@@ -116,11 +117,7 @@ const sampleCorner = (
     return { r, g, b, lum };
 };
 
-export const detectBackgroundColor = (
-    data: Uint8ClampedArray,
-    width: number,
-    height: number,
-): BackgroundColor | null => {
+const detectBackgroundColor = (data: Uint8ClampedArray, width: number, height: number): BackgroundColor | null => {
     const corners = [
         sampleCorner(data, width, height, 0, 0),
         sampleCorner(data, width, height, Math.max(0, width - CORNER_SAMPLE_SIZE), 0),
@@ -197,7 +194,7 @@ const scanBorder = (
     return defaultCoord;
 };
 
-export const detectCropBounds = (imageData: ImageData, width: number, height: number): CropBounds | null => {
+const detectCropBounds = (imageData: ImageData, width: number, height: number): CropBounds | null => {
     const bg = detectBackgroundColor(imageData.data, width, height);
     if (!bg) {
         return null;
@@ -303,7 +300,7 @@ export const detectCropBounds = (imageData: ImageData, width: number, height: nu
     };
 };
 
-export const scaleBoundsToOriginal = (
+const scaleBoundsToOriginal = (
     bounds: CropBounds,
     detectWidth: number,
     detectHeight: number,
@@ -345,7 +342,7 @@ export const scaleBoundsToOriginal = (
     return { left, top, width, height };
 };
 
-export const getDetectionDimensions = (width: number, height: number): { width: number; height: number } => {
+const getDetectionDimensions = (width: number, height: number): { width: number; height: number } => {
     const MIN_DETECTION_DIMENSION = 64;
     const maxDim = Math.max(width, height);
     if (maxDim <= MAX_DETECTION_DIMENSION) {
@@ -370,7 +367,7 @@ export const getDetectionDimensions = (width: number, height: number): { width: 
     };
 };
 
-export const createDownscaledImageData = (img: CanvasImageSource, width: number, height: number): ImageData | null => {
+const createDownscaledImageData = (img: CanvasImageSource, width: number, height: number): ImageData | null => {
     let canvas: HTMLCanvasElement | OffscreenCanvas | null =
         typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(width, height) : document.createElement('canvas');
     canvas.width = width;
@@ -395,7 +392,7 @@ export const createDownscaledImageData = (img: CanvasImageSource, width: number,
     }
 };
 
-export const generateCroppedBlob = async (img: CanvasImageSource, bounds: CropBounds): Promise<Blob | null> => {
+const generateCroppedBlob = async (img: CanvasImageSource, bounds: CropBounds): Promise<Blob | null> => {
     const IMAGE_MIME_TYPE = 'image/webp';
     const IMAGE_QUALITY = 0.95;
 
@@ -517,7 +514,7 @@ export const clearReaderAutoCropCache = (): void => {
     pendingPromises.clear();
 };
 
-export const cropPageBorders = async (imageSrc: string): Promise<string> => {
+const cropPageBorders = async (imageSrc: string): Promise<string> => {
     if (cropCache.has(imageSrc)) {
         return cropCache.get(imageSrc)!;
     }
@@ -593,7 +590,7 @@ export const cropPageBorders = async (imageSrc: string): Promise<string> => {
                 pendingPromises.delete(imageSrc);
             }
         }
-    })();
+    })().catch(defaultPromiseErrorHandler('ReaderAutoCropService::cropPageBorders'));
 
     return controlled.promise;
 };
