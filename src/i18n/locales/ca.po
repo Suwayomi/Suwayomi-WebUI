@@ -8,7 +8,7 @@ msgstr ""
 "Language: ca\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-23 17:52+0000\n"
+"PO-Revision-Date: 2026-10-28 10:51+0000\n"
 "Last-Translator: Kisnov <kisnov@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/ca/>\n"
@@ -4632,3 +4632,11 @@ msgid "The maximum number of actual connections to the database; see <0>HikariCP
 msgstr ""
 "El nombre màxim de connexions reals a la base de dades; vegeu <0>HikariCP: "
 "About-Pool-Sizing</0>"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Pàgina: {page}"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}/{pageCount}"
+msgstr "Pàgina: {page}/{pageCount}"
