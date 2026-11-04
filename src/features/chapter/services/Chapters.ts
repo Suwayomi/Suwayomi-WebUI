@@ -470,6 +470,10 @@ export class Chapters {
         >;
     }
 
+    static hasUnrecognizedChapterNumber<Chapter extends ChapterNumberInfo>({ chapterNumber }: Chapter): boolean {
+        return chapterNumber === -1;
+    }
+
     static getMissingCount<Chapter extends ChapterNumberInfo>(chapters: Chapter[]): number {
         const sortedChapters = chapters.toSorted((a, b) => a.chapterNumber - b.chapterNumber);
 
@@ -488,7 +492,7 @@ export class Chapters {
             return 0;
         }
 
-        if (chapterA.chapterNumber === -1 || chapterB.chapterNumber === -1) {
+        if (Chapters.hasUnrecognizedChapterNumber(chapterA) || Chapters.hasUnrecognizedChapterNumber(chapterB)) {
             return 0;
         }
 
@@ -496,6 +500,30 @@ export class Chapters {
         const lowerChapterNumber = Math.min(chapterA.chapterNumber, chapterB.chapterNumber);
 
         return Math.max(0, Math.floor(higherChapterNumber) - Math.floor(lowerChapterNumber) - 1);
+    }
+
+    static getGapToPrevious<Chapter extends ChapterNumberInfo>(
+        index: number,
+        sortDesc: boolean,
+        chapters: Chapter[],
+        previousIndex?: number,
+    ): number {
+        const chapter = chapters[index];
+
+        if (chapter && Chapters.hasUnrecognizedChapterNumber(chapter)) {
+            return 0;
+        }
+
+        const chapterOffset = sortDesc ? 1 : -1;
+        const previousChapterIndex = (previousIndex ?? index) + chapterOffset;
+
+        const previousChapter = chapters[previousChapterIndex];
+
+        if (previousChapter && Chapters.hasUnrecognizedChapterNumber(previousChapter)) {
+            return Chapters.getGapToPrevious(index, sortDesc, chapters, previousChapterIndex);
+        }
+
+        return Chapters.getGap(chapter, previousChapter ?? { chapterNumber: 0 });
     }
 
     static getScanlators<Chapter extends ChapterScanlatorInfo>(chapters: Chapter[]): string[] {

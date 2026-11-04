@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import type { ComponentProps } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 import { ChapterCard } from '@/features/chapter/components/cards/ChapterCard.tsx';
 
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -26,12 +26,10 @@ export const ChapterListCard = ({
     isSortDesc: boolean;
     chapters: ChapterCardProps['chapter'][];
 }) => {
-    const previousChapterIndex = isSortDesc ? index + 1 : index - 1;
-
-    const chapter = chapters[index];
-    const previousChapter = chapters[previousChapterIndex] ?? { chapterNumber: 0 };
-
-    const missingChaptersGap = Chapters.getGap(chapter, previousChapter);
+    const missingChaptersGap = useMemo(
+        () => Chapters.getGapToPrevious(index, isSortDesc, chapters),
+        [index, isSortDesc, chapters],
+    );
     const areChaptersMissing = missingChaptersGap > 0;
 
     return (
