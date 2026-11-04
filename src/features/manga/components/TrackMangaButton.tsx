@@ -24,6 +24,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
+import { TRACKING_DIALOG_STYLING } from '@/features/tracker/Tracker.constants.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & MangaTitleInfo }) => {
     const { t } = useLingui();
@@ -71,7 +72,13 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Mang
                             : t`Tracking`}
                     </FlexWrapButton>
                     {popupState.isOpen && (
-                        <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">
+                        <Dialog
+                            {...bindDialog(popupState)}
+                            maxWidth="md"
+                            fullWidth
+                            scroll="paper"
+                            sx={TRACKING_DIALOG_STYLING}
+                        >
                             <TrackManga manga={manga} />
                         </Dialog>
                     )}

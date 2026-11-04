@@ -13,6 +13,13 @@ import { PublishingStatus, PublishingType } from '@/features/tracker/Tracker.typ
 
 export const DIALOG_PADDING: number = 2;
 
+export const TRACKING_DIALOG_STYLING: SxProps<Theme> = {
+    top: 'env(safe-area-inset-top)',
+    bottom: 'env(safe-area-inset-bottom)',
+    left: 'env(safe-area-inset-left)',
+    right: 'env(safe-area-inset-right)',
+};
+
 export const CARD_BACKGROUND: SxProps<Theme> = {
     backgroundColor: 'transparent',
     boxShadow: 'unset',

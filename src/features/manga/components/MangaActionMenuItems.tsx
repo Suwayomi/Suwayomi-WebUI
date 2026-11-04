@@ -44,6 +44,7 @@ import type {
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { TRACKING_DIALOG_STYLING } from '@/features/tracker/Tracker.constants.ts';
 
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
@@ -197,6 +198,7 @@ export const MangaActionMenuItems = ({
                     maxWidth="md"
                     fullWidth
                     scroll="paper"
+                    sx={TRACKING_DIALOG_STYLING}
                     onClose={() => {
                         setIsTrackDialogOpen(false);
                         onClose();
