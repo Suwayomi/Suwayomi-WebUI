@@ -419,7 +419,9 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
         });
 
         let triedForcedReconnection = false;
-        let lastHeartbeat: number = Date.now();
+        let forcedReconnectionTimestamp = 0;
+        let lastHeartbeat = Date.now();
+
         this.wsClient.on('message', async (e) => {
             lastHeartbeat = Date.now();
             triedForcedReconnection = false;
@@ -438,24 +440,33 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             }
         });
 
-        const checkHeartbeatInterval = heartbeatInterval + d(30).seconds.inWholeMilliseconds;
         clearInterval(this.wsClientAliveCheckInterval);
         this.wsClientAliveCheckInterval = setInterval(() => {
-            const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
+            const heartbeatThreshold = heartbeatInterval * 1.5;
+
+            const isHeartbeatMissing = Date.now() - lastHeartbeat > heartbeatThreshold;
             if (!isHeartbeatMissing) {
                 return;
             }
 
             if (!triedForcedReconnection) {
                 triedForcedReconnection = true;
+                forcedReconnectionTimestamp = Date.now();
+
                 this.wsClient.terminate();
 
                 return;
             }
 
+            const hasForcedReconnectionFailed =
+                Date.now() - forcedReconnectionTimestamp > d(15).seconds.inWholeMilliseconds;
+            if (!hasForcedReconnectionFailed) {
+                return;
+            }
+
             clearInterval(this.wsClientAliveCheckInterval);
             this.resetWsClient(true);
-        }, checkHeartbeatInterval);
+        }, d(5).seconds.inWholeMilliseconds);
     }
 
     protected createClient(createWsClientLazily?: boolean) {
