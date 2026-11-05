@@ -169,7 +169,7 @@ export const Thumbnail = ({
             <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>
                 <Stack
                     onClick={() => popupState.close()}
-                    sx={{ height: '100vh', p: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
+                    sx={{ height: '100dvh', p: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <SpinnerImage
                         src={url}

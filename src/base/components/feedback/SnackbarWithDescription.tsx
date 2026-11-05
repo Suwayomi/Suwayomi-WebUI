@@ -70,13 +70,13 @@ export const SnackbarWithDescription = memo(
                         wordBreak: 'break-word',
                         minWidth: '300px',
                         [theme.breakpoints.down(MediaQuery.MOBILE_WIDTH)]: {
-                            maxWidth: '100vw',
+                            maxWidth: '100dvw',
                         },
                         [theme.breakpoints.between(MediaQuery.MOBILE_WIDTH, MediaQuery.TABLET_WIDTH)]: {
-                            maxWidth: '75vw',
+                            maxWidth: '75dvw',
                         },
                         [theme.breakpoints.up(MediaQuery.TABLET_WIDTH)]: {
-                            maxWidth: '50vw',
+                            maxWidth: '50dvw',
                         },
                     }}
                     onClose={() => closeSnackbar(id)}

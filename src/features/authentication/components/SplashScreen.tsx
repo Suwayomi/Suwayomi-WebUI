@@ -31,8 +31,8 @@ export const SplashScreen = ({
             sx={MUIUtil.mergeSx(
                 {
                     position: 'relative',
-                    minWidth: '100vw',
-                    minHeight: '100vh',
+                    minWidth: '100dvw',
+                    minHeight: '100dvh',
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: 'background.paper',

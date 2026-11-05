@@ -203,8 +203,8 @@ const BaseReader = ({
                                 position: 'fixed',
                                 top: 0,
                                 left: 0,
-                                width: '100vw',
-                                height: '100vh',
+                                width: '100dvw',
+                                height: '100dvh',
                                 background: 'transparent',
                             }}
                         />
@@ -244,8 +244,8 @@ const BaseReader = ({
         return (
             <Box
                 sx={{
-                    height: '100vh',
-                    width: '100vw',
+                    height: '100dvh',
+                    width: '100dvw',
                     display: 'grid',
                     placeItems: 'center',
                 }}
@@ -269,10 +269,10 @@ const BaseReader = ({
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                minWidth: `calc(100vw - ${readerNavBarWidth}px)`,
-                maxWidth: `calc(100vw - ${readerNavBarWidth}px)`,
-                width: `calc(100vw - ${readerNavBarWidth}px)`,
-                height: `100vh`,
+                minWidth: `calc(100dvw - ${readerNavBarWidth}px)`,
+                maxWidth: `calc(100dvw - ${readerNavBarWidth}px)`,
+                width: `calc(100dvw - ${readerNavBarWidth}px)`,
+                height: `100dvh`,
                 pt: safeAreaInset.top ? 'env(safe-area-inset-top)' : undefined,
                 pb: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : undefined,
                 pr: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,

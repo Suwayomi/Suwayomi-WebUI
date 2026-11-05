@@ -102,7 +102,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                     <ReaderChapterList
                         style={{
                             width: '500px',
-                            maxWidth: '90vw',
+                            maxWidth: '90dvw',
                             minHeight: '150px',
                             maxHeight: '300px',
                         }}

@@ -222,7 +222,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                         placement: 'bottom-start',
                         sx: {
                             [theme.breakpoints.down('md')]: {
-                                width: `calc(100vw - ${navBarWidth}px - ${scrollbarYSize}px) !important`,
+                                width: `calc(100dvw - ${navBarWidth}px - ${scrollbarYSize}px) !important`,
                             },
                         },
                     },

@@ -78,12 +78,12 @@ export const LoginPage = ({ redirect = true }: { redirect?: boolean }) => {
                         sx: {
                             position: 'unset',
                             minWidth: 'auto',
-                            minHeight: '50vh',
+                            minHeight: '50dvh',
                             flexBasis: '60%',
                             p: 4,
                             [theme.breakpoints.up('lg')]: {
-                                minHeight: '0vh',
-                                height: '100vh',
+                                minHeight: '0dvh',
+                                height: '100dvh',
                             },
                         },
                     },
@@ -97,14 +97,14 @@ export const LoginPage = ({ redirect = true }: { redirect?: boolean }) => {
             <Stack
                 sx={{
                     position: 'relative',
-                    minHeight: '50vh',
+                    minHeight: '50dvh',
                     flexBasis: '40%',
                     p: 4,
                     justifyContent: 'center',
                     alignItems: 'center',
                     [theme.breakpoints.up('lg')]: {
-                        minHeight: '0vh',
-                        height: '100vh',
+                        minHeight: '0dvh',
+                        height: '100dvh',
                     },
                 }}
             >

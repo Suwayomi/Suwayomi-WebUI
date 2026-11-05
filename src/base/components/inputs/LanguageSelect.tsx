@@ -77,8 +77,8 @@ const LanguageSelectDialog = ({
                 <Virtuoso
                     style={{
                         height: languagesSortedBySelectState.length * 54,
-                        minHeight: '25vh',
-                        maxHeight: '70vh',
+                        minHeight: '25dvh',
+                        maxHeight: '70dvh',
                     }}
                     data={languagesSortedBySelectState}
                     increaseViewportBy={400}

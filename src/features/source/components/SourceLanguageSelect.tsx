@@ -152,8 +152,8 @@ const SourceLanguageSelectDialog = ({
                 <GroupedVirtuoso
                     style={{
                         height: languagesSortedBySelectState.length * 54,
-                        minHeight: '25vh',
-                        maxHeight: '50vh',
+                        minHeight: '25dvh',
+                        maxHeight: '50dvh',
                     }}
                     groupCounts={groupCounts}
                     increaseViewportBy={400}

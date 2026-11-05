@@ -29,6 +29,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Manga**) Fix missing chapter detection across invalid chapter numbers in the chapter list
 - (**Reader**) Fix entering fullscreen when opening the reader from the library continue read button
 - (**Reader**) Fix reader trying to open/opening the previous/next chapter randomly when first opening the reader or changing the page via the progress bar with a continuous vertical reading mode and original image scale type
+- (**PWA**) Fix PWA on iOS 27
+    - Get rid of the status bar background color fade effect
+    - Prevent the top content of dialogs from being hidden by the ios status bar
 
 ## [20260929.01] (r3518) - 2026-09-29
 

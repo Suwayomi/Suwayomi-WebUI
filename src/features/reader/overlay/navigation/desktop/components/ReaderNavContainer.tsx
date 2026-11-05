@@ -13,6 +13,6 @@ export const ReaderNavContainer = styled(Stack)({
     width: '400px',
     minWidth: '400px',
     maxWidth: '400px',
-    height: '100vh',
+    height: '100dvh',
     overflowY: 'auto',
 });

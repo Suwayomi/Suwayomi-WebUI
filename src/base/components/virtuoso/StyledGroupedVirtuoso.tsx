@@ -40,7 +40,7 @@ export const StyledGroupedVirtuoso = <ItemData = any, Context = any>({
             }}
             style={{
                 ...style,
-                height: `calc(100vh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px - ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
+                height: `calc(100dvh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px - ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
             }}
         />
     );

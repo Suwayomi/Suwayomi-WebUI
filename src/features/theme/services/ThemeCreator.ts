@@ -208,7 +208,7 @@ export const createTheme = (
                     styleOverrides: {
                         paper: {
                             [themeForColors.breakpoints.up(MediaQuery.TABLET_WIDTH)]: {
-                                maxHeight: '70vh',
+                                maxHeight: '70dvh',
                             },
                         },
                     },

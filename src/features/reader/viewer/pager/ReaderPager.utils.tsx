@@ -74,24 +74,24 @@ export const getImagePlaceholderStyling = (
 
     const getMaxWidth = (width: string) => `calc(${width} - ${joinOffsetsForCssCalc(widthOffset)})`;
     const getDesktopWidth = (width: number, readerWidthValue?: number) =>
-        getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}vw`);
+        getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}dvw`);
 
     const setReaderWidth = getSetReaderWidth(readerWidth, pageScaleMode);
-    const fullWidth = getMaxWidth(`${Math.min(100, setReaderWidth ?? OVER_9000)}vw`);
-    const fullHeight = `calc(100vh - ${joinOffsetsForCssCalc(heightOffset)})`;
+    const fullWidth = getMaxWidth(`${Math.min(100, setReaderWidth ?? OVER_9000)}dvw`);
+    const fullHeight = `calc(100dvh - ${joinOffsetsForCssCalc(heightOffset)})`;
 
     const DEFAULT_SINGLE_PAGE_WIDTH = isTabletWidth ? fullWidth : getDesktopWidth(40, setReaderWidth);
-    const DEFAULT_SINGLE_PAGE_HEIGHT = isTabletWidth ? fullHeight : '85vh';
+    const DEFAULT_SINGLE_PAGE_HEIGHT = isTabletWidth ? fullHeight : '85dvh';
 
     const READING_MODE_TO_PLACEHOLDER_SIZE: Record<ReadingMode, { minWidth: string; minHeight: string }> = {
         [ReadingMode.SINGLE_PAGE]: { minWidth: DEFAULT_SINGLE_PAGE_WIDTH, minHeight: DEFAULT_SINGLE_PAGE_HEIGHT },
         [ReadingMode.DOUBLE_PAGE]: {
-            minWidth: isTabletWidth ? '50vw' : getDesktopWidth(35, setReaderWidth ? setReaderWidth / 2 : undefined),
+            minWidth: isTabletWidth ? '50dvw' : getDesktopWidth(35, setReaderWidth ? setReaderWidth / 2 : undefined),
             minHeight: DEFAULT_SINGLE_PAGE_HEIGHT,
         },
         [ReadingMode.CONTINUOUS_VERTICAL]: {
             minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
-            minHeight: '100vh',
+            minHeight: '100dvh',
         },
         [ReadingMode.CONTINUOUS_HORIZONTAL]: {
             minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
@@ -99,7 +99,7 @@ export const getImagePlaceholderStyling = (
         },
         [ReadingMode.WEBTOON]: {
             minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
-            minHeight: '100vh',
+            minHeight: '100dvh',
         },
     };
     const defaultStyling = {
@@ -107,7 +107,7 @@ export const getImagePlaceholderStyling = (
         // the SpinnerImage placeholder has a default height of 100%, this causes the placeholder to take always take up 100% of the viewport
         height: 'unset',
     };
-    const minWidthForStretch = isDoublePage ? `calc(${getMaxWidth(`${setReaderWidth ?? 100}vw`)} / 2)` : fullWidth;
+    const minWidthForStretch = isDoublePage ? `calc(${getMaxWidth(`${setReaderWidth ?? 100}dvw`)} / 2)` : fullWidth;
 
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
@@ -123,7 +123,7 @@ export const getImagePlaceholderStyling = (
                 ...applyStyles(shouldStretchPage, {
                     minHeight: fullHeight,
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                        minHeight: '100vh',
+                        minHeight: '100dvh',
                     }),
                 }),
             };
@@ -134,7 +134,7 @@ export const getImagePlaceholderStyling = (
                     minWidth: minWidthForStretch,
                     minHeight: fullHeight,
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                        minHeight: '100vh',
+                        minHeight: '100dvh',
                     }),
                 }),
             };
@@ -158,8 +158,8 @@ const getReaderDimensionStyling = (
     widthOffset: (number | string)[],
     heightOffset: (number | string)[],
 ): CSSObject => {
-    const fullWidth = `calc((100vw - ${joinOffsetsForCssCalc(widthOffset)}) * ${widthPercentage})`;
-    const fullHeight = `calc(100vh - ${joinOffsetsForCssCalc(heightOffset)})`;
+    const fullWidth = `calc((100dvw - ${joinOffsetsForCssCalc(widthOffset)}) * ${widthPercentage})`;
+    const fullHeight = `calc(100dvh - ${joinOffsetsForCssCalc(heightOffset)})`;
 
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:

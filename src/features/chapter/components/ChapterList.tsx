@@ -70,7 +70,7 @@ const StyledVirtuoso = styled(VirtuosoPersisted, {
     listStyle: 'none',
     padding: 0,
     [theme.breakpoints.up('md')]: {
-        height: `calc(100vh - ${topOffset}px)`,
+        height: `calc(100dvh - ${topOffset}px)`,
         margin: 0,
     },
 }));

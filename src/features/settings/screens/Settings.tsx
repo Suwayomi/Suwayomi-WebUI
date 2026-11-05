@@ -105,7 +105,7 @@ export function Settings() {
             <OffsetComponent
                 sx={{
                     minWidth: isDesktopWidth ? 250 : undefined,
-                    height: `calc(100vh - ${topOffset + bottomBarHeight}px)`,
+                    height: `calc(100dvh - ${topOffset + bottomBarHeight}px)`,
                     flexShrink: 0,
                     overflowY: 'auto',
                     borderRight: 1,

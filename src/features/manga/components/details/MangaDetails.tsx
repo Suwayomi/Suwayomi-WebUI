@@ -66,7 +66,7 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(1),
     [theme.breakpoints.up('md')]: {
         flexBasis: '40%',
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100dvh - 64px)',
         overflowY: 'auto',
     },
 }));

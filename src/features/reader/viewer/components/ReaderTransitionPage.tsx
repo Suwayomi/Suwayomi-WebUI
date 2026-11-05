@@ -143,20 +143,20 @@ const BaseReaderTransitionPage = ({
                 alignItems: 'center',
                 ...applyStyles(!isContinuousReadingMode(readingMode), {
                     backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
-                    width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                    height: `calc(100vh - ${scrollbar.xSize}px)`,
+                    width: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                    height: `calc(100dvh - ${scrollbar.xSize}px)`,
                 }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'sticky',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         left: 0,
-                        maxWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        minHeight: `calc(100vh - ${scrollbar.xSize}px)`,
+                        maxWidth: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        minHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         top: 0,
-                        minWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        maxHeight: `calc(100vh - ${scrollbar.xSize}px)`,
+                        minWidth: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        maxHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
                     }),
                 }),
             }}
@@ -166,8 +166,8 @@ const BaseReaderTransitionPage = ({
                     gap: 2,
                     maxWidth: (theme) =>
                         // spacing = added padding left + right
-                        `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px - ${theme.spacing(2)})`,
-                    maxHeight: `calc(100vh - ${scrollbar.xSize}px)`,
+                        `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px - ${theme.spacing(2)})`,
+                    maxHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
                     width: 'max-content',
                     p: 1,
                 }}
