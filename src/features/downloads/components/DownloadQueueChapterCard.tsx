@@ -28,6 +28,7 @@ import { DownloadStateIndicatorLinear } from '@/base/components/downloads/Downlo
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 
 interface ActionProps {
     reorderDownloads: (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => void;
@@ -96,7 +97,29 @@ export const DownloadQueueChapterCard = memo(
                                 <Typography sx={{ pb: 1, flexGrow: 1, textAlign: 'end' }} variant="caption">
                                     {(() => {
                                         if (item.state === DownloadState.Error) {
-                                            return t`Error`;
+                                            return (
+                                                <Typography
+                                                    component="span"
+                                                    variant="caption"
+                                                    color="error"
+                                                    sx={{
+                                                        cursor: 'pointer',
+                                                        textDecoration: 'underline',
+                                                        textUnderlineOffset: '2px',
+                                                    }}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        makeToast(
+                                                            t`Download error`,
+                                                            'error',
+                                                            item.errorMessage ?? t`No error details available`,
+                                                        );
+                                                    }}
+                                                >
+                                                    {t`Error`}
+                                                </Typography>
+                                            );
                                         }
 
                                         const isDownloading =
