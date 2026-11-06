@@ -16,63 +16,58 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { LibraryUpdateNotifier } from '@/features/updates/LibraryUpdateNotifier.ts';
 import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
 
-type ActionConfig = [Key: string, Setup: () => Promise<unknown> | unknown][];
-type InFlightAction = [Key: string, InFlightSetup: Promise<unknown> | unknown];
+type Action = { key: string; required: boolean };
+type ActionConfig = Action & { setup: () => Promise<unknown> | unknown };
+type InFlightAction = Action & { inFlightSetup: Promise<unknown> | unknown };
+
+type Config = readonly (
+    | ActionConfig
+    | (
+          | (Omit<ActionConfig, 'required'> & { required: false })[]
+          | (Omit<ActionConfig, 'required'> & { required: true })[]
+      )
+)[];
 
 export class AppInitializer {
-    private static actions: ControlledPromise[] = [];
+    private static actionControllers: ControlledPromise[] = [];
 
     private static subscriptions: any[] = [];
 
-    static async start(): Promise<void> {
-        AppInitializer.stop();
-        await AppInitializer.authenticate();
+    private static config: Config = [
+        {
+            key: 'initializeAuthentication',
+            required: true,
+            setup: async () => {
+                const response = await requestManager.getAbout().response;
 
-        await AppInitializer.fetchRequiredData();
+                if (AuthManager.isAuthInitialized()) {
+                    return;
+                }
 
-        void AppInitializer.startNonRequired();
-    }
+                assertIsDefined(response?.data);
 
-    static stop(): void {
-        AppInitializer.actions.forEach((promise) => promise.reject('stopped'));
-        AppInitializer.actions = [];
-        AppInitializer.subscriptions.forEach((subscription) => subscription.unsubscribe());
-        LibraryUpdateNotifier.stop();
-    }
-
-    private static async authenticate(): Promise<void> {
-        await AppInitializer.executeActions([
-            [
-                'initializeAuthentication',
-                async () => {
-                    const response = await requestManager.getAbout().response;
-
-                    if (AuthManager.isAuthInitialized()) {
-                        return;
-                    }
-
-                    assertIsDefined(response?.data);
-
-                    AuthManager.setAuthRequired(false);
-                    AuthManager.setAuthInitialized(true);
-                    requestManager.processQueues();
-                },
-            ],
-        ]);
-    }
-
-    private static async fetchRequiredData(): Promise<void> {
-        await AppInitializer.executeActions([
-            ['globalMeta', () => requestManager.getGlobalMeta().response],
-            ['serverSettings', () => requestManager.getServerSettings().response],
-        ]);
-    }
-
-    private static async startNonRequired(): Promise<void> {
-        await AppInitializer.executeActions([
-            [
-                'resumeMigration',
-                () => {
+                AuthManager.setAuthRequired(false);
+                AuthManager.setAuthInitialized(true);
+                requestManager.processQueues();
+            },
+        },
+        [
+            {
+                key: 'globalMeta',
+                required: true,
+                setup: () => requestManager.getGlobalMeta().response,
+            },
+            {
+                key: 'serverSettings',
+                required: true,
+                setup: () => requestManager.getServerSettings().response,
+            },
+        ],
+        [
+            {
+                key: 'resumeMigration',
+                required: false,
+                setup: () => {
                     if (!MigrationManager.isActive()) {
                         navigator.locks
                             ?.request('migration-executor', async () => {
@@ -84,29 +79,93 @@ export class AppInitializer {
                             .catch(defaultPromiseErrorHandler('ResumeMigration'));
                     }
                 },
-            ],
-            ['libraryUpdateNotifier', () => LibraryUpdateNotifier.start()],
+            },
+            {
+                key: 'libraryUpdateNotifier',
+                required: false,
+                setup: () => LibraryUpdateNotifier.start(),
+            },
             // Load the full download status once on startup to fill the cache
-            ['downloadStatus', () => requestManager.getDownloadStatus().response],
+            {
+                key: 'downloadStatus',
+                required: false,
+                setup: () => requestManager.getDownloadStatus().response,
+            },
             // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
             // without having to open the extensions page.
-            ['fetchExtensionList', () => requestManager.getExtensionListFetch().response],
+            {
+                key: 'fetchExtensionList',
+                required: false,
+                setup: () => requestManager.getExtensionListFetch().response,
+            },
             /*
              * Creates permanent subscriptions to always have the latest data.
              *
              * E.g. in case a view is open, which does not subscribe to the download updates, finished downloads are never received
              * and thus, data of existing chapters/mangas in the cache get outdated
              */
-            ['downloadSubscription', () => this.subscriptions.push(requestManager.downloadSubscription().subscribe())],
-            ['updaterSubscription', () => this.subscriptions.push(requestManager.updaterSubscription().subscribe())],
-            ['webUISubscription', () => this.subscriptions.push(requestManager.webUIUpdateSubscription().subscribe())],
-            ['syncSubscription', () => this.subscriptions.push(requestManager.syncSubscription().subscribe())],
-            ['basicAuthDeprecationReminder', () => BasicAuthDeprecationReminder.start()],
-        ]);
+            {
+                key: 'downloadSubscription',
+                required: false,
+                setup: () => this.subscriptions.push(requestManager.downloadSubscription().subscribe()),
+            },
+            {
+                key: 'updaterSubscription',
+                required: false,
+                setup: () => this.subscriptions.push(requestManager.updaterSubscription().subscribe()),
+            },
+            {
+                key: 'webUISubscription',
+                required: false,
+                setup: () => this.subscriptions.push(requestManager.webUIUpdateSubscription().subscribe()),
+            },
+            {
+                key: 'syncSubscription',
+                required: false,
+                setup: () => this.subscriptions.push(requestManager.syncSubscription().subscribe()),
+            },
+            { key: 'basicAuthDeprecationReminder', required: false, setup: () => BasicAuthDeprecationReminder.start() },
+        ],
+    ];
+
+    static async start(): Promise<void> {
+        AppInitializer.stop();
+
+        for (const actions of AppInitializer.config) {
+            // oxlint-disable-next-line no-await-in-loop
+            await AppInitializer.startActions(actions);
+        }
+    }
+
+    static stop(): void {
+        AppInitializer.actionControllers.forEach((promise) => promise.reject('stopped'));
+        AppInitializer.actionControllers = [];
+        AppInitializer.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        LibraryUpdateNotifier.stop();
+    }
+
+    private static async startActions(actions: ActionConfig | ActionConfig[]): Promise<void> {
+        const promise = AppInitializer.executeActions(Array.isArray(actions) ? actions : [actions]);
+
+        if (!AppInitializer.isActionRequired(actions)) {
+            return Promise.resolve();
+        }
+
+        await promise;
+
+        return promise;
+    }
+
+    private static isActionRequired(action: ActionConfig | ActionConfig[]): boolean {
+        if (Array.isArray(action)) {
+            return action[0].required;
+        }
+
+        return action.required;
     }
 
     private static async executeActions(
-        actions: ActionConfig,
+        actions: ActionConfig[],
         {
             timeout = d(5).seconds.inWholeMilliseconds,
             timeoutMultiplier = 1.5,
@@ -121,7 +180,7 @@ export class AppInitializer {
     ): Promise<void> {
         const finalPromise = promise ?? new ControlledPromise();
         if (!promise) {
-            AppInitializer.actions.push(finalPromise);
+            AppInitializer.actionControllers.push(finalPromise);
         }
 
         const isAborted = async () => {
@@ -138,12 +197,15 @@ export class AppInitializer {
             return;
         }
 
-        const inFlightActions = actions.map(([key, fn]) => [key, Promise.resolve().then(fn)] satisfies InFlightAction);
+        const inFlightActions = actions.map(
+            ({ setup, ...action }) =>
+                ({ ...action, inFlightSetup: Promise.resolve().then(setup) }) satisfies InFlightAction,
+        );
 
         const actionWithSuccessState = await Promise.all(
-            inFlightActions.map(async ([key, inFlightAction]) => {
+            inFlightActions.map(async ({ key, inFlightSetup }) => {
                 try {
-                    await inFlightAction;
+                    await inFlightSetup;
 
                     return [key, true] as [string, boolean];
                 } catch (e) {
@@ -165,7 +227,7 @@ export class AppInitializer {
         });
 
         await AppInitializer.executeActions(
-            actions.filter(([key]) => failedActions.some(([k]) => k === key)),
+            actions.filter(({ key }) => failedActions.some(([k]) => k === key)),
             {
                 timeout: (timeout * timeoutMultiplier) % maxTimeout,
                 timeoutMultiplier,
