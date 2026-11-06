@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-10-26 21:51+0000\n"
+"PO-Revision-Date: 2026-11-02 21:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -2688,7 +2688,7 @@ msgstr "Type"
 
 #: src/features/settings/Settings.constants.ts
 msgid "UI Login"
-msgstr "Interface de connexion"
+msgstr "Connexion UI"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -4682,3 +4682,7 @@ msgid "The maximum number of actual connections to the database; see <0>HikariCP
 msgstr ""
 "Le nombre maximum de connexions réelles à la base de données ; voir <0>"
 "HikariCP : About-Pool-Sizing</0>"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Page : {page}"
