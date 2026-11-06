@@ -9,14 +9,16 @@
 import { useTheme } from '@mui/material/styles';
 import type { StackProps } from '@mui/material/Stack';
 import Stack from '@mui/material/Stack';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const SplashScreen = ({
+    message,
     slots,
 }: {
+    message?: ReactNode;
     slots?: {
         stackProps?: StackProps;
         logoProps?: ComponentProps<typeof SuwayomiLogo>;
@@ -54,6 +56,7 @@ export const SplashScreen = ({
                     slots?.logoProps?.sx,
                 )}
             />
+            {message && message}
             <Stack
                 {...slots?.serverAddressProps}
                 sx={MUIUtil.mergeSx(

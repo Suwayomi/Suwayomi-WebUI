@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { Direction, PaletteBackgroundChannel, Theme, TypeBackground } from '@mui/material/styles';
+import type { Direction, Theme, TypeBackground } from '@mui/material/styles';
 import { createTheme as createMuiTheme, responsiveFontSizes, useTheme } from '@mui/material/styles';
 import { useCallback } from 'react';
 // oxlint-disable-next-line no-restricted-imports
@@ -49,7 +49,7 @@ const getBackgroundColor = (
     appTheme: AppTheme['muiTheme'],
     theme: Theme,
     setPureBlackMode: boolean = false,
-): (Partial<TypeBackground> & Partial<PaletteBackgroundChannel>) | undefined => {
+): Partial<TypeBackground> | undefined => {
     if (setPureBlackMode) {
         return {
             paper: '#000',

@@ -15,27 +15,46 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LibraryUpdateNotifier } from '@/features/updates/LibraryUpdateNotifier.ts';
 import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDeprecationReminder.ts';
+import type { MessageDescriptor } from '@lingui/core';
+import { useSyncExternalStore } from 'react';
+import { msg } from '@lingui/core/macro';
 
-type Action = { key: string; required: boolean };
-type ActionConfig = Action & { setup: () => Promise<unknown> | unknown };
-type InFlightAction = Action & { inFlightSetup: Promise<unknown> | unknown };
+type Action = {
+    key: string;
+    message?: MessageDescriptor;
+    errorMessage?: MessageDescriptor;
+    required: boolean;
+    setup: () => Promise<unknown> | unknown;
+    active?: boolean;
+    error?: unknown;
+};
+
+type Status = {
+    initialized: boolean;
+    actions: Omit<Action, 'setup'>[];
+};
 
 type Config = readonly (
-    | ActionConfig
-    | (
-          | (Omit<ActionConfig, 'required'> & { required: false })[]
-          | (Omit<ActionConfig, 'required'> & { required: true })[]
-      )
+    | Action
+    | ((Omit<Action, 'required'> & { required: false })[] | (Omit<Action, 'required'> & { required: true })[])
 )[];
 
 export class AppInitializer {
-    private static actionControllers: ControlledPromise[] = [];
+    private static actions = new Map<string, Action & { controller: ControlledPromise }>();
 
     private static subscriptions: any[] = [];
+
+    private static subscribeCount: number = 0;
+
+    private static subscribers = new Map<number, () => void>();
+
+    private static notifierValue: number = 0;
 
     private static config: Config = [
         {
             key: 'initializeAuthentication',
+            message: msg`Checking for authentication…`,
+            errorMessage: msg`Unable to determine authentication`,
             required: true,
             setup: async () => {
                 const response = await requestManager.getAbout().response;
@@ -54,11 +73,15 @@ export class AppInitializer {
         [
             {
                 key: 'globalMeta',
+                message: msg`Loading client settings…`,
+                errorMessage: msg`Unable to load client settings`,
                 required: true,
                 setup: () => requestManager.getGlobalMeta().response,
             },
             {
                 key: 'serverSettings',
+                message: msg`Loading server settings…`,
+                errorMessage: msg`Unable to load server settings`,
                 required: true,
                 setup: () => requestManager.getServerSettings().response,
             },
@@ -138,54 +161,92 @@ export class AppInitializer {
     }
 
     static stop(): void {
-        AppInitializer.actionControllers.forEach((promise) => promise.reject('stopped'));
-        AppInitializer.actionControllers = [];
+        AppInitializer.actions.forEach(({ controller }) => controller.reject('stopped'));
+        AppInitializer.actions.clear();
         AppInitializer.subscriptions.forEach((subscription) => subscription.unsubscribe());
         LibraryUpdateNotifier.stop();
     }
 
-    private static async startActions(actions: ActionConfig | ActionConfig[]): Promise<void> {
-        const promise = AppInitializer.executeActions(Array.isArray(actions) ? actions : [actions]);
+    private static subscribe(callback: () => void): () => void {
+        const key = AppInitializer.subscribeCount++;
+        AppInitializer.subscribers.set(key, callback);
 
-        if (!AppInitializer.isActionRequired(actions)) {
-            return Promise.resolve();
-        }
-
-        await promise;
-
-        return promise;
+        return () => this.unsubscribe(key);
     }
 
-    private static isActionRequired(action: ActionConfig | ActionConfig[]): boolean {
-        if (Array.isArray(action)) {
-            return action[0].required;
+    private static unsubscribe(key: number): void {
+        AppInitializer.subscribers.delete(key);
+    }
+
+    private static notify(): void {
+        AppInitializer.notifierValue = (AppInitializer.notifierValue + 1) % Number.MAX_SAFE_INTEGER;
+        AppInitializer.subscribers.forEach((callback) => callback());
+    }
+
+    public static useStatus(): Status {
+        useSyncExternalStore(AppInitializer.subscribe.bind(AppInitializer), () => AppInitializer.notifierValue);
+
+        return {
+            initialized: AppInitializer.actions
+                .values()
+                .filter((action) => action.required)
+                .every((action) => !action.active),
+            actions: [...AppInitializer.actions.values()].map(
+                ({ key, message, errorMessage, error, required, active }) => ({
+                    key,
+                    message,
+                    errorMessage,
+                    error,
+                    required,
+                    active,
+                }),
+            ),
+        };
+    }
+
+    private static async startActions(actions: Action | Action[]): Promise<void[]> {
+        if (Array.isArray(actions)) {
+            const areRequired = actions[0].required;
+
+            const promise = Promise.all(actions.map((action) => AppInitializer.executeActions(action)));
+
+            if (!areRequired) {
+                return Promise.resolve([]);
+            }
+
+            await promise;
+
+            return promise;
         }
 
-        return action.required;
+        const promise = await AppInitializer.executeActions(actions);
+
+        return [promise];
     }
 
     private static async executeActions(
-        actions: ActionConfig[],
+        action: Action,
         {
             timeout = d(5).seconds.inWholeMilliseconds,
             timeoutMultiplier = 1.5,
             maxTimeout = d(2).minutes.inWholeMilliseconds,
-            promise,
+            controller,
         }: {
             timeout?: number;
             timeoutMultiplier?: number;
             maxTimeout?: number;
-            promise?: ControlledPromise;
+            controller?: ControlledPromise;
         } = {},
     ): Promise<void> {
-        const finalPromise = promise ?? new ControlledPromise();
-        if (!promise) {
-            AppInitializer.actionControllers.push(finalPromise);
+        const finalController = controller ?? new ControlledPromise();
+        if (!controller) {
+            AppInitializer.actions.set(action.key, { ...action, controller: finalController, active: true });
+            AppInitializer.notify();
         }
 
         const isAborted = async () => {
             try {
-                const result = (await Promise.race([finalPromise.promise, Promise.resolve(false)])) ?? true;
+                const result = (await Promise.race([finalController.promise, Promise.resolve(false)])) ?? true;
 
                 return result;
             } catch (error) {
@@ -197,43 +258,27 @@ export class AppInitializer {
             return;
         }
 
-        const inFlightActions = actions.map(
-            ({ setup, ...action }) =>
-                ({ ...action, inFlightSetup: Promise.resolve().then(setup) }) satisfies InFlightAction,
-        );
+        try {
+            await action.setup();
 
-        const actionWithSuccessState = await Promise.all(
-            inFlightActions.map(async ({ key, inFlightSetup }) => {
-                try {
-                    await inFlightSetup;
+            AppInitializer.actions.set(action.key, { ...action, controller: finalController, active: false });
+            AppInitializer.notify();
 
-                    return [key, true] as [string, boolean];
-                } catch (e) {
-                    return [key, false] as [string, boolean];
-                }
-            }),
-        );
+            finalController.resolve();
+        } catch (e) {
+            AppInitializer.actions.set(action.key, { ...action, controller: finalController, error: e });
+            AppInitializer.notify();
 
-        const failedActions = actionWithSuccessState.filter(([_, succeeded]) => !succeeded);
+            await new Promise((resolve) => {
+                setTimeout(resolve, timeout);
+            });
 
-        if (!failedActions.length) {
-            finalPromise.resolve();
-
-            return;
-        }
-
-        await new Promise((resolve) => {
-            setTimeout(resolve, timeout);
-        });
-
-        await AppInitializer.executeActions(
-            actions.filter(({ key }) => failedActions.some(([k]) => k === key)),
-            {
+            await AppInitializer.executeActions(action, {
                 timeout: (timeout * timeoutMultiplier) % maxTimeout,
                 timeoutMultiplier,
                 maxTimeout,
-                promise,
-            },
-        );
+                controller,
+            });
+        }
     }
 }

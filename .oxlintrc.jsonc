@@ -387,6 +387,7 @@
         {
             "files": [
                 "src/base/utils/MediaQuery.tsx",
+                "src/base/AppInitializer.ts",
                 "src/features/authentication/AuthManager.ts",
                 "src/features/chapter/services/Chapters.ts",
                 "src/features/metadata/services/MetadataMigrations.ts",
