@@ -9,6 +9,7 @@
 import type { LimitFunction } from 'p-limit';
 import pLimit from 'p-limit';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 export enum Priority {
     LOW = 0,
@@ -22,8 +23,6 @@ type QueueItemFunction<T = any> = () => PromiseLike<T> | T;
 
 export class Queue {
     private readonly queue: LimitFunction;
-
-    private counter: number = 0;
 
     private pendingKeyToPriorityMap = new Map<Key, QueuePriority>();
 
@@ -50,8 +49,7 @@ export class Queue {
         fn: () => PromiseLike<T> | T,
         priority: QueuePriority = Priority.NORMAL,
     ): { key: string; promise: Promise<T> } {
-        this.counter = (this.counter + 1) % Number.MAX_SAFE_INTEGER;
-        const actualKey = `${key}_${this.counter}`;
+        const actualKey = `${key}_${getUniqueId()}`;
 
         this.pendingKeyToPriorityMap.set(actualKey, priority);
         this.pendingKeyToFnMap.set(actualKey, fn);

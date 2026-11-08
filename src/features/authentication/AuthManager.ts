@@ -12,15 +12,14 @@ import { assertIsDefined } from '@/base/Asserts.ts';
 import type { DecodedJwt, TokenPayload } from '@/features/authentication/Auth.types.ts';
 import { epochToDate } from '@/base/utils/DateHelper.ts';
 import { d } from 'koration';
-
-let notifierValue = 0;
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 export class AuthManager {
     static readonly REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
-    private static subscribedCount: number = 0;
+    private static notifierValue: string = '';
 
-    private static subscribers = new Map<number, () => void>();
+    private static subscribers = new Map<string, () => void>();
 
     private static accessToken: TokenPayload | null = null;
 
@@ -31,19 +30,18 @@ export class AuthManager {
     private static refreshingToken: boolean = false;
 
     private static subscribe(callback: () => void): () => void {
-        // oxlint-disable-next-line no-plusplus
-        const key = AuthManager.subscribedCount++;
+        const key = getUniqueId();
         this.subscribers.set(key, callback);
 
         return () => this.unsubscribe(key);
     }
 
-    private static unsubscribe(key: number): void {
+    private static unsubscribe(key: string): void {
         this.subscribers.delete(key);
     }
 
     private static notify(): void {
-        notifierValue = (notifierValue + 1) % Number.MAX_SAFE_INTEGER;
+        this.notifierValue = getUniqueId();
         this.subscribers.forEach((callback) => callback());
     }
 
@@ -54,7 +52,7 @@ export class AuthManager {
         isInitialized: typeof AuthManager.authInitialized;
         isRefreshingToken: typeof AuthManager.refreshingToken;
     } {
-        useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => notifierValue);
+        useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => this.notifierValue);
 
         return useMemo(
             () => ({

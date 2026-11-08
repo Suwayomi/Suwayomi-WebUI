@@ -18,6 +18,7 @@ import { BasicAuthDeprecationReminder } from '@/base/notification/BasicAuthDepre
 import type { MessageDescriptor } from '@lingui/core';
 import { useSyncExternalStore } from 'react';
 import { msg } from '@lingui/core/macro';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 type Action = {
     key: string;
@@ -44,11 +45,9 @@ export class AppInitializer {
 
     private static subscriptions: any[] = [];
 
-    private static subscribeCount: number = 0;
+    private static subscribers = new Map<string, () => void>();
 
-    private static subscribers = new Map<number, () => void>();
-
-    private static notifierValue: number = 0;
+    private static notifierValue: string = '';
 
     private static config: Config = [
         {
@@ -168,18 +167,18 @@ export class AppInitializer {
     }
 
     private static subscribe(callback: () => void): () => void {
-        const key = AppInitializer.subscribeCount++;
+        const key = getUniqueId();
         AppInitializer.subscribers.set(key, callback);
 
         return () => this.unsubscribe(key);
     }
 
-    private static unsubscribe(key: number): void {
+    private static unsubscribe(key: string): void {
         AppInitializer.subscribers.delete(key);
     }
 
     private static notify(): void {
-        AppInitializer.notifierValue = (AppInitializer.notifierValue + 1) % Number.MAX_SAFE_INTEGER;
+        AppInitializer.notifierValue = getUniqueId();
         AppInitializer.subscribers.forEach((callback) => callback());
     }
 

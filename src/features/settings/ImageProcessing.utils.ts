@@ -27,9 +27,7 @@ import type {
     SettingsDownloadConversionType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
-
-let COUNTER = 0;
+import { getUniqueId, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 const normalizeMimeType = (mimeType: string): string => mimeType.replace(MIME_TYPE_PREFIX, '');
 
@@ -123,8 +121,7 @@ export const addStableIdToKeyValueItems = (
     items: (SettingsDownloadConversionHeader | TSettingsDownloadConversionKeyValueItem)[],
 ): TSettingsDownloadConversionKeyValueItem[] =>
     items.map((item) => ({
-        // oxlint-disable-next-line no-plusplus
-        id: (item as TSettingsDownloadConversionKeyValueItem).id ?? COUNTER++,
+        id: (item as TSettingsDownloadConversionKeyValueItem).id ?? getUniqueId(),
         ...item,
     }));
 
@@ -132,8 +129,7 @@ export const addStableIdToConversions = (
     conversions: (SettingsDownloadConversion | TSettingsDownloadConversion)[],
 ): TSettingsDownloadConversion[] =>
     conversions.map((conversion) => ({
-        // oxlint-disable-next-line no-plusplus
-        id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
+        id: (conversion as TSettingsDownloadConversion).id ?? getUniqueId(),
         ...conversion,
         mode: getTargetMode(normalizeMimeType(conversion.target)),
         headers: conversion.headers ? addStableIdToKeyValueItems(conversion.headers) : null,

@@ -11,6 +11,7 @@ import { enqueueSnackbar } from 'notistack';
 import { AppSession } from '@/base/AppSession.ts';
 import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 type Variant = OptionsObject['variant'];
 type Options = {
@@ -23,14 +24,6 @@ type Options = {
 type OptionsUtil = Omit<Options, 'variant'>;
 
 export class Notifications {
-    private static COUNTER = 0;
-
-    private static getId(): number {
-        Notifications.COUNTER = (Notifications.COUNTER + 1) % Number.MAX_SAFE_INTEGER;
-
-        return Notifications.COUNTER;
-    }
-
     static show(message: string, description?: string): SnackbarKey;
     static show(message: string, options?: Options): SnackbarKey;
     static show(message: string, description?: string, options?: Options): SnackbarKey;
@@ -38,7 +31,7 @@ export class Notifications {
         const options = typeof optionsOrDescription === 'object' ? optionsOrDescription : (optionsOrUndefined ?? {});
         const description = typeof options === 'string' ? options : undefined;
 
-        const id = options.id ?? Notifications.getId();
+        const id = options.id ?? getUniqueId();
 
         if (AppSession.isActivelyUsed()) {
             return enqueueSnackbar(message, {
