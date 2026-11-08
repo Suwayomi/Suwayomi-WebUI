@@ -19,6 +19,7 @@ import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useLingui();
@@ -36,7 +37,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
     const handleLogin = async (username: string, password: string) => {
         if (isOAuthLogin) {
             const state = {
-                redirectUrl: `${window.location.origin}/tracker/login/oauth`,
+                redirectUrl: `${SubpathUtil.maybeAddAsPrefix(window.location.origin)}/tracker/login/oauth`,
                 clientName: 'Suwayomi-WebUI',
                 trackerId: tracker.id,
                 trackerName: tracker.name,
@@ -55,14 +56,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
 
     const login = async (initialUsername?: string, initialPassword?: string) => {
         if (isOAuthLogin) {
-            const state = {
-                redirectUrl: `${window.location.origin}/tracker/login/oauth`,
-                clientName: 'Suwayomi-WebUI',
-                trackerId: tracker.id,
-                trackerName: tracker.name,
-            };
-
-            window.open(`${tracker.authUrl}&state=${JSON.stringify(state)}`, '_self');
+            void handleLogin('', '');
             return;
         }
 

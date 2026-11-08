@@ -32,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**PWA**) Fix PWA on iOS 27
     - Get rid of the status bar background color fade effect
     - Prevent the top content of dialogs from being hidden by the ios status bar
+- (**Settings/Tracker**) Fix oauth login while using a subpath
 
 ## [20260929.01] (r3518) - 2026-09-29
 

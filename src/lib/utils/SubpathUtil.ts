@@ -34,7 +34,7 @@ export class SubpathUtil {
         return this.getSubpath() || undefined;
     }
 
-    public static getApiBaseUrl(serverUrl: string): string {
+    public static maybeAddAsPrefix(serverUrl: string): string {
         const baseUrl = serverUrl;
         const subpath = this.getSubpath();
 

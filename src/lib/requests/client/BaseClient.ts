@@ -116,8 +116,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
         const serverBaseURL = AppStorage.local.getItemParsed(BaseClient.BASE_URL_KEY, defaultUrl);
 
-        // Apply subpath configuration to the base URL
-        return SubpathUtil.getApiBaseUrl(serverBaseURL);
+        return SubpathUtil.maybeAddAsPrefix(serverBaseURL);
     }
 
     public getBaseUrl(): string {
