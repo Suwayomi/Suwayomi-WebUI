@@ -27,6 +27,7 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { ChapterNodeList } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { getUniqueId } from '@/lib/HelperFunctions.ts';
 
 const typePolicies: TypedTypePolicies = {
     MangaType: {
@@ -481,7 +482,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     public override updateConfig() {}
 
     public registerSubscription(restart: () => void) {
-        this.activeConnectionSubscriptions.set(crypto.randomUUID(), () => restart);
+        this.activeConnectionSubscriptions.set(getUniqueId(), () => restart);
     }
 
     public useRestartSubscription(restart: () => void) {

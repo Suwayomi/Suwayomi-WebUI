@@ -131,3 +131,13 @@ export const getRenderedText = (el: HTMLElement, cssText: string) => {
 
     return text;
 };
+
+const sessionId = Math.random().toString(36).slice(2, 10);
+let counter = 0;
+export const getUniqueId = (): string => {
+    if (typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID().toString();
+    }
+
+    return [Date.now().toString(36), sessionId, (counter++).toString(36)].join('-');
+};
