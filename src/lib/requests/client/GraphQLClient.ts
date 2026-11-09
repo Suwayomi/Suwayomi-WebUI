@@ -243,17 +243,25 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
     }
 
     private resetWsClient(recreateClient: boolean): void {
-        this.wsClient.dispose();
-        this.wsClient.terminate();
+        const dispose = this.wsClient.dispose();
 
-        if (!recreateClient) {
+        const create = () => {
+            if (!recreateClient) {
+                return;
+            }
+
+            this.createWSClient(false);
+            this.client.setLink(this.createLink());
+
+            this.wsClient.on('opened', () => this.restartAllSubscriptions());
+        };
+
+        if (dispose instanceof Promise) {
+            dispose.then(() => create());
             return;
         }
 
-        this.createWSClient(false);
-        this.client.setLink(this.createLink());
-
-        this.restartAllSubscriptions();
+        create();
     }
 
     private restartAllSubscriptions(): void {
@@ -481,8 +489,14 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
     public override updateConfig() {}
 
-    public registerSubscription(restart: () => void) {
-        this.activeConnectionSubscriptions.set(getUniqueId(), () => restart);
+    public registerSubscription(restart: () => void): () => void {
+        const id = getUniqueId();
+
+        this.activeConnectionSubscriptions.set(id, restart);
+
+        return () => {
+            this.activeConnectionSubscriptions.delete(id);
+        };
     }
 
     public useRestartSubscription(restart: () => void) {

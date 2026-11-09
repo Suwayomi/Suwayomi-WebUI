@@ -360,6 +360,7 @@ import { SYNC_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
 import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
 import { GET_SYNC_STATUS } from '@/lib/graphql/sync/SyncQuery.ts';
 import { WEBVIEW_CLEAR_CACHE_COOKIES } from '@/lib/graphql/web-view/WebViewMutation.ts';
+import type { Subscriber } from 'rxjs';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1307,15 +1308,61 @@ export class RequestManager {
                 return subscription;
             }
             case GQLMethod.SUBSCRIPTION: {
-                const subscription = this.graphQLClient.client.subscribe({
-                    query: operation,
-                    variables,
-                    ...(options as SubscriptionOptions<Data, Variables>),
-                } as ApolloClient.SubscribeOptions<Data, Variables>);
+                let apolloObservable: SubscriptionObservable<ApolloClient.SubscribeResult<Data>>;
+                let apolloSubscription: ReturnType<typeof apolloObservable.subscribe> | undefined;
+                let observer: Subscriber<ApolloLink.Result<Data>> | undefined;
 
-                this.graphQLClient.registerSubscription(subscription.restart);
+                let disposed = false;
 
-                return subscription;
+                const start = () => {
+                    apolloSubscription?.unsubscribe();
+                    apolloSubscription = undefined;
+
+                    apolloObservable = this.graphQLClient.client.subscribe({
+                        query: operation,
+                        variables,
+                        ...(options as SubscriptionOptions<Data, Variables>),
+                    } as ApolloClient.SubscribeOptions<Data, Variables>);
+
+                    apolloSubscription = apolloObservable.subscribe({
+                        next: (value) => observer?.next(value),
+                        error: (error) => observer?.error(error),
+                        complete: () => {
+                            // Keep the wrapper alive.
+                        },
+                    });
+                };
+
+                const restart = () => {
+                    if (disposed || !observer || observer.closed) {
+                        return;
+                    }
+
+                    start();
+                };
+
+                const observable = new Observable<ApolloLink.Result<Data>>((subscriptionObserver) => {
+                    observer = subscriptionObserver;
+                    disposed = false;
+
+                    start();
+
+                    const unregister = this.graphQLClient.registerSubscription(restart);
+
+                    return () => {
+                        disposed = true;
+
+                        apolloSubscription?.unsubscribe();
+                        apolloSubscription = undefined;
+                        observer = undefined;
+
+                        unregister();
+                    };
+                }) as SubscriptionObservable<ApolloClient.SubscribeResult<Data>>;
+
+                observable.restart = restart;
+
+                return observable;
             }
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
