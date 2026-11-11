@@ -37,7 +37,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
     const handleLogin = async (username: string, password: string) => {
         if (isOAuthLogin) {
             const state = {
-                redirectUrl: `${SubpathUtil.maybeAddAsPrefix(window.location.origin)}/tracker/login/oauth`,
+                redirectUrl: `${SubpathUtil.maybeAddAsSuffix(window.location.origin)}/tracker/login/oauth`,
                 clientName: 'Suwayomi-WebUI',
                 trackerId: tracker.id,
                 trackerName: tracker.name,
