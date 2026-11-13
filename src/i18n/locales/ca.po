@@ -4,11 +4,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 "Language: ca\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-23 17:52+0000\n"
+"PO-Revision-Date: 2026-11-11 13:51+0000\n"
 "Last-Translator: Kisnov <kisnov@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/ca/>\n"
@@ -4632,3 +4632,58 @@ msgid "The maximum number of actual connections to the database; see <0>HikariCP
 msgstr ""
 "El nombre màxim de connexions reals a la base de dades; vegeu <0>HikariCP: "
 "About-Pool-Sizing</0>"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Pàgina: {page}"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Basic Authentication deprecation"
+msgstr "Autenticació bàsica obsoleta"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Change"
+msgstr "Canvia"
+
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Crop borders"
+msgstr "Retalla les vores"
+
+#. placeholder {0}: chapter.pageCount
+#: src/features/chapter/services/Chapters.ts
+msgid "Page: {page}/{0}"
+msgstr "Pàgina: {page}/{0}"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
+msgstr ""
+"El mode «Autenticació bàsica» està obsolet i s'eliminarà en el futur. "
+"Canvieu a un altre mode d'autenticació"
+
+#: src/features/settings/Settings.constants.ts
+msgid "This mode is deprecated and will be removed in the future"
+msgstr "Aquest mode està obsolet i s'eliminarà en el futur"
+
+#: src/base/AppInitializer.ts
+msgid "Checking for authentication…"
+msgstr "S'està comprovant l'autenticació…"
+
+#: src/base/AppInitializer.ts
+msgid "Loading client settings…"
+msgstr "S'està carregant la configuració del client…"
+
+#: src/base/AppInitializer.ts
+msgid "Loading server settings…"
+msgstr "S'està carregant la configuració del servidor…"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to determine authentication"
+msgstr "No s'ha pogut determinar l'autenticació"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to load client settings"
+msgstr "No s'ha pogut carregar la configuració del client"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to load server settings"
+msgstr "No s'ha pogut carregar la configuració del servidor"
