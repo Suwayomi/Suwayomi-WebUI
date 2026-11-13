@@ -35,6 +35,7 @@ export const DOWNLOAD_TYPE_FIELDS = gql`
         state
         tries
         position
+        errorMessage
     }
 `;
 
