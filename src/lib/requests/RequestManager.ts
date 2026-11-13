@@ -417,6 +417,26 @@ type SubscriptionOptions<Data = any, Variables extends OperationVariables = Oper
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 
 export type ImageRequest = { response: Promise<string>; cleanup: () => void; fromCache: boolean } & AbortableRequest;
+
+/**
+ * An image request that has neither loaded nor failed after this long gets cancelled and fails.
+ *
+ * A request whose connection dies without an error, e.g. when a phone switches between wifi and mobile data,
+ * otherwise never settles. Its spinner then shows forever, without a retry button, and it keeps a slot of the image
+ * queue busy.
+ *
+ * The limit is generous because the server might first have to fetch the image from the source, which can take a
+ * while (slow source, cloudflare challenge).
+ */
+const IMAGE_REQUEST_TIMEOUT_MS = 90_000;
+
+export class ImageRequestTimeoutError extends Error {
+    constructor(url: string) {
+        super(`Image request timed out after ${IMAGE_REQUEST_TIMEOUT_MS / 1000}s: ${url}`);
+        this.name = 'ImageRequestTimeoutError';
+    }
+}
+
 type ImageRequestOptions = {
     priority?: QueuePriority;
     shouldDecode?: boolean;
@@ -1040,6 +1060,12 @@ export class RequestManager {
                 }
                 img.src = url;
 
+                const timeout = setTimeout(
+                    () => abortRequest(new ImageRequestTimeoutError(url)),
+                    IMAGE_REQUEST_TIMEOUT_MS,
+                );
+                imgRequest.promise.finally(() => clearTimeout(timeout)).catch(() => {});
+
                 img.onload = async () => {
                     try {
                         await this.optionallyDecodeImage(url, shouldDecode);
@@ -1093,8 +1119,13 @@ export class RequestManager {
             fromCache,
         } = await this.maybeEnqueueImageRequest(
             url,
-            () =>
-                this.restClient
+            () => {
+                const timeout = setTimeout(
+                    () => abortRequest(new ImageRequestTimeoutError(url)),
+                    IMAGE_REQUEST_TIMEOUT_MS,
+                );
+
+                return this.restClient
                     .fetcher(url, {
                         checkResponseIsJson: false,
                         config: {
@@ -1110,7 +1141,17 @@ export class RequestManager {
                         await this.optionallyDecodeImage(imageUrl, shouldDecode, disableCors);
 
                         return imageUrl;
-                    }),
+                    })
+                    .catch((error) => {
+                        // older browsers reject with a generic "AbortError" instead of the abort reason
+                        if (signal.reason instanceof ImageRequestTimeoutError) {
+                            throw signal.reason;
+                        }
+
+                        throw error;
+                    })
+                    .finally(() => clearTimeout(timeout));
+            },
             priority,
             ignoreQueue,
         );
