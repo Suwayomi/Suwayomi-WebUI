@@ -8,7 +8,6 @@
 
 import type { OptionsObject, SnackbarKey } from 'notistack';
 import { enqueueSnackbar } from 'notistack';
-import { AppSession } from '@/base/AppSession.ts';
 import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getUniqueId } from '@/lib/HelperFunctions.ts';
@@ -33,7 +32,8 @@ export class Notifications {
 
         const id = options.id ?? getUniqueId();
 
-        if (AppSession.isActivelyUsed()) {
+        const isActivelyUsed = document.visibilityState === 'visible' && document.hasFocus();
+        if (isActivelyUsed) {
             return enqueueSnackbar(message, {
                 key: id,
                 variant: options.variant ?? 'info',
