@@ -182,9 +182,7 @@ export class AppInitializer {
         AppInitializer.subscribers.forEach((callback) => callback());
     }
 
-    public static useStatus(): Status {
-        useSyncExternalStore(AppInitializer.subscribe.bind(AppInitializer), () => AppInitializer.notifierValue);
-
+    static getStatus(): Status {
         return {
             initialized:
                 !!AppInitializer.actions.size &&
@@ -203,6 +201,12 @@ export class AppInitializer {
                 }),
             ),
         };
+    }
+
+    public static useStatus(): Status {
+        useSyncExternalStore(AppInitializer.subscribe.bind(AppInitializer), () => AppInitializer.notifierValue);
+
+        return AppInitializer.getStatus();
     }
 
     private static async startActions(actions: Action | Action[]): Promise<void[]> {

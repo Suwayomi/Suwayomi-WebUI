@@ -28,6 +28,7 @@ import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { ChapterNodeList } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { getUniqueId } from '@/lib/HelperFunctions.ts';
+import { AppInitializer } from '@/base/AppInitializer.ts';
 
 const typePolicies: TypedTypePolicies = {
     MangaType: {
@@ -451,6 +452,11 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
         clearInterval(this.wsClientAliveCheckInterval);
         this.wsClientAliveCheckInterval = setInterval(() => {
+            if (!AppInitializer.getStatus().initialized) {
+                lastHeartbeat = Date.now();
+                return;
+            }
+
             const heartbeatThreshold = heartbeatInterval * 1.5;
 
             const isHeartbeatMissing = Date.now() - lastHeartbeat > heartbeatThreshold;
