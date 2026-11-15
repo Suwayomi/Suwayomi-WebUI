@@ -290,7 +290,9 @@ const useSortedMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>
     const haveMangasChanged = !isEqual(mangas, cachedMangas);
     const haveMangaIdsChanged = !isEqual(mangaIds, cachedMangaIds);
     const haveSortOptionsChanged = previousSortBy !== options.sortBy || previousSortDesc !== options.sortDesc;
-    const reapplySorting = haveMangaIdsChanged || haveSortOptionsChanged;
+    // random keeps its cached order so the list does not reshuffle on every data update
+    const reapplySorting =
+        haveMangaIdsChanged || haveSortOptionsChanged || (haveMangasChanged && options.sortBy !== 'random');
 
     const sortedMangas = (() => {
         if (reapplySorting) {

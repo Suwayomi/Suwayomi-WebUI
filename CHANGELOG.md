@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Get rid of the status bar background color fade effect
     - Prevent the top content of dialogs from being hidden by the ios status bar
 - (**Settings/Tracker**) Fix oauth login while using a subpath
+- (**Library**) Fix manga sort order not updating after manga data changed (e.g. sort by unread chapters and the unread count of a manga changes)
 
 ## [20260929.01] (r3518) - 2026-09-29
 
