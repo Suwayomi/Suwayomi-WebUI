@@ -10,6 +10,9 @@ import WebFont from 'webfontloader';
 import type { CssVarsThemeOptions } from '@mui/material/styles';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import pickBy from 'lodash/fp/pickBy';
+import { GoogleFonts } from '@/features/theme/GoogleFonts.constants.ts';
+import { baseCleanup } from '@/base/utils/Strings.ts';
 
 export class ThemeFontLoader {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/generic-family
@@ -103,7 +106,9 @@ export class ThemeFontLoader {
             }
         }
 
-        return result;
+        const supportedFonts = pickBy((_, font) => GoogleFonts.includes(baseCleanup(font)), result);
+
+        return supportedFonts;
     }
 
     static hasMissing(theme: CssVarsThemeOptions): boolean {
