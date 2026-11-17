@@ -20,12 +20,18 @@ import type { SxProps, Theme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { usePrevious } from '@mantine/hooks';
 import type { ImageRequest } from '@/lib/requests/RequestManager.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ImageRequestTimeoutError, requestManager } from '@/lib/requests/RequestManager.ts';
 import type { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
 import { noOp } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+
+/**
+ * A timed out request is retried automatically before the retry button gets shown.
+ * Usually, the connection of the first request died silently, and a new request loads the image right away.
+ */
+const MAX_AUTOMATIC_RETRIES_AFTER_TIMEOUT = 1;
 
 export interface SpinnerImageProps {
     shouldLoad?: boolean;
@@ -81,6 +87,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
     const [isLoading, setIsLoading] = useState<boolean>();
     const [hasError, setHasError] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const automaticRetryCount = useRef(0);
 
     const previousSrc = usePrevious(src);
     const previousImgLoadRetryKey = usePrevious(imgLoadRetryKey);
@@ -107,6 +114,10 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
     useEffect(() => {
         const didSrcChange = previousSrc !== src;
         const isLoadedAndSrcUnchanged = !!imageSourceUrl && !didSrcChange;
+
+        if (didSrcChange) {
+            automaticRetryCount.current = 0;
+        }
 
         const isLocalRetry =
             hasError && previousImgLoadRetryKey !== undefined && previousImgLoadRetryKey !== imgLoadRetryKey;
@@ -157,6 +168,17 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                 updateImageState(false);
                 setImageSourceUrl(image);
             } catch (e) {
+                const shouldRetryAutomatically =
+                    e instanceof ImageRequestTimeoutError &&
+                    automaticRetryCount.current < MAX_AUTOMATIC_RETRIES_AFTER_TIMEOUT;
+                if (shouldRetryAutomatically) {
+                    automaticRetryCount.current += 1;
+                    // keep showing the spinner; "hasError" is required for the effect to handle the key change as a retry
+                    updateImageState(true, true);
+                    setImgLoadRetryKey((prevState) => (prevState + 1) % 100);
+                    return;
+                }
+
                 const wasAborted =
                     e instanceof Error && (e.name === 'AbortError' || e.message === 'Component was unmounted');
                 updateImageState(false, !wasAborted, wasAborted);
