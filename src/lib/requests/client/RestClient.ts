@@ -55,7 +55,10 @@ export class RestClient
                 await BaseClient.refreshAccessToken(this.handleRefreshToken);
             }
 
-            const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
+            const isBlobOrData = url.startsWith('blob:') || url.startsWith('data:');
+            const addBaseUrl = !isBlobOrData && !url.startsWith('http');
+
+            const updatedUrl = addBaseUrl ? `${this.getBaseUrl()}${url}` : url;
             const isAuthRequired = AuthManager.isAuthRequired();
             const accessToken = AuthManager.getAccessToken();
 
