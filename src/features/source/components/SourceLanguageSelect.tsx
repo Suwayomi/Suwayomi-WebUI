@@ -66,8 +66,9 @@ const SourceLanguageSelectDialog = ({
 }) => {
     const { t } = useLingui();
 
-    const [tmpSourceIdToEnabledState, setTmpSourceIdToEnabledState] = useState<Record<SourceIdInfo['id'], boolean>>({});
+    const [scrollElement, setScrollElement] = useState<HTMLElement | undefined>(undefined);
 
+    const [tmpSourceIdToEnabledState, setTmpSourceIdToEnabledState] = useState<Record<SourceIdInfo['id'], boolean>>({});
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
 
     const sourcesByLanguage = useMemo(() => Sources.groupByLanguage(sources), [sources]);
@@ -147,16 +148,13 @@ const SourceLanguageSelectDialog = ({
     return (
         <Dialog fullWidth maxWidth="xs" open={isVisible} onClose={onDismiss} onTransitionExited={onExitComplete}>
             <DialogTitle>{t`Enabled languages and sources`}</DialogTitle>
-            <DialogContent dividers sx={{ padding: 0 }}>
+            <DialogContent ref={setScrollElement} dividers sx={{ padding: 0 }}>
                 {!languages.length && <Box sx={{ p: 1 }}>{t`No sources installed`}</Box>}
                 <GroupedVirtuoso
-                    style={{
-                        height: languagesSortedBySelectState.length * 54,
-                        minHeight: '25dvh',
-                        maxHeight: '50dvh',
-                    }}
-                    groupCounts={groupCounts}
+                    customScrollParent={scrollElement}
+                    useWindowScroll
                     increaseViewportBy={400}
+                    groupCounts={groupCounts}
                     computeItemKey={computeItemKey}
                     groupContent={(index) => {
                         const language = languagesSortedBySelectState[index];

@@ -39,8 +39,9 @@ const LanguageSelectDialog = ({
 }) => {
     const { t } = useLingui();
 
-    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
+    const [scrollElement, setScrollElement] = useState<HTMLElement | undefined>(undefined);
 
+    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
     const previousSelectedLanguages = usePrevious(selectedLanguages);
 
     if (previousSelectedLanguages && previousSelectedLanguages !== selectedLanguages) {
@@ -73,13 +74,10 @@ const LanguageSelectDialog = ({
     return (
         <Dialog fullWidth maxWidth="xs" open={isVisible} onClose={onDismiss} onTransitionExited={onExitComplete}>
             <DialogTitle>{t`Enabled languages`}</DialogTitle>
-            <DialogContent dividers sx={{ padding: 0 }}>
+            <DialogContent ref={setScrollElement} dividers sx={{ padding: 0 }}>
                 <Virtuoso
-                    style={{
-                        height: languagesSortedBySelectState.length * 54,
-                        minHeight: '25dvh',
-                        maxHeight: '70dvh',
-                    }}
+                    customScrollParent={scrollElement}
+                    useWindowScroll
                     data={languagesSortedBySelectState}
                     increaseViewportBy={400}
                     computeItemKey={(index) => languagesSortedBySelectState[index]}
