@@ -15,8 +15,6 @@ import type { ChapterListFieldsFragment, DownloadTypeFieldsFragment } from '@/li
 import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-
 import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
@@ -29,9 +27,12 @@ import {
 } from '@/features/chapter/Chapter.constants.ts';
 import type {
     ChapterAction,
+    ChapterActionOption,
+    ChapterActionOptions,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterIdInfo,
+    ChapterMarkAsReadOptions,
     ChapterNumberInfo,
     ChapterReadInfo,
     ChapterReadProgressInfo,
@@ -195,7 +196,7 @@ export class Chapters {
             .filter((matchingChapters): matchingChapters is [ChapterA, ChapterB] => matchingChapters !== null);
     }
 
-    static async download(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async download(chapterIds: number[], { disableConfirmation }: ChapterActionOption = {}): Promise<void> {
         return Chapters.executeAction(
             'download',
             chapterIds.length,
@@ -204,7 +205,10 @@ export class Chapters {
         );
     }
 
-    static async cancelDownload(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async cancelDownload(
+        chapterIds: number[],
+        { disableConfirmation }: ChapterActionOption = {},
+    ): Promise<void> {
         return Chapters.executeAction(
             'download_cancel',
             chapterIds.length,
@@ -213,7 +217,7 @@ export class Chapters {
         );
     }
 
-    static async delete(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async delete(chapterIds: number[], { disableConfirmation }: ChapterActionOption = {}): Promise<void> {
         return Chapters.executeAction(
             'delete',
             chapterIds.length,
@@ -224,9 +228,11 @@ export class Chapters {
 
     static async markAsRead(
         chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[],
-        wasManuallyMarkedAsRead: boolean = false,
-        trackProgressMangaId?: MangaIdInfo['id'],
-        disableConfirmation?: boolean,
+        {
+            wasManuallyMarkedAsRead = false,
+            trackProgressMangaId,
+            disableConfirmation,
+        }: Omit<ChapterMarkAsReadOptions, 'chapters'>,
     ): Promise<void> {
         const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark, updateProgressManualMarkRead } =
             await getMetadataServerSettings();
@@ -249,7 +255,7 @@ export class Chapters {
         );
     }
 
-    static async markAsUnread(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async markAsUnread(chapterIds: number[], { disableConfirmation }: ChapterActionOption = {}): Promise<void> {
         return Chapters.executeAction(
             'mark_as_unread',
             chapterIds.length,
@@ -325,21 +331,7 @@ export class Chapters {
     static async performAction<Action extends ChapterAction>(
         action: Action,
         chapterIds: number[],
-        {
-            wasManuallyMarkedAsRead,
-            trackProgressMangaId,
-            chapters,
-        }: Action extends 'mark_as_read'
-            ? {
-                  wasManuallyMarkedAsRead: boolean;
-                  trackProgressMangaId?: MangaIdInfo['id'];
-                  chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
-              }
-            : {
-                  wasManuallyMarkedAsRead?: never;
-                  trackProgressMangaId?: never;
-                  chapters?: never;
-              },
+        { wasManuallyMarkedAsRead, trackProgressMangaId, chapters }: ChapterActionOptions<Action>,
     ): Promise<void> {
         switch (action) {
             case 'download':
@@ -349,7 +341,10 @@ export class Chapters {
             case 'delete':
                 return Chapters.delete(chapterIds);
             case 'mark_as_read':
-                return Chapters.markAsRead(chapters!, wasManuallyMarkedAsRead!, trackProgressMangaId);
+                return Chapters.markAsRead(chapters!, {
+                    wasManuallyMarkedAsRead,
+                    trackProgressMangaId,
+                });
             case 'mark_as_unread':
                 return Chapters.markAsUnread(chapterIds);
             case 'bookmark':

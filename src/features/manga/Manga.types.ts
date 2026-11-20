@@ -133,7 +133,7 @@ export type DownloadChaptersOptions = MangaActionOption & {
     downloadAhead?: boolean;
 };
 
-export type MarkAsReadOptions = MangaActionOption & { wasManuallyMarkedAsRead: boolean };
+export type MarkAsReadOptions = MangaActionOption & { wasManuallyMarkedAsRead?: boolean };
 
 export type ChangeCategoriesOptions = MangaActionOption & { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
 

@@ -284,7 +284,7 @@ export class Mangas {
                 }
 
                 try {
-                    await Chapters.download(Chapters.getIds(chaptersToDownload), disableConfirmation);
+                    await Chapters.download(Chapters.getIds(chaptersToDownload), { disableConfirmation });
                 } catch (e) {
                     // Ignore - Error gets handled in Chapters
                 }
@@ -302,7 +302,7 @@ export class Mangas {
                 const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
 
                 try {
-                    await Chapters.delete(Chapters.getIds(chapters), disableConfirmation);
+                    await Chapters.delete(Chapters.getIds(chapters), { disableConfirmation });
                 } catch (e) {
                     // Ignore - Error gets handled in Chapters
                 }
@@ -312,10 +312,7 @@ export class Mangas {
         );
     }
 
-    static async markAsRead(
-        mangaIds: number[],
-        { wasManuallyMarkedAsRead, disableConfirmation }: MarkAsReadOptions,
-    ): Promise<void> {
+    static async markAsRead(mangaIds: number[], options: MarkAsReadOptions): Promise<void> {
         return Mangas.executeAction(
             'mark_as_read',
             I18N_PLURAL,
@@ -323,12 +320,10 @@ export class Mangas {
                 const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
 
                 try {
-                    await Chapters.markAsRead(
-                        chapters,
-                        wasManuallyMarkedAsRead,
-                        mangaIds.length === 1 ? mangaIds[0] : undefined,
-                        disableConfirmation,
-                    );
+                    await Chapters.markAsRead(chapters, {
+                        ...options,
+                        trackProgressMangaId: mangaIds.length === 1 ? mangaIds[0] : undefined,
+                    });
                 } catch (e) {
                     // Ignore - Error gets handled in Chapters
                 }
@@ -346,7 +341,7 @@ export class Mangas {
                 const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
 
                 try {
-                    await Chapters.markAsUnread(Chapters.getIds(chapters), disableConfirmation);
+                    await Chapters.markAsUnread(Chapters.getIds(chapters), { disableConfirmation });
                 } catch (e) {
                     // Ignore - Error gets handled in Chapters
                 }
@@ -480,7 +475,7 @@ export class Mangas {
                 return Mangas.deleteChapters(mangaIds, { disableConfirmation });
             case 'mark_as_read':
                 return Mangas.markAsRead(mangaIds, {
-                    wasManuallyMarkedAsRead: wasManuallyMarkedAsRead!,
+                    wasManuallyMarkedAsRead,
                     disableConfirmation,
                 });
             case 'mark_as_unread':

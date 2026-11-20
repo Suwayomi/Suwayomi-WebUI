@@ -8,6 +8,7 @@
 
 import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types';
 import type { ChapterReaderFieldsFragment, DownloadStatusFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 
@@ -63,3 +64,17 @@ export type ChapterScanlatorInfo = Pick<ChapterType, 'scanlator'>;
 export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
 
 export type ChapterNameInfo = Pick<ChapterType, 'name'>;
+
+export type ChapterActionOption = { disableConfirmation?: boolean };
+
+export type ChapterMarkAsReadOptions = ChapterActionOption & {
+    wasManuallyMarkedAsRead?: boolean;
+    trackProgressMangaId?: MangaIdInfo['id'];
+    chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
+};
+
+type DefaultActionOption = ChapterActionOption & PropertiesNever<ChapterMarkAsReadOptions>;
+
+export type ChapterActionOptions<Action extends ChapterAction> = Action extends 'mark_as_read'
+    ? ChapterMarkAsReadOptions
+    : DefaultActionOption;

@@ -59,7 +59,12 @@ export const ChaptersToolbarMenu = ({
             <CustomTooltip title={t`Mark all as read`} disabled={areAllChaptersRead}>
                 <IconButton
                     disabled={areAllChaptersRead}
-                    onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, mangaId)}
+                    onClick={() =>
+                        Chapters.markAsRead(Chapters.getNonRead(chapters), {
+                            wasManuallyMarkedAsRead: true,
+                            trackProgressMangaId: mangaId,
+                        })
+                    }
                     color="inherit"
                 >
                     <DoneAllIcon />
