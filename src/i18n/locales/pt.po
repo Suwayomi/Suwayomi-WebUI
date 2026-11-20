@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.902Z\n"
-"PO-Revision-Date: 2026-10-14 16:51+0000\n"
+"PO-Revision-Date: 2026-11-20 08:01+0000\n"
 "Last-Translator: Yuno <32964925+marionetteproxy@users.noreply.github.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/pt/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -263,7 +263,9 @@ msgstr "Exibir brevemente o modo atual quando o leitor é aberto ou o modo foi a
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show tap zone layout preview when reader is opened or layout got changed"
-msgstr "Exibir brevemente a prévia do layout de zonas de toque ao abrir o leitor ou mudar o layout"
+msgstr ""
+"Mostrar brevemente uma pré-visualização das zonas de toque ao abrir o leitor "
+"ou ao alterar a disposição"
 
 #: src/features/theme/Themes.ts
 msgid "Bright Pink"
@@ -841,7 +843,7 @@ msgstr "Fila de transferências"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Download selected"
-msgstr "Trasnferir selecionados"
+msgstr "Transferir selecionados"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
@@ -1330,7 +1332,7 @@ msgstr "Lavanda"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Layout"
-msgstr "Leiaute"
+msgstr "Disposição"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Left"

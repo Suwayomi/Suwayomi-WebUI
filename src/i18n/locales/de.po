@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-10-26 21:51+0000\n"
-"Last-Translator: Constantin Piber <cpiber@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-11-17 07:13+0000\n"
+"Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
 "Language: de\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -4657,3 +4657,58 @@ msgid "The maximum number of actual connections to the database; see <0>HikariCP
 msgstr ""
 "Die maximale Anzahl an echten Verbindungen zur Datenbank; siehe <0>HikariCP: "
 "About-Pool-Sizing</0>"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+msgid "Page: {page}"
+msgstr "Seite: {page}"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Basic Authentication deprecation"
+msgstr "Basic Authentication veraltet"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Change"
+msgstr "Ändern"
+
+#: src/base/AppInitializer.ts
+msgid "Checking for authentication…"
+msgstr "Prüfe auf Authentifizierung…"
+
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Crop borders"
+msgstr "Rand abschneiden"
+
+#: src/base/AppInitializer.ts
+msgid "Loading client settings…"
+msgstr "Lade Endgerät-Einstellungen…"
+
+#: src/base/AppInitializer.ts
+msgid "Loading server settings…"
+msgstr "Lade Server-Einstellungen…"
+
+#. placeholder {0}: chapter.pageCount
+#: src/features/chapter/services/Chapters.ts
+msgid "Page: {page}/{0}"
+msgstr "Seite: {page}/{0}"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
+msgstr ""
+"Der Modus \"Basic Authentication\" ist veraltet und wird in der Zukunft "
+"entfernt. Wechsle zu einem anderen Authentifizierungsmodus"
+
+#: src/features/settings/Settings.constants.ts
+msgid "This mode is deprecated and will be removed in the future"
+msgstr "Dieser Modus ist veraltet und wird in der Zukunft entfernt"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to determine authentication"
+msgstr "Konnte Authentifizierungsmodus nicht erkennen"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to load client settings"
+msgstr "Konnte Endgerät-Einstellungen nicht laden"
+
+#: src/base/AppInitializer.ts
+msgid "Unable to load server settings"
+msgstr "Konnte Server-Einstellungen nicht laden"
