@@ -23,8 +23,10 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { GET_MANGA_META, GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import type {
+    ChangeCategoriesOptions,
     DownloadChaptersOptions,
     MangaAction,
+    MangaActionOption,
     MangaArtistInfo,
     MangaAuthorInfo,
     MangaCardMode,
@@ -36,6 +38,7 @@ import type {
     MangaThumbnailInfo,
     MangaTitleInfo,
     MangaUnreadInfo,
+    MarkAsReadOptions,
     PerformActionOptions,
 } from '@/features/manga/Manga.types.ts';
 import { MangaType } from '@/features/manga/Manga.types.ts';
@@ -55,11 +58,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import uniq from 'lodash/fp/uniq';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import {
-    type ChapterConditionInput,
-    ChapterOrderBy,
-    type UpdateMangaCategoriesPatchInput,
-} from '@/lib/graphql/generated/graphql-base.types.ts';
+import { type ChapterConditionInput, ChapterOrderBy } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import mapValues from 'lodash/fp/mapValues';
@@ -190,8 +189,7 @@ export class Mangas {
 
     static async downloadChapters(
         mangaIds: number[],
-        { size, onlyUnread, downloadAhead = false }: DownloadChaptersOptions = {},
-        disableConfirmation?: boolean,
+        { size, onlyUnread, downloadAhead = false, disableConfirmation }: DownloadChaptersOptions = {},
     ): Promise<void> {
         return Mangas.executeAction(
             'download',
@@ -296,7 +294,7 @@ export class Mangas {
         );
     }
 
-    static async deleteChapters(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async deleteChapters(mangaIds: number[], { disableConfirmation }: MangaActionOption): Promise<void> {
         return Mangas.executeAction(
             'delete',
             I18N_PLURAL,
@@ -316,8 +314,7 @@ export class Mangas {
 
     static async markAsRead(
         mangaIds: number[],
-        wasManuallyMarkedAsRead: boolean = false,
-        disableConfirmation?: boolean,
+        { wasManuallyMarkedAsRead, disableConfirmation }: MarkAsReadOptions,
     ): Promise<void> {
         return Mangas.executeAction(
             'mark_as_read',
@@ -341,7 +338,7 @@ export class Mangas {
         );
     }
 
-    static async markAsUnread(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async markAsUnread(mangaIds: number[], { disableConfirmation }: MangaActionOption = {}): Promise<void> {
         return Mangas.executeAction(
             'mark_as_unread',
             I18N_PLURAL,
@@ -359,7 +356,7 @@ export class Mangas {
         );
     }
 
-    static async removeFromLibrary(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
+    static async removeFromLibrary(mangaIds: number[], { disableConfirmation }: MangaActionOption = {}): Promise<void> {
         const { removeMangaFromCategories } = await getMetadataServerSettings();
         return Mangas.executeAction(
             'remove_from_library',
@@ -375,13 +372,12 @@ export class Mangas {
 
     static async changeCategories(
         mangaIds: number[],
-        patch: UpdateMangaCategoriesPatchInput,
-        disableConfirmation?: boolean,
+        { changeCategoriesPatch, disableConfirmation }: ChangeCategoriesOptions,
     ): Promise<void> {
         return Mangas.executeAction(
             'change_categories',
             mangaIds.length,
-            () => requestManager.updateMangasCategories(mangaIds, patch).response,
+            () => requestManager.updateMangasCategories(mangaIds, changeCategoriesPatch).response,
             disableConfirmation,
         );
     }
@@ -474,22 +470,28 @@ export class Mangas {
             downloadAhead,
             onlyUnread,
             size,
+            disableConfirmation,
         }: PerformActionOptions<Action>,
-        disableConfirmation?: boolean,
     ): Promise<void> {
         switch (action) {
             case 'download':
-                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size }, disableConfirmation);
+                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size, disableConfirmation });
             case 'delete':
-                return Mangas.deleteChapters(mangaIds, disableConfirmation);
+                return Mangas.deleteChapters(mangaIds, { disableConfirmation });
             case 'mark_as_read':
-                return Mangas.markAsRead(mangaIds, wasManuallyMarkedAsRead!, disableConfirmation);
+                return Mangas.markAsRead(mangaIds, {
+                    wasManuallyMarkedAsRead: wasManuallyMarkedAsRead!,
+                    disableConfirmation,
+                });
             case 'mark_as_unread':
-                return Mangas.markAsUnread(mangaIds, disableConfirmation);
+                return Mangas.markAsUnread(mangaIds, { disableConfirmation });
             case 'remove_from_library':
-                return Mangas.removeFromLibrary(mangaIds, disableConfirmation);
+                return Mangas.removeFromLibrary(mangaIds, { disableConfirmation });
             case 'change_categories':
-                return Mangas.changeCategories(mangaIds, changeCategoriesPatch!, disableConfirmation);
+                return Mangas.changeCategories(mangaIds, {
+                    changeCategoriesPatch: changeCategoriesPatch!,
+                    disableConfirmation,
+                });
             case 'migrate': {
                 return Mangas.migrate(mangaIds);
             }

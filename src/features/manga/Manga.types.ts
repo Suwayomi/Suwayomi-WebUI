@@ -123,15 +123,19 @@ export interface MangaLocationState {
     mode: MangaCardMode | undefined;
 }
 
-export type DownloadChaptersOptions = {
+export type MangaActionOption = {
+    disableConfirmation?: boolean;
+};
+
+export type DownloadChaptersOptions = MangaActionOption & {
     size?: number;
     onlyUnread?: boolean;
     downloadAhead?: boolean;
 };
 
-type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
+export type MarkAsReadOptions = MangaActionOption & { wasManuallyMarkedAsRead: boolean };
 
-type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
+export type ChangeCategoriesOptions = MangaActionOption & { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
 
 type MarkAsReadActionOption = MarkAsReadOptions &
     PropertiesNever<ChangeCategoriesOptions> &
