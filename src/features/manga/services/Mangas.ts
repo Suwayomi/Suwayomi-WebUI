@@ -23,6 +23,7 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { GET_MANGA_META, GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import type {
+    DownloadChaptersOptions,
     MangaAction,
     MangaArtistInfo,
     MangaAuthorInfo,
@@ -35,9 +36,12 @@ import type {
     MangaThumbnailInfo,
     MangaTitleInfo,
     MangaUnreadInfo,
+    PerformActionOptions,
 } from '@/features/manga/Manga.types.ts';
 import { MangaType } from '@/features/manga/Manga.types.ts';
 import {
+    ARTIST_AUTHOR_SEPARATOR_REGEX,
+    I18N_PLURAL,
     MANGA_ACTION_TO_CONFIRMATION_REQUIRED,
     MANGA_ACTION_TO_TRANSLATION,
     MANGA_TAGS_BY_MANGA_TYPE,
@@ -62,44 +66,6 @@ import mapValues from 'lodash/fp/mapValues';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
-
-const I18N_PLURAL = 9999;
-
-type DownloadChaptersOptions = {
-    size?: number;
-    onlyUnread?: boolean;
-    downloadAhead?: boolean;
-};
-type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
-type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
-
-type MarkAsReadActionOption = MarkAsReadOptions &
-    PropertiesNever<ChangeCategoriesOptions> &
-    PropertiesNever<DownloadChaptersOptions>;
-type ChangeCategoriesActionOption = PropertiesNever<MarkAsReadOptions> &
-    ChangeCategoriesOptions &
-    PropertiesNever<DownloadChaptersOptions>;
-type MigrateActionOption = PropertiesNever<MarkAsReadOptions> &
-    PropertiesNever<ChangeCategoriesOptions> &
-    PropertiesNever<DownloadChaptersOptions>;
-type DownloadActionOption = PropertiesNever<MarkAsReadOptions> &
-    PropertiesNever<ChangeCategoriesOptions> &
-    DownloadChaptersOptions;
-type DefaultActionOption = Partial<MarkAsReadOptions> &
-    Partial<ChangeCategoriesOptions> &
-    Partial<DownloadChaptersOptions>;
-
-type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
-    ? MarkAsReadActionOption
-    : Action extends 'change_categories'
-      ? ChangeCategoriesActionOption
-      : Action extends 'migrate'
-        ? MigrateActionOption
-        : Action extends 'download'
-          ? DownloadActionOption
-          : DefaultActionOption;
-
-const ARTIST_AUTHOR_SEPARATOR_REGEX = /\s*[,|、]\s*/;
 
 export class Mangas {
     static getIds(mangas: MangaIdInfo[]): number[] {

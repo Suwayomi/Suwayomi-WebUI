@@ -289,3 +289,7 @@ export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, string[]> = {
         '國漫',
     ],
 };
+
+export const I18N_PLURAL = 9999;
+
+export const ARTIST_AUTHOR_SEPARATOR_REGEX = /\s*[,|、]\s*/;

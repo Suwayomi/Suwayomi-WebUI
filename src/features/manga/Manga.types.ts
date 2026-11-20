@@ -29,6 +29,7 @@ import type {
     MetaType,
     SourceType,
     TrackRecordType,
+    UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { UsePressResult } from '@/base/hooks/usePress.ts';
 
@@ -121,3 +122,43 @@ export interface MangaLocationState {
     mangaTitle: string;
     mode: MangaCardMode | undefined;
 }
+
+export type DownloadChaptersOptions = {
+    size?: number;
+    onlyUnread?: boolean;
+    downloadAhead?: boolean;
+};
+
+type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
+
+type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
+
+type MarkAsReadActionOption = MarkAsReadOptions &
+    PropertiesNever<ChangeCategoriesOptions> &
+    PropertiesNever<DownloadChaptersOptions>;
+
+type ChangeCategoriesActionOption = PropertiesNever<MarkAsReadOptions> &
+    ChangeCategoriesOptions &
+    PropertiesNever<DownloadChaptersOptions>;
+
+type MigrateActionOption = PropertiesNever<MarkAsReadOptions> &
+    PropertiesNever<ChangeCategoriesOptions> &
+    PropertiesNever<DownloadChaptersOptions>;
+
+type DownloadActionOption = PropertiesNever<MarkAsReadOptions> &
+    PropertiesNever<ChangeCategoriesOptions> &
+    DownloadChaptersOptions;
+
+type DefaultActionOption = Partial<MarkAsReadOptions> &
+    Partial<ChangeCategoriesOptions> &
+    Partial<DownloadChaptersOptions>;
+
+export type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
+    ? MarkAsReadActionOption
+    : Action extends 'change_categories'
+      ? ChangeCategoriesActionOption
+      : Action extends 'migrate'
+        ? MigrateActionOption
+        : Action extends 'download'
+          ? DownloadActionOption
+          : DefaultActionOption;
