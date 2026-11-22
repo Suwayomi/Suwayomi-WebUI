@@ -105,11 +105,13 @@ export function Settings() {
             <OffsetComponent
                 sx={{
                     minWidth: isDesktopWidth ? 250 : undefined,
-                    height: `calc(100dvh - ${topOffset + bottomBarHeight}px)`,
                     flexShrink: 0,
                     overflowY: 'auto',
                     borderRight: 1,
                     borderColor: 'divider',
+                }}
+                style={{
+                    height: `calc(100dvh - ${topOffset + bottomBarHeight}px)`,
                 }}
             >
                 <SettingsMenu slots={{ listItemLink: { sx: { pr: 8 } } }} />

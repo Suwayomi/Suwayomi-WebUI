@@ -23,12 +23,14 @@ import {
     useReaderScrollbarStore,
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { useTheme } from '@mui/material/styles';
 
 const BaseReaderPageNumber = ({
     isDesktop,
     readerNavBarWidth,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'>) => {
+    const theme = useTheme();
     const scrollbar = useReaderScrollbarStore((state) => state);
     const { currentPageIndex, pages, totalPages } = useReaderPagesStore('currentPageIndex', 'pages', 'totalPages');
     const { readingDirection, shouldShowPageNumber, progressBarType, progressBarSize } = useReaderSettingsStore(
@@ -63,12 +65,13 @@ const BaseReaderPageNumber = ({
         <Stack
             sx={{
                 position: 'fixed',
-                left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) =>
-                    `calc(${theme.spacing(1)} + ${progressBarSizeInset}px + max(${scrollbar.xSize}px, ${safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : '0px'}))`,
                 alignItems: 'center',
-                transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
+                transition: `left 0.${theme.transitions.duration.shortest}s`,
+            }}
+            style={{
+                insetInlineStart: readerNavBarWidth,
+                bottom: `calc(${theme.spacing(1)} + ${progressBarSizeInset}px + max(${scrollbar.xSize}px, ${safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : '0px'}))`,
             }}
         >
             <Box

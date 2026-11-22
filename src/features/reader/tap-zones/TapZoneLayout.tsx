@@ -56,10 +56,12 @@ const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'reade
             sx={{
                 position: 'fixed',
                 top: 0,
-                left: readerNavBarWidth,
                 right: 0,
                 bottom: 0,
                 pointerEvents: 'none',
+            }}
+            style={{
+                insetInlineStart: readerNavBarWidth,
             }}
         >
             {showPreview && <div id={CANVAS_ID} />}

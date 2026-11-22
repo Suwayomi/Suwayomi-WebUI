@@ -125,10 +125,12 @@ export function DefaultNavBar() {
                 ref={appBarRef}
                 sx={{
                     position: 'fixed',
-                    marginLeft: actualNavBarWidth,
                     pt: 'env(safe-area-inset-top)',
-                    width: `calc(100% - ${actualNavBarWidth}px)`,
                     zIndex: theme.zIndex.drawer,
+                }}
+                style={{
+                    marginInlineStart: actualNavBarWidth,
+                    width: `calc(100% - ${actualNavBarWidth}px)`,
                 }}
             >
                 <Toolbar sx={{ position: 'relative' }}>
@@ -137,9 +139,11 @@ export function DefaultNavBar() {
                             sx={{
                                 position: 'absolute',
                                 left: 0,
-                                width: `calc(${navBarWidth}px + env(safe-area-inset-left))`,
                                 ...(!isCollapsed && { display: 'none' }),
                                 alignItems: 'center',
+                            }}
+                            style={{
+                                width: `calc(${navBarWidth}px + env(safe-area-inset-left))`,
                             }}
                         >
                             <IconButton aria-label="open drawer" onClick={() => setIsCollapsed(false)} color="inherit">
@@ -149,10 +153,12 @@ export function DefaultNavBar() {
                     )}
                     <Stack
                         sx={{
-                            ml: `${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px`,
-                            width: `calc(100% - (${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
                             flexDirection: 'row',
                             alignItems: 'center',
+                        }}
+                        style={{
+                            marginInlineStart: `${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px`,
+                            width: `calc(100% - (${isNavBarCollapsible && isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
                         }}
                     >
                         {!isMainRoute && (

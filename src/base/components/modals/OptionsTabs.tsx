@@ -47,7 +47,9 @@ export const OptionsTabs = <T extends string = string>({
             </Tabs>
             {tabs.map((tab, tabIndex) => (
                 <TabPanel key={tab} index={tabIndex} currentIndex={tabNum}>
-                    <Stack sx={{ px: 3, py: 1, minHeight }}>{tabContent(tab)}</Stack>
+                    <Stack sx={{ px: 3, py: 1 }} style={{ minHeight }}>
+                        {tabContent(tab)}
+                    </Stack>
                 </TabPanel>
             ))}
         </OptionsPanel>

@@ -210,14 +210,16 @@ const MainApp = () => {
             id="appMainContainer"
             component="main"
             sx={{
+                position: 'relative',
+                pr: 'env(safe-area-inset-right)',
+            }}
+            style={{
                 minHeight: `calc(100dvh - ${appBarHeight + bottomBarHeight}px)`,
                 width: `calc(100dvw - (100dvw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100dvw - (100dvw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100dvw - (100dvw - 100%) - ${navBarWidth}px)`,
-                position: 'relative',
-                mt: `${appBarHeight}px`,
-                pb: `calc(${bottomBarHeight}px + ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
-                pr: 'env(safe-area-inset-right)',
+                marginTop: `${appBarHeight}px`,
+                paddingBottom: `calc(${bottomBarHeight}px + ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
             }}
         >
             <ErrorBoundary>

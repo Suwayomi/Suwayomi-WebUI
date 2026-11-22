@@ -11,7 +11,7 @@ import { memo, useCallback, useState } from 'react';
 import { ReaderProgressBar } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ProgressBarType } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
@@ -207,11 +207,13 @@ const BaseStandardReaderProgressBar = ({
                                 flexDirection: 'column',
                                 width: '20px',
                             }),
-                            ...applyStyles(isMinimized, {
-                                ...applyStyles(isHorizontal, {
+                        },
+                        style: {
+                            ...applyCSS(isMinimized, {
+                                ...applyCSS(isHorizontal, {
                                     height: `${progressBarSize}px`,
                                 }),
-                                ...applyStyles(isVertical, {
+                                ...applyCSS(isVertical, {
                                     width: `${progressBarSize}px`,
                                 }),
                             }),

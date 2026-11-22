@@ -449,7 +449,7 @@ export const SearchAll = ({
                     {t`Has results`}
                 </Button>
             </Stack>
-            <Box sx={{ pt: `${filterHeaderHeight}px` }}>
+            <Box style={{ paddingTop: `${filterHeaderHeight}px` }}>
                 {sourcesSortedByResult.map((source) => (
                     <SourceSearchPreview
                         key={source.id}

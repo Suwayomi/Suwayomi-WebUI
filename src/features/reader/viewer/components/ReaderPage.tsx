@@ -15,7 +15,7 @@ import {
     getImagePlaceholderStyling,
     getReaderImageStyling,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderScrollbarStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
@@ -73,7 +73,10 @@ const BaseReaderPage = ({
     readerNavBarWidth,
     isLoaded,
     ...props
-}: Omit<SpinnerImageProps, 'spinnerSx' | 'imgSx' | 'onLoad' | 'onError'> &
+}: Omit<
+    SpinnerImageProps,
+    'spinnerSx' | 'spinnerStyle' | 'imgSx' | 'hideImgSx' | 'hideImgStyle' | 'imgStyle' | 'onLoad' | 'onError'
+> &
     Pick<
         IReaderSettings,
         'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'safeAreaInset'
@@ -120,22 +123,35 @@ const BaseReaderPage = ({
             ref={updateRef}
             spinnerSx={{
                 backgroundColor: 'background.paper',
-                ...getImagePlaceholderStyling(
-                    readingMode,
-                    shouldStretchPage,
-                    pageScaleMode,
-                    readerWidth,
-                    [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
-                    [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
-                    doublePage,
-                    isTabletWidth,
-                ),
                 ...applyStyles(!display, {
                     display: 'none',
                 }),
                 ...getImageMarginStyling(doublePage, position),
             }}
+            spinnerStyle={getImagePlaceholderStyling(
+                readingMode,
+                shouldStretchPage,
+                pageScaleMode,
+                readerWidth,
+                [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
+                [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
+                doublePage,
+                isTabletWidth,
+            )}
             imgSx={{
+                objectFit: 'contain',
+                objectPosition: position,
+                userSelect: 'none',
+                ...getImageMarginStyling(doublePage, position),
+                display: 'block',
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                ...applyStyles(!isLoaded, {
+                    margin: 'unset',
+                }),
+            }}
+            imgStyle={{
                 ...getReaderImageStyling(
                     readingMode,
                     shouldStretchPage,
@@ -146,20 +162,7 @@ const BaseReaderPage = ({
                     [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
                 ),
                 filter: getCustomFilterString(customFilter),
-                objectFit: 'contain',
-                objectPosition: position,
-                userSelect: 'none',
-                ...getImageMarginStyling(doublePage, position),
-                ...applyStyles(marginTop !== undefined, {
-                    mt: `${marginTop}px`,
-                }),
-                display: 'block',
-                ...applyStyles(!display, {
-                    display: 'none',
-                }),
-                ...applyStyles(!isLoaded, {
-                    margin: 'unset',
-                }),
+                ...applyCSS(marginTop !== undefined, { marginTop: `${marginTop}px` }),
             }}
             hideImgSx={{
                 visibility: 'hidden',

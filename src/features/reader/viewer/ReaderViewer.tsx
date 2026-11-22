@@ -23,7 +23,7 @@ import {
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderAutoScroll } from '@/features/reader/auto-scroll/hooks/useReaderAutoScroll.ts';
 import { useReaderHideOverlayOnUserScroll } from '@/features/reader/overlay/hooks/useReaderHideOverlayOnUserScroll.ts';
@@ -256,9 +256,6 @@ const BaseReaderViewer = ({
                 height: '100%',
                 overflow: 'auto',
                 flexWrap: 'nowrap',
-                ...applyStyles(isContinuousReadingModeActive && !shouldShowTransitionPage, {
-                    gap: `${getPageGap(pageGap, readingMode)}px`,
-                }),
                 ...applyStyles(
                     isContinuousVerticalReadingModeActive && shouldApplyReaderWidth(readerWidth, pageScaleMode),
                     { alignItems: 'center' },
@@ -270,6 +267,11 @@ const BaseReaderViewer = ({
                     ...applyStyles(themeDirection === 'rtl', {
                         flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
                     }),
+                }),
+            }}
+            style={{
+                ...applyCSS(isContinuousReadingModeActive && !shouldShowTransitionPage, {
+                    gap: `${getPageGap(pageGap, readingMode)}px`,
                 }),
             }}
             onClick={(e) => !isDragging && ReaderControls.handleClick(scrollElementRef.current, e)}

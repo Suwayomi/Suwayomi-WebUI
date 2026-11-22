@@ -59,7 +59,6 @@ const BaseReaderHorizontalPager = ({
                         display: 'flex',
                         flexWrap: 'nowrap',
                         alignItems: 'center',
-                        gap: `${pageGap}px`,
                         ...applyStyles(themeDirection === 'ltr', {
                             flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                             justifyContent: isLtrReadingDirection ? 'flex-start' : 'flex-end',
@@ -69,6 +68,7 @@ const BaseReaderHorizontalPager = ({
                             justifyContent: isLtrReadingDirection ? 'flex-end' : 'flex-start',
                         }),
                     },
+                    style: { gap: `${pageGap}px` },
                 },
             }}
         />

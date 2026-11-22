@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import type { ReactNode } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { CurrentPageSlotProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
@@ -44,18 +44,24 @@ export const ReaderProgressBarCurrentPageSlot = ({
                         position: 'absolute',
                         cursor: isDragging ? 'grabbing' : 'grab',
                         ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
-                            left: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
-                            width: `calc(100% / ${coercedTotalPages})`,
                             height: '100%',
                         }),
                         ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isVertical, {
-                            top: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
                             width: '100%',
-                            height: `calc(100% / ${coercedTotalPages})`,
                         }),
                     },
                     boxProps?.sx,
                 )}
+                style={{
+                    ...applyCSS(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
+                        insetInlineStart: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
+                        width: `calc(100% / ${coercedTotalPages})`,
+                    }),
+                    ...applyCSS(getProgressBarPositionInfo(progressBarPosition).isVertical, {
+                        top: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
+                        height: `calc(100% / ${coercedTotalPages})`,
+                    }),
+                }}
             >
                 {children}
             </Box>

@@ -17,7 +17,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ReaderBackgroundColor, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
@@ -72,12 +72,12 @@ const ChapterInfo = ({
 
     return (
         <Stack>
-            <Typography sx={{ color: contrastText }}>{title}</Typography>
-            <Typography sx={{ color: contrastText }} variant="h6" component="h1">
+            <Typography style={{ color: contrastText }}>{title}</Typography>
+            <Typography style={{ color: contrastText }} variant="h6" component="h1">
                 {name}
             </Typography>
             {scanlator && (
-                <Typography variant="body2" sx={{ color: disabledText }}>
+                <Typography variant="body2" style={{ color: disabledText }}>
                     {scanlator}
                 </Typography>
             )}
@@ -108,6 +108,7 @@ const BaseReaderTransitionPage = ({
     handleBack: () => void;
 }) => {
     const { t } = useLingui();
+    const theme = useTheme();
     const manga = useReaderStore('manga');
     const scrollbar = useReaderScrollbarStore((state) => state);
     const transitionPageMode = useReaderPagesStore('transitionPageMode');
@@ -143,18 +144,28 @@ const BaseReaderTransitionPage = ({
                 alignItems: 'center',
                 ...applyStyles(!isContinuousReadingMode(readingMode), {
                     backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
-                    width: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                    height: `calc(100dvh - ${scrollbar.xSize}px)`,
                 }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'sticky',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         left: 0,
-                        maxWidth: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        minHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         top: 0,
+                    }),
+                }),
+            }}
+            style={{
+                ...applyCSS(!isContinuousReadingMode(readingMode), {
+                    width: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                    height: `calc(100dvh - ${scrollbar.xSize}px)`,
+                }),
+                ...applyCSS(isContinuousReadingMode(readingMode), {
+                    ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
+                        maxWidth: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        minHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
+                    }),
+                    ...applyCSS(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         minWidth: `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
                         maxHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
                     }),
@@ -164,12 +175,14 @@ const BaseReaderTransitionPage = ({
             <Stack
                 sx={{
                     gap: 2,
-                    maxWidth: (theme) =>
+                    width: 'max-content',
+                    p: 1,
+                }}
+                style={{
+                    maxWidth:
                         // spacing = added padding left + right
                         `calc(100dvw - ${scrollbar.ySize}px - ${readerNavBarWidth}px - ${theme.spacing(2)})`,
                     maxHeight: `calc(100dvh - ${scrollbar.xSize}px)`,
-                    width: 'max-content',
-                    p: 1,
                 }}
             >
                 {isPreviousType && isFirstChapter && (

@@ -7,7 +7,7 @@
  */
 
 import type { Direction, Theme } from '@mui/material/styles';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import type { IReaderSettings, ReaderPageSpreadState, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import {
     PageInViewportType,
@@ -16,7 +16,7 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import {
     getSetReaderWidth,
     isContinuousReadingMode,
@@ -69,7 +69,7 @@ export const getImagePlaceholderStyling = (
     heightOffset: (number | string)[],
     isDoublePage?: boolean,
     isTabletWidth?: boolean,
-): CSSObject => {
+): CSSProperties => {
     const OVER_9000 = 9000;
 
     const getMaxWidth = (width: string) => `calc(${width} - ${joinOffsetsForCssCalc(widthOffset)})`;
@@ -113,16 +113,16 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.WIDTH:
             return {
                 ...defaultStyling,
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minWidth: minWidthForStretch,
                 }),
             };
         case ReaderPageScaleMode.HEIGHT:
             return {
                 ...defaultStyling,
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minHeight: fullHeight,
-                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100dvh',
                     }),
                 }),
@@ -130,10 +130,10 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.SCREEN:
             return {
                 ...defaultStyling,
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minWidth: minWidthForStretch,
                     minHeight: fullHeight,
-                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100dvh',
                     }),
                 }),
@@ -141,7 +141,7 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.ORIGINAL:
             return {
                 ...defaultStyling,
-                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
                     height: 'auto',
                 }),
             };
@@ -157,7 +157,7 @@ const getReaderDimensionStyling = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     widthOffset: (number | string)[],
     heightOffset: (number | string)[],
-): CSSObject => {
+): CSSProperties => {
     const fullWidth = `calc((100dvw - ${joinOffsetsForCssCalc(widthOffset)}) * ${widthPercentage})`;
     const fullHeight = `calc(100dvh - ${joinOffsetsForCssCalc(heightOffset)})`;
 
@@ -165,10 +165,10 @@ const getReaderDimensionStyling = (
         case ReaderPageScaleMode.WIDTH:
             return {
                 minWidth: 0,
-                ...applyStyles(isContinuousReadingMode(readingMode), {
+                ...applyCSS(isContinuousReadingMode(readingMode), {
                     minWidth: 'unset',
                 }),
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minWidth: fullWidth,
                 }),
                 maxWidth: fullWidth,
@@ -176,10 +176,10 @@ const getReaderDimensionStyling = (
         case ReaderPageScaleMode.HEIGHT:
             return {
                 minHeight: 0,
-                ...applyStyles(isContinuousReadingMode(readingMode), {
+                ...applyCSS(isContinuousReadingMode(readingMode), {
                     minHeight: 'unset',
                 }),
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minHeight: fullHeight,
                 }),
                 maxHeight: fullHeight,
@@ -188,18 +188,18 @@ const getReaderDimensionStyling = (
             return {
                 minWidth: 0,
                 minHeight: 0,
-                ...applyStyles(isContinuousReadingMode(readingMode), {
+                ...applyCSS(isContinuousReadingMode(readingMode), {
                     minWidth: 'unset',
                     minHeight: 'unset',
                 }),
-                ...applyStyles(shouldStretchPage, {
+                ...applyCSS(shouldStretchPage, {
                     minWidth: fullWidth,
                     minHeight: fullHeight,
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                    ...applyCSS(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         minWidth: 'unset',
                         minHeight: fullHeight,
                     }),
-                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
                         minWidth: fullWidth,
                         minHeight: 'unset',
                     }),
@@ -222,7 +222,7 @@ export const getReaderImageStyling = (
     readerWidth: IReaderSettings['readerWidth'],
     widthOffset: (number | string)[],
     heightOffset: (number | string)[],
-): CSSObject => {
+): CSSProperties => {
     const widthPercentage = getPageWidthPercentage(pageScaleMode, isDoublePage, readerWidth, true);
     return getReaderDimensionStyling(
         widthPercentage,

@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import type { ComponentProps } from 'react';
 import { memo } from 'react';
 import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ReaderProgressBarSlot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlot.tsx';
 
 const SLOT_SX_PROP: NonNullable<NonNullable<ComponentProps<typeof ReaderProgressBarSlot>['slotProps']>['box']>['sx'] = {
@@ -43,12 +43,10 @@ const ProgressBarPagePoint = memo(
                 sx={{
                     position: 'absolute',
                     ...applyStyles(isVertical, {
-                        top: position,
                         left: '50%',
                     }),
                     ...applyStyles(isHorizontal, {
                         top: '50%',
-                        left: position,
                     }),
                     transform: 'translate(-50%, -50%)',
                     width: POINT_SIZE,
@@ -59,6 +57,14 @@ const ProgressBarPagePoint = memo(
                         backgroundColor: 'primary.main',
                     }),
                     zIndex: 1,
+                }}
+                style={{
+                    ...applyCSS(isVertical, {
+                        top: position,
+                    }),
+                    ...applyCSS(isHorizontal, {
+                        insetInlineStart: position,
+                    }),
                 }}
             />
         );

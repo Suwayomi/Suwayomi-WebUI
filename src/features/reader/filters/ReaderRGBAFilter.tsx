@@ -32,6 +32,8 @@ const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 're
                 right: safeAreaInset.right ? 'env(safe-area-inset-right)' : 0,
                 bottom: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : 0,
                 pointerEvents: 'none',
+            }}
+            style={{
                 background: `rgba(${red} ${green} ${blue} / ${alpha}%)`,
                 mixBlendMode: `${blendMode}`,
             }}

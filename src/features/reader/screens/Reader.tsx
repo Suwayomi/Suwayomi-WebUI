@@ -269,17 +269,19 @@ const BaseReader = ({
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
+                height: `100dvh`,
+                transition: `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s, background 1.${theme.transitions.duration.shortest}s`,
+                overflow: 'auto',
+            }}
+            style={{
                 minWidth: `calc(100dvw - ${readerNavBarWidth}px)`,
                 maxWidth: `calc(100dvw - ${readerNavBarWidth}px)`,
                 width: `calc(100dvw - ${readerNavBarWidth}px)`,
-                height: `100dvh`,
-                pt: safeAreaInset.top ? 'env(safe-area-inset-top)' : undefined,
-                pb: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : undefined,
-                pr: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,
-                pl: safeAreaInset.left ? 'env(safe-area-inset-left)' : undefined,
-                marginLeft: `${readerNavBarWidth}px`,
-                transition: `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s, background 1.${theme.transitions.duration.shortest}s`,
-                overflow: 'auto',
+                marginInlineStart: `${readerNavBarWidth}px`,
+                paddingTop: safeAreaInset.top ? 'env(safe-area-inset-top)' : undefined,
+                paddingBottom: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : undefined,
+                paddingInlineEnd: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,
+                paddingInlineStart: safeAreaInset.left ? 'env(safe-area-inset-left)' : undefined,
                 background: isContinuousReadingMode(readingMode.value)
                     ? primaryPageBackground
                     : `linear-gradient(to right, ${getOptionForDirection(primaryPageBackground, secondaryPageBackground, direction)} 0 50%, ${getOptionForDirection(secondaryPageBackground, primaryPageBackground, direction)} 50% 100%)`,

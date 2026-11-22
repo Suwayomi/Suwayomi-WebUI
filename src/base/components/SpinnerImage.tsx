@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { Ref } from 'react';
+import type { CSSProperties, Ref } from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -34,8 +34,11 @@ export interface SpinnerImageProps {
     alt: string;
 
     spinnerSx?: SxProps<Theme> & { small?: boolean };
+    spinnerStyle?: CSSProperties;
     imgSx?: SxProps<Theme>;
+    imgStyle?: CSSProperties;
     hideImgSx?: Omit<SxProps<Theme>, 'accentColor'>;
+    hideImgStyle?: CSSProperties;
 
     onLoad?: () => void;
     onError?: () => void;
@@ -63,9 +66,12 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         alt,
         onLoad,
         onError,
-        spinnerSx: { small, ...spinnerStyle } = STABLE_EMPTY_OBJECT,
+        spinnerSx: { small, ...spinnerSx } = STABLE_EMPTY_OBJECT,
+        spinnerStyle,
         imgSx,
+        imgStyle,
         hideImgSx,
+        hideImgStyle,
         priority,
         retryKeyPrefix,
     } = props;
@@ -182,8 +188,9 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                             justifyContent: 'center',
                             background: (theme) => theme.vars.palette.background.default,
                         },
-                        spinnerStyle,
+                        spinnerSx,
                     )}
+                    style={spinnerStyle}
                 >
                     <ImageIcon fontSize="large" />
                 </Stack>
@@ -200,6 +207,10 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                             }),
                         }),
                     ]}
+                    style={{
+                        ...imgStyle,
+                        ...hideImgStyle,
+                    }}
                     ref={ref}
                     crossOrigin={disableCors ? undefined : 'anonymous'}
                     src={imageSourceUrl}
@@ -216,8 +227,9 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                         },
-                        spinnerStyle,
+                        spinnerSx,
                     )}
+                    style={spinnerStyle}
                 >
                     <Stack
                         sx={{

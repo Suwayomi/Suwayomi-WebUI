@@ -32,7 +32,7 @@ import {
 import { createHandleReaderPageLoadError, createUpdateReaderPageLoadState } from '@/features/reader/Reader.utils.ts';
 import { useReaderConvertPagesForReadingMode } from '@/features/reader/viewer/hooks/useReaderConvertPagesForReadingMode.ts';
 import { ReaderTransitionPage } from '@/features/reader/viewer/components/ReaderTransitionPage.tsx';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyCSS, applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useReaderSetPagesState } from '@/features/reader/viewer/hooks/useReaderSetPagesState.ts';
@@ -382,12 +382,6 @@ const BaseReaderChapterViewer = ({
                 height: 'fit-content',
                 margin: 'auto',
                 flexWrap: 'nowrap',
-                ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
-                    minHeight,
-                }),
-                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                    minWidth,
-                }),
                 ...applyStyles(shouldHideChapter, {
                     maxWidth: 0,
                     maxHeight: 0,
@@ -407,6 +401,14 @@ const BaseReaderChapterViewer = ({
                     ...applyStyles(themeDirection === 'rtl', {
                         flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
                     }),
+                }),
+            }}
+            style={{
+                ...applyCSS(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                    minHeight,
+                }),
+                ...applyCSS(isContinuousVerticalReadingMode(readingMode), {
+                    minWidth,
                 }),
             }}
         >

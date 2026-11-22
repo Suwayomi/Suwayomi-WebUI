@@ -247,14 +247,14 @@ export const Processing = ({
                                     disabled={!isUrlTargetMode(target)}
                                     onClick={() => setAreSearchParamsCollapsed(!areSearchParamsCollapsed)}
                                     variant={areSearchParamsCollapsed ? 'outlined' : 'contained'}
-                                    sx={{ height: textFieldHeight }}
+                                    style={{ height: textFieldHeight }}
                                 >
                                     {t`Search parameters (${searchParams?.length ?? 0})`}
                                 </Button>
                                 <Button
                                     onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
                                     variant={areHeadersCollapsed ? 'outlined' : 'contained'}
-                                    sx={{ height: textFieldHeight }}
+                                    style={{ height: textFieldHeight }}
                                 >
                                     {t`Headers (${headers?.length ?? 0})`}
                                 </Button>

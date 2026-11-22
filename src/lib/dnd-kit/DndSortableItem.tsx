@@ -28,11 +28,13 @@ export const DndSortableItem = ({
         <Box
             ref={setNodeRef}
             sx={{
-                transform: CSS.Translate.toString(transform),
-                transition,
                 ...applyStyles(isDragging, {
                     opacity: 0.25,
                 }),
+            }}
+            style={{
+                transform: CSS.Translate.toString(transform),
+                transition,
             }}
             {...attributes}
             {...listeners}

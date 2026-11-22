@@ -214,10 +214,10 @@ const SelectButtonCollapsible = <Value extends string | number, MultiValue exten
                         size: 'large',
                         sx: {
                             flexGrow: 1,
-                            height,
                             minWidth: 'unset',
                             px: '10px',
                         },
+                        style: { height },
                     },
                     button: {
                         hideText: true,
@@ -225,10 +225,10 @@ const SelectButtonCollapsible = <Value extends string | number, MultiValue exten
                         size: 'large',
                         sx: {
                             flexGrow: 1,
-                            height,
                             minWidth: 'unset',
                             px: '10px',
                         },
+                        style: { height },
                     },
                 }}
             />

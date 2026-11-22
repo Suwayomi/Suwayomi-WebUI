@@ -28,8 +28,8 @@ export const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHei
                     maxWidth: 600,
                     marginLeft: 'auto',
                     marginRight: 'auto',
-                    minHeight,
                 },
+                style: { minHeight },
             },
         }}
     >

@@ -55,10 +55,12 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
         <Drawer
             variant="permanent"
             sx={{
-                width: navBarWidth,
                 '& .MuiDrawer-paper': {
                     zIndex: (theme) => theme.zIndex.drawer - 1,
                 },
+            }}
+            style={{
+                width: navBarWidth,
             }}
             slotProps={{
                 paper: {
