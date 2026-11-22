@@ -33,9 +33,9 @@ export interface SpinnerImageProps {
     src: string;
     alt: string;
 
-    spinnerStyle?: SxProps<Theme> & { small?: boolean };
-    imgStyle?: SxProps<Theme>;
-    hideImgStyle?: Omit<SxProps<Theme>, 'accentColor'>;
+    spinnerSx?: SxProps<Theme> & { small?: boolean };
+    imgSx?: SxProps<Theme>;
+    hideImgSx?: Omit<SxProps<Theme>, 'accentColor'>;
 
     onLoad?: () => void;
     onError?: () => void;
@@ -63,9 +63,9 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         alt,
         onLoad,
         onError,
-        spinnerStyle: { small, ...spinnerStyle } = STABLE_EMPTY_OBJECT,
-        imgStyle,
-        hideImgStyle,
+        spinnerSx: { small, ...spinnerStyle } = STABLE_EMPTY_OBJECT,
+        imgSx,
+        hideImgSx,
         priority,
         retryKeyPrefix,
     } = props;
@@ -192,10 +192,10 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                     component="img"
                     key={`${src}_${imgLoadRetryKey}_${retryKeyPrefix}`}
                     sx={[
-                        ...(Array.isArray(imgStyle) ? (imgStyle ?? []) : [imgStyle]),
+                        ...(Array.isArray(imgSx) ? (imgSx ?? []) : [imgSx]),
                         applyStyles(!imageSourceUrl || isLoading || hasError, {
-                            ...hideImgStyle,
-                            ...applyStyles(!hideImgStyle, {
+                            ...hideImgSx,
+                            ...applyStyles(!hideImgSx, {
                                 display: 'none',
                             }),
                         }),

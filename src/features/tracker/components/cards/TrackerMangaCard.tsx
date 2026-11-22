@@ -159,8 +159,8 @@ export const TrackerMangaCard = ({
                                         ignoreQueue
                                         alt={manga.title}
                                         src={manga.coverUrl}
-                                        spinnerStyle={{ width: '100%', height: '100%' }}
-                                        imgStyle={{
+                                        spinnerSx={{ width: '100%', height: '100%' }}
+                                        imgSx={{
                                             width: '100%',
                                             height: isMobileWidth ? undefined : '100%',
                                             maxHeight: '100%',

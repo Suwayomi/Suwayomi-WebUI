@@ -73,7 +73,7 @@ const BaseReaderPage = ({
     readerNavBarWidth,
     isLoaded,
     ...props
-}: Omit<SpinnerImageProps, 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
+}: Omit<SpinnerImageProps, 'spinnerSx' | 'imgSx' | 'onLoad' | 'onError'> &
     Pick<
         IReaderSettings,
         'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'safeAreaInset'
@@ -118,7 +118,7 @@ const BaseReaderPage = ({
             shouldLoad={shouldLoad}
             shouldDecode
             ref={updateRef}
-            spinnerStyle={{
+            spinnerSx={{
                 backgroundColor: 'background.paper',
                 ...getImagePlaceholderStyling(
                     readingMode,
@@ -135,7 +135,7 @@ const BaseReaderPage = ({
                 }),
                 ...getImageMarginStyling(doublePage, position),
             }}
-            imgStyle={{
+            imgSx={{
                 ...getReaderImageStyling(
                     readingMode,
                     shouldStretchPage,
@@ -161,7 +161,7 @@ const BaseReaderPage = ({
                     margin: 'unset',
                 }),
             }}
-            hideImgStyle={{
+            hideImgSx={{
                 visibility: 'hidden',
                 minWidth: 0,
                 minHeight: 0,

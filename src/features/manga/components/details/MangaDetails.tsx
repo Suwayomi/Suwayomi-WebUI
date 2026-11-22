@@ -97,8 +97,8 @@ const TopContentWrapper = ({
                 }}
             >
                 <SpinnerImage
-                    spinnerStyle={{ display: 'none' }}
-                    imgStyle={{
+                    spinnerSx={{ display: 'none' }}
+                    imgSx={{
                         position: 'absolute',
                         top: 0,
                         left: 0,

@@ -107,7 +107,7 @@ export const MangaGridCard = memo(
                             <SpinnerImage
                                 alt={title}
                                 src={Mangas.getThumbnailUrl(manga)}
-                                imgStyle={
+                                imgSx={
                                     inLibraryIndicator && isInLibrary
                                         ? {
                                               height: '100%',
@@ -121,7 +121,7 @@ export const MangaGridCard = memo(
                                               objectFit: 'cover',
                                           }
                                 }
-                                spinnerStyle={{
+                                spinnerSx={{
                                     display: 'grid',
                                     placeItems: 'center',
                                 }}

@@ -25,8 +25,8 @@ export const AvatarSpinner = ({
             alt={alt}
             src={iconUrl}
             {...slots?.spinnerImageProps}
-            spinnerStyle={{ small: true, ...slots?.spinnerImageProps?.spinnerStyle }}
-            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%', ...slots?.spinnerImageProps?.imgStyle }}
+            spinnerSx={{ small: true, ...slots?.spinnerImageProps?.spinnerSx }}
+            imgSx={{ objectFit: 'cover', width: '100%', height: '100%', ...slots?.spinnerImageProps?.imgSx }}
         />
     </Avatar>
 );

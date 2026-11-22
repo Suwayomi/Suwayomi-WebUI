@@ -73,7 +73,7 @@ export const MangaListCard = memo(
                             alt={manga.title}
                             slots={{
                                 spinnerImageProps: {
-                                    imgStyle: {
+                                    imgSx: {
                                         imageRendering: 'pixelated',
                                         filter: inLibraryIndicator && isInLibrary ? 'brightness(0.4)' : undefined,
                                     },

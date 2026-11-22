@@ -142,7 +142,7 @@ export const Thumbnail = ({
                     src={url}
                     alt="Manga Thumbnail"
                     onLoad={() => setIsImageReady(true)}
-                    imgStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    imgSx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {isImageReady && (
                     <Stack
@@ -174,7 +174,7 @@ export const Thumbnail = ({
                     <SpinnerImage
                         src={url}
                         alt="Manga Thumbnail"
-                        imgStyle={{ height: '100%', width: '100%', objectFit: 'contain' }}
+                        imgSx={{ height: '100%', width: '100%', objectFit: 'contain' }}
                     />
                 </Stack>
             </Modal>
