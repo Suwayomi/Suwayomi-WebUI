@@ -3,8 +3,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-10-22 14:51+0000\n"
-"Last-Translator: 無情天 <kofzhanganguo@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-11-06 12:51+0000\n"
+"Last-Translator: PainTownblue <paintownblue@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -12,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -4503,3 +4504,11 @@ msgstr "一个条目不能同时属于“默认”类别和其他类别"
 #: src/features/category/components/CategorySelect.tsx
 msgid "Default (Suwayomi)"
 msgstr "默认 (Suwayomi)"
+
+#: src/base/notification/BasicAuthDeprecationReminder.ts
+msgid "Change"
+msgstr "更改"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters"
+msgstr "通知新章节"
