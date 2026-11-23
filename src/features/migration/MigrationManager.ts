@@ -735,6 +735,10 @@ export class MigrationManager {
         return !!MigrationManager.abortController && MigrationManager.isResumablePhase();
     }
 
+    static isFinished(): boolean {
+        return MigrationManager.getState().phase === MigrationPhase.MIGRATING && MigrationManager.isPhaseComplete();
+    }
+
     private static getDestinationSourceIds(mangaSourceId: SourceIdInfo['id']): MigrationState['destinationSourceIds'] {
         const { sourceIds, destinationSourceIds } = MigrationManager.getState();
 

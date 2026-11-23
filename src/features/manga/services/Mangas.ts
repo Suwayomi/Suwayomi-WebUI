@@ -378,7 +378,7 @@ export class Mangas {
     }
 
     static async migrate(mangaIds: MangaIdInfo['id'][]): Promise<void> {
-        if (MigrationManager.isActive()) {
+        if (!MigrationManager.isFinished() && MigrationManager.isActive()) {
             Notifications.error(t`A migration is already in progress`);
             return;
         }
