@@ -44,7 +44,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
     const isSelected = appTheme.id === activeAppTheme;
 
     const muiTheme = useMemo(
-        () => createTheme(themeMode, appTheme, shouldUsePureBlackMode),
+        () => createTheme(themeMode, appTheme, shouldUsePureBlackMode, undefined, undefined, true),
         [appTheme, themeMode, shouldUsePureBlackMode],
     );
 
@@ -74,12 +74,16 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                             bottom: 0,
                             left: 0,
                             border: '4px solid',
-                            borderColor: isSelected ? muiTheme.palette.primary.light : muiTheme.palette.grey['100'],
+                            borderColor: isSelected
+                                ? muiTheme.vars.palette.primary.light
+                                : muiTheme.vars.palette.grey['100'],
                             zIndex: 1,
                             pointerEvents: 'none',
                             borderRadius: 1,
                             ...theme.applyStyles('dark', {
-                                borderColor: isSelected ? muiTheme.palette.primary.light : muiTheme.palette.grey['900'],
+                                borderColor: isSelected
+                                    ? muiTheme.vars.palette.primary.light
+                                    : muiTheme.vars.palette.grey['900'],
                             }),
                         }}
                     />

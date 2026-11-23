@@ -75,8 +75,8 @@ export const MangaGridCard = memo(
                         m: 0.25,
                         outline: selected ? '4px solid' : undefined,
                         borderRadius: selected ? '1px' : undefined,
-                        outlineColor: (theme) => theme.palette.primary.main,
-                        backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
+                        outlineColor: (theme) => theme.vars.palette.primary.main,
+                        backgroundColor: (theme) => (selected ? theme.vars.palette.primary.main : undefined),
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
                                 visibility: 'visible',
@@ -190,7 +190,7 @@ export const MangaGridCard = memo(
                                     component="h3"
                                     sx={{
                                         color: (theme) =>
-                                            selected ? theme.palette.primary.contrastText : 'text.primary',
+                                            selected ? theme.vars.palette.primary.contrastText : 'text.primary',
                                         height: '3rem',
                                         pt: 0.5,
                                     }}

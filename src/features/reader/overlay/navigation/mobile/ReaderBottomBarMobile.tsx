@@ -68,7 +68,7 @@ const BaseReaderBottomBarMobile = ({
                         ref={bottomBarRef}
                         sx={{
                             alignItems: 'center',
-                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.95),
+                            backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.95)`,
                             pb: `max(${scrollbar.xSize}px, env(safe-area-inset-bottom))`,
                             boxShadow: 2,
                             pointerEvents: 'all',

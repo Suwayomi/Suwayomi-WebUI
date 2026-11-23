@@ -74,11 +74,10 @@ export const ReaderProgressBarSlotDesktop = memo(
                         width: '100%',
                         height: '100%',
                         ...applyStyles(isLeadingPage, {
-                            backgroundColor: theme.alpha(theme.palette.primary.main, 0.5),
+                            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.5)`,
                         }),
                         ...applyStyles(isCurrentPage, {
                             cursor: showDraggingStyle ? 'grabbing' : 'grab',
-                            pointer: 'grabbing',
                             borderRadius: 2,
                             backgroundColor: 'primary.dark',
                             ...theme.applyStyles('dark', {

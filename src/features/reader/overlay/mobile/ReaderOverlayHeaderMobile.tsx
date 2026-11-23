@@ -62,7 +62,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     right: `${scrollbar.ySize}px`,
                     p: 2,
                     pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
-                    backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.95),
+                    backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.95)`,
                     pointerEvents: 'all',
                     boxShadow: 2,
                 }}

@@ -180,7 +180,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                             height: '100%',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: (theme) => theme.palette.background.default,
+                            background: (theme) => theme.vars.palette.background.default,
                         },
                         spinnerStyle,
                     )}

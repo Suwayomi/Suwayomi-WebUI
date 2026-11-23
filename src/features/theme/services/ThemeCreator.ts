@@ -120,7 +120,15 @@ export const createAppColorTheme = (
     dynamicColor: TAppThemeContext['dynamicColor'],
     setPureBlackMode: boolean,
     mode: Exclude<ThemeMode, ThemeMode.SYSTEM>,
+    name?: string,
 ): AppTheme['muiTheme'] => {
+    const cssVariables = !name
+        ? { colorSchemeSelector: 'class' }
+        : {
+              colorSchemeSelector: `.${name}-%s`,
+              cssVarPrefix: `${name}`,
+          };
+
     const appThemeWithDominantPrimaryColor = createAppThemeWithDynamicColors(
         dynamicColor?.average.hex,
         dynamicColor?.average.hex,
@@ -128,10 +136,12 @@ export const createAppColorTheme = (
     );
     const themePrimaryColorForBackground = createMuiTheme({
         ...appThemeWithDominantPrimaryColor,
+        cssVariables,
         defaultColorScheme: mode,
     });
 
     const themeBackgroundColor = deepmerge(appThemeWithDominantPrimaryColor, {
+        cssVariables,
         defaultColorScheme: mode,
         colorSchemes: {
             light: themePrimaryColorForBackground.colorSchemes?.light
@@ -174,12 +184,19 @@ export const createTheme = (
     pureBlackMode: boolean = false,
     direction: Direction = 'ltr',
     dynamicColor: TAppThemeContext['dynamicColor'] = null,
+    isPreview?: boolean,
 ) => {
     const mode = MediaQuery.getThemeMode(themeMode);
     const isDarkMode = mode === ThemeMode.DARK;
     const setPureBlackMode = isDarkMode && pureBlackMode;
 
-    const appColorTheme = createAppColorTheme(appTheme.muiTheme, dynamicColor, setPureBlackMode, mode);
+    const appColorTheme = createAppColorTheme(
+        appTheme.muiTheme,
+        dynamicColor,
+        setPureBlackMode,
+        mode,
+        isPreview ? appTheme.id.replaceAll(/\s+/g, '-') : undefined,
+    );
 
     const themeForColors = createMuiTheme({ ...appColorTheme, defaultColorScheme: mode });
 

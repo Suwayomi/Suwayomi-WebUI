@@ -120,7 +120,7 @@ const TopContentWrapper = ({
                                 left: 0,
                                 width: '100%',
                                 height: '100%',
-                                background: `linear-gradient(to top, ${theme.palette.background.default}, transparent 100%, transparent 1px),linear-gradient(to right, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to bottom, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to left, ${theme.palette.background.default}, transparent 50%, transparent 1px)`,
+                                background: `linear-gradient(to top, ${theme.vars.palette.background.default}, transparent 100%, transparent 1px),linear-gradient(to right, ${theme.vars.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to bottom, ${theme.vars.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to left, ${theme.vars.palette.background.default}, transparent 50%, transparent 1px)`,
                                 backdropFilter: 'blur(4.5px) brightness(0.75)',
                             }),
                     }}

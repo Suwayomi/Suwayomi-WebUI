@@ -53,7 +53,7 @@ export const ChapterUpdateCard = memo(
                         ReaderService.openReader(chapter);
                     }}
                     sx={{
-                        color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                        color: (theme) => theme.vars.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                     }}
                 >
                     <ListCardContent sx={{ justifyContent: 'space-between' }}>

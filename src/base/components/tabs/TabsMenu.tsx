@@ -12,11 +12,11 @@ import { styled } from '@mui/material/styles';
 
 const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
     display: 'flex',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.vars.palette.background.default,
     border: 0,
     borderBottomWidth: 2,
     borderStyle: 'solid',
-    borderColor: theme.palette.divider,
+    borderColor: theme.vars.palette.divider,
 }));
 
 export const TabsMenu = ({ children, ...props }: TabsProps) => (

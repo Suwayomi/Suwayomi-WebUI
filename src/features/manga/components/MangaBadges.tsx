@@ -18,12 +18,12 @@ import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     height: 'fit-content',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: theme.vars.shape.borderRadius,
     overflow: 'hidden',
 }));
 
 const Badge = styled(Typography)(({ theme }) => ({
-    color: theme.palette.primary.contrastText,
+    color: theme.vars.palette.primary.contrastText,
     paddingInline: theme.spacing(0.3),
 }));
 

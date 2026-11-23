@@ -69,7 +69,7 @@ const ContentTypeMenu = styled('div')(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(1),
     gap: theme.spacing(1),
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.vars.palette.background.default,
 }));
 
 const ContentTypeButton = styled(Button)(() => ({}));

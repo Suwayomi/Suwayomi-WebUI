@@ -254,7 +254,7 @@ export const MigrationDestinationEntry = ({
                         p: 0,
                         backgroundColor: 'primary.dark',
                         '&:hover': {
-                            backgroundColor: theme.alpha(theme.palette.primary.dark, 0.8),
+                            backgroundColor: `rgba(${theme.vars.palette.primary.darkChannel} / 0.8)`,
                         },
                     }}
                 >

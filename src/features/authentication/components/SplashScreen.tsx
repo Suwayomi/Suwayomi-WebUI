@@ -43,8 +43,8 @@ export const SplashScreen = ({
             )}
         >
             <SuwayomiLogo
-                circleRingColor={theme.palette.primary.light}
-                circleFillColor={theme.palette.primary.dark}
+                circleRingColor={theme.vars.palette.primary.light}
+                circleFillColor={theme.vars.palette.primary.dark}
                 {...slots?.logoProps}
                 sx={MUIUtil.mergeSx(
                     {

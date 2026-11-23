@@ -137,10 +137,9 @@ export const ChapterCard = memo((props: IProps) => {
                             component={Link}
                             to={AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder)}
                             state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
-                            sx={MediaQuery.preventMobileContextMenuSx()}
-                            style={{
-                                color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
-                            }}
+                            sx={MUIUtil.mergeSx(MediaQuery.preventMobileContextMenuSx(), {
+                                color: theme.vars.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                            })}
                             replace={mode === 'reader'}
                             {...longPressBind(popupState.open)}
                         >
@@ -164,17 +163,17 @@ export const ChapterCard = memo((props: IProps) => {
                                         title: {
                                             variant: 'subtitle1',
                                             sx: applyStyles(mode === 'reader' && isActiveChapter, {
-                                                color: theme.palette.primary.contrastText,
+                                                color: theme.vars.palette.primary.contrastText,
                                             }),
                                         },
                                         secondaryText: {
                                             sx: applyStyles(mode === 'reader' && isActiveChapter, {
-                                                color: theme.palette.primary.contrastText,
+                                                color: theme.vars.palette.primary.contrastText,
                                             }),
                                         },
                                         ternaryText: {
                                             sx: applyStyles(mode === 'reader' && isActiveChapter, {
-                                                color: theme.palette.primary.contrastText,
+                                                color: theme.vars.palette.primary.contrastText,
                                             }),
                                         },
                                     }}
@@ -184,7 +183,7 @@ export const ChapterCard = memo((props: IProps) => {
                                     chapterId={chapter.id}
                                     color={
                                         mode === 'reader' && isActiveChapter
-                                            ? theme.palette.primary.contrastText
+                                            ? theme.vars.palette.primary.contrastText
                                             : undefined
                                     }
                                 />

@@ -386,7 +386,7 @@ export const SearchAll = ({
                     gap: 2,
                     pt: 1,
                     pb: 2,
-                    background: (theme) => theme.palette.background.default,
+                    background: (theme) => theme.vars.palette.background.default,
                 }}
             >
                 {hasPinnedSources && (

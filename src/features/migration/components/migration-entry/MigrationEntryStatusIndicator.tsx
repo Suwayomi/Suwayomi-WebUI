@@ -61,7 +61,7 @@ export const MigrationEntryStatusIndicator = ({
     if ([MigrationEntryStatus.SEARCH_FAILED, MigrationEntryStatus.MIGRATION_FAILED].includes(status)) {
         return (
             <StatusIndicatorWrapper
-                backgroundColor={(theme) => theme.palette.error.main}
+                backgroundColor={(theme) => theme.vars.palette.error.main}
                 statusIcon={
                     <PriorityHighIcon
                         fontSize={isTabletWidth ? undefined : 'large'}
@@ -75,7 +75,7 @@ export const MigrationEntryStatusIndicator = ({
     if (status === MigrationEntryStatus.SEARCH_NO_MATCH) {
         return (
             <StatusIndicatorWrapper
-                backgroundColor={(theme) => theme.palette.warning.main}
+                backgroundColor={(theme) => theme.vars.palette.warning.main}
                 statusIcon={
                     <PriorityHighIcon
                         fontSize={isTabletWidth ? undefined : 'large'}

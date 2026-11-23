@@ -84,10 +84,10 @@ export const DescriptionGenre = ({
                             height: OPEN_CLOSE_BUTTON_HEIGHT,
                             bottom: 0,
                             background: (theme) =>
-                                `linear-gradient(transparent -15px, ${theme.palette.background.default})`,
+                                `linear-gradient(transparent -15px, ${theme.vars.palette.background.default})`,
                         }}
                     >
-                        <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
+                        <IconButton sx={{ color: (theme) => theme.applyStyles('light', { color: 'black' }) }}>
                             {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                         </IconButton>
                     </Stack>

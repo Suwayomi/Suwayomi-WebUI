@@ -10,7 +10,6 @@ import { styled } from '@mui/material/styles';
 import type { TypographyProps } from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
-
 type StyledGroupHeaderProps = {
     isFirstItem: boolean;
 };
@@ -21,7 +20,7 @@ export const StyledGroupHeader = styled(Stack, {
     paddingTop: theme.spacing(0.75),
     paddingBottom: theme.spacing(2),
     fontWeight: 'bold',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.vars.palette.background.default,
     [theme.breakpoints.down('sm')]: {
         paddingTop: isFirstItem ? theme.spacing(1) : theme.spacing(0.75),
     },

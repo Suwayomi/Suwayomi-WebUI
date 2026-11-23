@@ -39,7 +39,7 @@ export const MissingChaptersInfoSeparator = ({
             sx={{
                 flexGrow: 1,
                 border: '1px solid',
-                borderColor: (theme) => theme.palette.text.secondary,
+                borderColor: (theme) => theme.vars.palette.text.secondary,
             }}
         />
         <Typography sx={{ px: 2 }} variant="body2" color="textSecondary">
@@ -52,7 +52,7 @@ export const MissingChaptersInfoSeparator = ({
             sx={{
                 flexGrow: 1,
                 border: '1px solid',
-                borderColor: (theme) => theme.palette.text.secondary,
+                borderColor: (theme) => theme.vars.palette.text.secondary,
             }}
         />
     </Stack>

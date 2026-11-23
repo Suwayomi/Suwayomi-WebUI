@@ -94,7 +94,7 @@ const BaseMobileReaderProgressBar = ({
                     display: 'flex',
                     justifyItems: 'center',
                     alignItems: 'stretch',
-                    backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
+                    backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.85)`,
                     borderRadius: 100,
                     boxShadow: 2,
                 },
@@ -257,13 +257,13 @@ const BaseMobileReaderProgressBar = ({
                         }
                         disabled={!previousChapter}
                         sx={{
-                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
+                            backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.85)`,
                             boxShadow: 2,
                             '&:hover': {
                                 backgroundColor: 'background.paper',
                             },
                             '&:disabled': {
-                                backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
+                                backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.85)`,
                             },
                         }}
                     >
@@ -336,13 +336,13 @@ const BaseMobileReaderProgressBar = ({
                         }
                         disabled={!nextChapter}
                         sx={{
-                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
+                            backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.85)`,
                             boxShadow: 2,
                             '&:hover': {
                                 backgroundColor: 'background.paper',
                             },
                             '&:disabled': {
-                                backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
+                                backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.85)`,
                             },
                         }}
                     >
