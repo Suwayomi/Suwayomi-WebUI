@@ -28,7 +28,7 @@ export class Notifications {
     static show(message: string, description?: string, options?: Options): SnackbarKey;
     static show(message: string, optionsOrDescription?: string | Options, optionsOrUndefined?: Options): SnackbarKey {
         const options = typeof optionsOrDescription === 'object' ? optionsOrDescription : (optionsOrUndefined ?? {});
-        const description = typeof options === 'string' ? options : undefined;
+        const description = typeof optionsOrDescription === 'string' ? optionsOrDescription : undefined;
 
         const id = options.id ?? getUniqueId();
 
