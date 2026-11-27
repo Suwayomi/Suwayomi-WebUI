@@ -811,6 +811,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/settings/components/DeleteUserDialog.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/UserAccountDialog.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -1159,6 +1160,10 @@ msgstr "Could not delete category"
 msgid "Could not delete theme \"{0}\""
 msgstr "Could not delete theme \"{0}\""
 
+#: src/features/settings/components/DeleteUserDialog.tsx
+msgid "Could not delete user"
+msgstr "Could not delete user"
+
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
 msgstr "Could not find source. Check your installed extensions."
@@ -1477,10 +1482,21 @@ msgstr "Default category when adding new manga to the library"
 #: src/features/reader/hotkeys/settings/components/Hotkey.tsx
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/UserManagement.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Delete"
 msgstr "Delete"
+
+#. placeholder {0}: user.username
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Delete {0}"
+msgstr "Delete {0}"
+
+#. placeholder {0}: user.username
+#: src/features/settings/components/DeleteUserDialog.tsx
+msgid "Delete {0}?"
+msgstr "Delete {0}?"
 
 #: src/base/components/AppbarSearch.tsx
 #: src/features/downloads/screens/DownloadQueue.tsx
@@ -1510,6 +1526,10 @@ msgstr "Delete search"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Delete selected"
 msgstr "Delete selected"
+
+#: src/features/settings/components/DeleteUserDialog.tsx
+msgid "Delete user"
+msgstr "Delete user"
 
 #. placeholder {0}: theme.getName()
 #: src/features/theme/components/ThemeList.tsx
@@ -4062,6 +4082,10 @@ msgstr "The previous chapter has a different scanlator than the current one.\n"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
 msgstr "The theme name must be unique and has a limit of 16 characters"
+
+#: src/features/settings/components/DeleteUserDialog.tsx
+msgid "Their account and library data will be permanently deleted."
+msgstr "Their account and library data will be permanently deleted."
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 #: src/features/settings/screens/Appearance.tsx

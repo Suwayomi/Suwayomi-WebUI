@@ -612,6 +612,11 @@ export type DeleteSourceMetasPayload = {
     sources: Array<SourceType>;
 };
 
+export type DeleteUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    userId: Scalars['Int']['input'];
+};
+
 export type DequeueChapterDownloadInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     id: Scalars['Int']['input'];

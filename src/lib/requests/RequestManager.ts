@@ -198,6 +198,10 @@ import type {
     UpdateWebuiMutationVariables,
     GetUsersQuery,
     GetUsersQueryVariables,
+    GetUserDeletionSupportQuery,
+    GetUserDeletionSupportQueryVariables,
+    DeleteUserMutation,
+    DeleteUserMutationVariables,
     RegisterUserMutation,
     RegisterUserMutationVariables,
     UpdateUserMutation,
@@ -350,8 +354,14 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, REFRESH_ACCESS_TOKEN, REGISTER_USER, UPDATE_USER } from '@/lib/graphql/user/UserMutation.ts';
-import { GET_USERS } from '@/lib/graphql/user/UserQuery.ts';
+import {
+    USER_LOGIN,
+    REFRESH_ACCESS_TOKEN,
+    REGISTER_USER,
+    UPDATE_USER,
+    DELETE_USER,
+} from '@/lib/graphql/user/UserMutation.ts';
+import { GET_USERS, GET_USER_DELETION_SUPPORT } from '@/lib/graphql/user/UserQuery.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -4069,6 +4079,16 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_USERS, {}, { fetchPolicy: 'no-cache' });
     }
 
+    public useGetUserDeletionSupport(): boolean {
+        const { data } = this.doRequest<GetUserDeletionSupportQuery, GetUserDeletionSupportQueryVariables>(
+            GQLMethod.USE_QUERY,
+            GET_USER_DELETION_SUPPORT,
+            {},
+            { fetchPolicy: 'no-cache' },
+        );
+        return data?.mutationType?.fields?.some(({ name }) => name === 'deleteUser') ?? false;
+    }
+
     public registerUser(
         input: RegisterUserMutationVariables['input'],
     ): AbortableApolloMutationResponse<RegisterUserMutation> {
@@ -4087,6 +4107,15 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_USER,
             { input },
+            { fetchPolicy: 'no-cache' },
+        );
+    }
+
+    public deleteUser(userId: number): AbortableApolloMutationResponse<DeleteUserMutation> {
+        return this.doRequest<DeleteUserMutation, DeleteUserMutationVariables>(
+            GQLMethod.MUTATION,
+            DELETE_USER,
+            { input: { userId } },
             { fetchPolicy: 'no-cache' },
         );
     }

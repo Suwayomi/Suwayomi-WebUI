@@ -40,3 +40,11 @@ export const UPDATE_USER = gql`
         }
     }
 `;
+
+export const DELETE_USER = gql`
+    mutation DELETE_USER($input: DeleteUserInput!) {
+        deleteUser(input: $input) {
+            clientMutationId
+        }
+    }
+`;

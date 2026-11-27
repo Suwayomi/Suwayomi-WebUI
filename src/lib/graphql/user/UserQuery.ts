@@ -20,3 +20,13 @@ export const GET_USERS = gql`
         }
     }
 `;
+
+export const GET_USER_DELETION_SUPPORT = gql`
+    query GET_USER_DELETION_SUPPORT {
+        mutationType: __type(name: "Mutation") {
+            fields {
+                name
+            }
+        }
+    }
+`;

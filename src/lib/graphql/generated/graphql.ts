@@ -5196,6 +5196,15 @@ export type UpdateUserMutation = {
     updateUser: { __typename: 'UpdateUserPayload'; clientMutationId: string | null };
 };
 
+export type DeleteUserMutationVariables = Exact<{
+    input: Types.DeleteUserInput;
+}>;
+
+export type DeleteUserMutation = {
+    __typename: 'Mutation';
+    deleteUser: { __typename: 'DeleteUserPayload'; clientMutationId: string | null };
+};
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUsersQuery = {
@@ -5210,6 +5219,13 @@ export type GetUsersQuery = {
             permissions: Array<Types.UserPermission>;
         }>;
     };
+};
+
+export type GetUserDeletionSupportQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserDeletionSupportQuery = {
+    __typename: 'Query';
+    mutationType: { __typename: '__Type'; fields: Array<{ __typename: '__Field'; name: string }> | null } | null;
 };
 
 export type WebviewClearCacheCookiesMutationVariables = Exact<{ [key: string]: never }>;
