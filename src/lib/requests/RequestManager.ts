@@ -46,6 +46,8 @@ import type {
     DeleteDownloadedChapterMutationVariables,
     DeleteDownloadedChaptersMutation,
     DeleteDownloadedChaptersMutationVariables,
+    DeleteUserMutation,
+    DeleteUserMutationVariables,
     DequeueChapterDownloadMutation,
     DequeueChapterDownloadMutationVariables,
     DequeueChapterDownloadsMutation,
@@ -106,6 +108,10 @@ import type {
     GetSyncStatusQueryVariables,
     GetUpdateStatusQuery,
     GetUpdateStatusQueryVariables,
+    GetUserDeletionSupportQuery,
+    GetUserDeletionSupportQueryVariables,
+    GetUsersQuery,
+    GetUsersQueryVariables,
     GetWebuiUpdateStatusQuery,
     GetWebuiUpdateStatusQueryVariables,
     InstallExternalExtensionMutation,
@@ -118,6 +124,8 @@ import type {
     RefreshAccessTokenMutationVariables,
     RefreshMangaMutation,
     RefreshMangaMutationVariables,
+    RegisterUserMutation,
+    RegisterUserMutationVariables,
     RemoveExtensionStoreMutation,
     RemoveExtensionStoreMutationVariables,
     ReorderChapterDownloadMutation,
@@ -194,18 +202,10 @@ import type {
     UpdateSourceMetadataMutationVariables,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
-    UpdateWebuiMutation,
-    UpdateWebuiMutationVariables,
-    GetUsersQuery,
-    GetUsersQueryVariables,
-    GetUserDeletionSupportQuery,
-    GetUserDeletionSupportQueryVariables,
-    DeleteUserMutation,
-    DeleteUserMutationVariables,
-    RegisterUserMutation,
-    RegisterUserMutationVariables,
     UpdateUserMutation,
     UpdateUserMutationVariables,
+    UpdateWebuiMutation,
+    UpdateWebuiMutationVariables,
     UserLoginMutation,
     UserLoginMutationVariables,
     ValidateBackupQuery,
@@ -4079,14 +4079,11 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, GET_USERS, {}, { fetchPolicy: 'no-cache' });
     }
 
-    public useGetUserDeletionSupport(): boolean {
-        const { data } = this.doRequest<GetUserDeletionSupportQuery, GetUserDeletionSupportQueryVariables>(
-            GQLMethod.USE_QUERY,
-            GET_USER_DELETION_SUPPORT,
-            {},
-            { fetchPolicy: 'no-cache' },
-        );
-        return data?.mutationType?.fields?.some(({ name }) => name === 'deleteUser') ?? false;
+    public useGetUserDeletionSupport(): AbortableApolloUseQueryResponse<
+        GetUserDeletionSupportQuery,
+        GetUserDeletionSupportQueryVariables
+    > {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_USER_DELETION_SUPPORT, {}, { fetchPolicy: 'no-cache' });
     }
 
     public registerUser(

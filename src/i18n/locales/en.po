@@ -395,7 +395,7 @@ msgstr "Aborted"
 msgid "About"
 msgstr "About"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Access adult content"
 msgstr "Access adult content"
 
@@ -1649,7 +1649,7 @@ msgstr "Download ahead ({count})"
 msgid "Download badges"
 msgstr "Download badges"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Download chapters"
 msgstr "Download chapters"
 
@@ -2279,7 +2279,7 @@ msgstr "Information"
 msgid "Install"
 msgstr "Install"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Install extensions"
 msgstr "Install extensions"
 
@@ -2287,7 +2287,7 @@ msgstr "Install extensions"
 msgid "Install external extension"
 msgstr "Install external extension"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Install external extensions"
 msgstr "Install external extensions"
 
@@ -2572,23 +2572,23 @@ msgstr "Logging in to {trackerName}…"
 msgid "entry-type-detection-long-strip"
 msgstr "Long strip"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Manage cache"
 msgstr "Manage cache"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Manage extension stores"
 msgstr "Manage extension stores"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Manage server settings"
 msgstr "Manage server settings"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Manage source preferences"
 msgstr "Manage source preferences"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Manage users"
 msgstr "Manage users"
 
@@ -4291,7 +4291,7 @@ msgstr "Understood"
 msgid "Uninstall"
 msgstr "Uninstall"
 
-#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Uninstall extensions"
 msgstr "Uninstall extensions"
 

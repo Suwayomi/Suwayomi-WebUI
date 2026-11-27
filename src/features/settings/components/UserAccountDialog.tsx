@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, type FormEvent } from 'react';
-import { msg } from '@lingui/core/macro';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -26,27 +26,13 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { USER_PERMISSION_TO_TRANSLATION } from '@/features/settings/Settings.constants.ts';
+import type { ManagedUser } from '@/features/settings/Settings.types.ts';
 import { UserPermission, UserRole } from '@/lib/graphql/generated/graphql-base.types.ts';
-import type { GetUsersQuery } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
-export type ManagedUser = GetUsersQuery['users']['nodes'][number];
-
-const permissionLabels = {
-    [UserPermission.InstallExtensions]: msg`Install extensions`,
-    [UserPermission.InstallExternalExtensions]: msg`Install external extensions`,
-    [UserPermission.UninstallExtensions]: msg`Uninstall extensions`,
-    [UserPermission.DownloadChapters]: msg`Download chapters`,
-    [UserPermission.AccessNsfw]: msg`Access adult content`,
-    [UserPermission.ManageSettings]: msg`Manage server settings`,
-    [UserPermission.ManageUsers]: msg`Manage users`,
-    [UserPermission.ManageExtensionStores]: msg`Manage extension stores`,
-    [UserPermission.ManageSourcePreferences]: msg`Manage source preferences`,
-    [UserPermission.ManageCache]: msg`Manage cache`,
-};
-
-export function UserAccountDialog({
+export const UserAccountDialog = ({
     user,
     onClose,
     onSaved,
@@ -54,51 +40,65 @@ export function UserAccountDialog({
     user?: ManagedUser;
     onClose: () => void;
     onSaved: () => void;
-}) {
+}) => {
     const { t } = useLingui();
     const isAdmin = AuthManager.useIsAdmin();
+
+    const isEditMode = !!user;
     const initialRole = user?.roles.includes(UserRole.Admin) ? UserRole.Admin : UserRole.User;
+
     const [role, setRole] = useState(initialRole);
     const [permissions, setPermissions] = useState(user?.permissions ?? []);
-    const [useDefaults, setUseDefaults] = useState(!user);
+    const [useServerDefaults, setUseServerDefaults] = useState(!isEditMode);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [saving, setSaving] = useState(false);
-    const [error, setError] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const permissionsChanged =
-        !!user &&
+    const havePermissionsChanged =
+        isEditMode &&
         (permissions.length !== user.permissions.length ||
             permissions.some((permission) => !user.permissions.includes(permission)));
-    const roleChanged = isAdmin && role !== initialRole;
-    const canSave = user ? permissionsChanged || roleChanged : !!username.trim() && !!password;
+    const hasRoleChanged = isAdmin && role !== initialRole;
+    const canSubmit = isEditMode ? havePermissionsChanged || hasRoleChanged : !!username.trim() && !!password;
 
-    const save = async (event: FormEvent) => {
+    const handlePermissionChange = (permission: UserPermission, checked: boolean) => {
+        setPermissions((previous) =>
+            checked ? [...previous, permission] : previous.filter((item) => item !== permission),
+        );
+    };
+
+    const handleDialogSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        if (!canSave || saving) {
+
+        if (!canSubmit || isSaving) {
             return;
         }
-        setSaving(true);
-        setError('');
+
+        setIsSaving(true);
+        setErrorMessage('');
+
         try {
-            if (user) {
+            if (isEditMode) {
                 await requestManager.updateUser({
                     userId: user.id,
-                    ...(roleChanged && { role }),
-                    ...(permissionsChanged && { permissions }),
+                    ...(hasRoleChanged && { role }),
+                    ...(havePermissionsChanged && { permissions }),
                 }).response;
             } else {
                 await requestManager.registerUser({
                     username: username.trim(),
                     password,
-                    ...(!useDefaults && { userPermissions: permissions }),
+                    ...(!useServerDefaults && { userPermissions: permissions }),
                 }).response;
             }
-        } catch (reason) {
-            setError(getErrorMessage(reason));
-            setSaving(false);
+        } catch (e) {
+            setErrorMessage(getErrorMessage(e));
+            setIsSaving(false);
+
             return;
         }
+
         onSaved();
     };
 
@@ -107,14 +107,16 @@ export function UserAccountDialog({
             open
             fullWidth
             maxWidth="xs"
-            onClose={saving ? undefined : onClose}
+            onClose={isSaving ? undefined : onClose}
             aria-labelledby="account-dialog-title"
         >
-            <DialogTitle id="account-dialog-title">{user ? t`Edit ${user.username}` : t`Create user`}</DialogTitle>
+            <DialogTitle id="account-dialog-title">
+                {isEditMode ? t`Edit ${user.username}` : t`Create user`}
+            </DialogTitle>
             <DialogContent dividers>
-                <Stack component="form" id="account-form" onSubmit={save} sx={{ gap: 2 }}>
-                    {error && <Alert severity="error">{error}</Alert>}
-                    {!user && (
+                <Stack component="form" id="account-form" onSubmit={handleDialogSubmit} sx={{ gap: 2 }}>
+                    {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+                    {!isEditMode && (
                         <>
                             <TextField
                                 autoFocus
@@ -123,24 +125,24 @@ export function UserAccountDialog({
                                 name="username"
                                 autoComplete="off"
                                 value={username}
-                                disabled={saving}
+                                disabled={isSaving}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                             <PasswordTextField
                                 required
                                 autoComplete="new-password"
                                 value={password}
-                                disabled={saving}
+                                disabled={isSaving}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </>
                     )}
-                    {user && isAdmin && (
+                    {isEditMode && isAdmin && (
                         <TextField
                             select
                             label={t`Role`}
                             value={role}
-                            disabled={saving}
+                            disabled={isSaving}
                             onChange={(e) =>
                                 setRole(e.target.value === UserRole.Admin ? UserRole.Admin : UserRole.User)
                             }
@@ -149,23 +151,25 @@ export function UserAccountDialog({
                             <MenuItem value={UserRole.Admin}>{t`Administrator`}</MenuItem>
                         </TextField>
                     )}
-                    <FormControl component="fieldset" disabled={saving}>
+                    <FormControl component="fieldset" disabled={isSaving}>
                         <FormLabel component="legend">{t`Permissions`}</FormLabel>
                         {role === UserRole.Admin && (
-                            <FormHelperText>{t`Administrators have all permissions. These selections apply if the role changes to User.`}</FormHelperText>
+                            <FormHelperText>
+                                {t`Administrators have all permissions. These selections apply if the role changes to User.`}
+                            </FormHelperText>
                         )}
-                        {!user && (
+                        {!isEditMode && (
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={useDefaults}
-                                        onChange={(e) => setUseDefaults(e.target.checked)}
+                                        checked={useServerDefaults}
+                                        onChange={(e) => setUseServerDefaults(e.target.checked)}
                                     />
                                 }
                                 label={t`Use server defaults`}
                             />
                         )}
-                        {!useDefaults && (
+                        {!useServerDefaults && (
                             <FormGroup>
                                 {Object.values(UserPermission).map((permission) => (
                                     <FormControlLabel
@@ -173,16 +177,10 @@ export function UserAccountDialog({
                                         control={
                                             <Checkbox
                                                 checked={permissions.includes(permission)}
-                                                onChange={(_, checked) =>
-                                                    setPermissions((previous) =>
-                                                        checked
-                                                            ? [...previous, permission]
-                                                            : previous.filter((item) => item !== permission),
-                                                    )
-                                                }
+                                                onChange={(_, checked) => handlePermissionChange(permission, checked)}
                                             />
                                         }
-                                        label={t(permissionLabels[permission])}
+                                        label={t(USER_PERMISSION_TO_TRANSLATION[permission])}
                                     />
                                 ))}
                             </FormGroup>
@@ -191,11 +189,13 @@ export function UserAccountDialog({
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button disabled={saving} onClick={onClose}>{t`Cancel`}</Button>
-                <Button type="submit" form="account-form" variant="contained" disabled={saving || !canSave}>
-                    {user ? t`Save` : t`Create user`}
+                <Button disabled={isSaving} onClick={onClose}>
+                    {t`Cancel`}
+                </Button>
+                <Button type="submit" form="account-form" variant="contained" disabled={isSaving || !canSubmit}>
+                    {isEditMode ? t`Save` : t`Create user`}
                 </Button>
             </DialogActions>
         </Dialog>
     );
-}
+};

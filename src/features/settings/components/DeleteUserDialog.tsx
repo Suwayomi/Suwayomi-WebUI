@@ -15,11 +15,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import type { ManagedUser } from '@/features/settings/components/UserAccountDialog.tsx';
+import type { ManagedUser } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
-export function DeleteUserDialog({
+export const DeleteUserDialog = ({
     user,
     onClose,
     onDeleted,
@@ -27,47 +27,58 @@ export function DeleteUserDialog({
     user: ManagedUser;
     onClose: () => void;
     onDeleted: () => void;
-}) {
+}) => {
     const { t } = useLingui();
-    const [deleting, setDeleting] = useState(false);
-    const [error, setError] = useState('');
 
-    const confirm = async () => {
-        if (deleting) {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleDialogSubmit = async () => {
+        if (isDeleting) {
             return;
         }
-        setDeleting(true);
-        setError('');
+
+        setIsDeleting(true);
+        setErrorMessage('');
+
         try {
             await requestManager.deleteUser(user.id).response;
-        } catch (reason) {
-            setError(getErrorMessage(reason) || t`Could not delete user`);
-            setDeleting(false);
+        } catch (e) {
+            setErrorMessage(getErrorMessage(e) || t`Could not delete user`);
+            setIsDeleting(false);
+
             return;
         }
+
         onDeleted();
     };
 
     return (
         <Dialog
             open
-            onClose={deleting ? undefined : onClose}
+            onClose={isDeleting ? undefined : onClose}
             aria-labelledby="delete-user-title"
             aria-describedby="delete-user-description"
         >
             <DialogTitle id="delete-user-title">{t`Delete ${user.username}?`}</DialogTitle>
             <DialogContent>
-                <DialogContentText id="delete-user-description">{t`Their account and library data will be permanently deleted.`}</DialogContentText>
-                {error && (
+                <DialogContentText id="delete-user-description">
+                    {t`Their account and library data will be permanently deleted.`}
+                </DialogContentText>
+                {errorMessage && (
                     <Alert severity="error" sx={{ mt: 2 }}>
-                        {error}
+                        {errorMessage}
                     </Alert>
                 )}
             </DialogContent>
             <DialogActions>
-                <Button autoFocus disabled={deleting} onClick={onClose}>{t`Cancel`}</Button>
-                <Button color="error" variant="contained" loading={deleting} onClick={confirm}>{t`Delete user`}</Button>
+                <Button autoFocus disabled={isDeleting} onClick={onClose}>
+                    {t`Cancel`}
+                </Button>
+                <Button color="error" variant="contained" loading={isDeleting} onClick={handleDialogSubmit}>
+                    {t`Delete user`}
+                </Button>
             </DialogActions>
         </Dialog>
     );
-}
+};

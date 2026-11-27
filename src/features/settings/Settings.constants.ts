@@ -26,6 +26,7 @@ import {
     KoreaderSyncConflictStrategy,
     StartSyncResult,
     SyncState,
+    UserPermission,
     WebUiChannel,
     WebUiFlavor,
     WebUiInterface,
@@ -33,6 +34,19 @@ import {
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 import type { BackupFlag } from '@/features/backup/Backup.types.ts';
+
+export const USER_PERMISSION_TO_TRANSLATION: Record<UserPermission, MessageDescriptor> = {
+    [UserPermission.InstallExtensions]: msg`Install extensions`,
+    [UserPermission.InstallExternalExtensions]: msg`Install external extensions`,
+    [UserPermission.UninstallExtensions]: msg`Uninstall extensions`,
+    [UserPermission.DownloadChapters]: msg`Download chapters`,
+    [UserPermission.AccessNsfw]: msg`Access adult content`,
+    [UserPermission.ManageSettings]: msg`Manage server settings`,
+    [UserPermission.ManageUsers]: msg`Manage users`,
+    [UserPermission.ManageExtensionStores]: msg`Manage extension stores`,
+    [UserPermission.ManageSourcePreferences]: msg`Manage source preferences`,
+    [UserPermission.ManageCache]: msg`Manage cache`,
+};
 
 export const MANGA_GRID_WIDTH = {
     min: 100,
