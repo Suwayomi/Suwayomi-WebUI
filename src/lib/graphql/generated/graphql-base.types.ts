@@ -687,6 +687,8 @@ export type DownloadStatus = {
 export type DownloadType = {
     __typename?: 'DownloadType';
     chapter: ChapterType;
+    /** Error message from the last failed download attempt. Only set when state is ERROR. */
+    errorMessage?: Maybe<Scalars['String']['output']>;
     manga: MangaType;
     position: Scalars['Int']['output'];
     progress: Scalars['Float']['output'];

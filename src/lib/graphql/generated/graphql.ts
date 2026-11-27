@@ -972,6 +972,7 @@ export type DownloadTypeFieldsFragment = {
     state: Types.DownloadState;
     tries: number;
     position: number;
+    errorMessage: string | null;
     chapter: {
         __typename: 'ChapterType';
         isDownloaded: boolean;
@@ -1014,6 +1015,7 @@ export type DownloadStatusFieldsFragment = {
         state: Types.DownloadState;
         tries: number;
         position: number;
+        errorMessage: string | null;
         chapter: {
             __typename: 'ChapterType';
             isDownloaded: boolean;
@@ -1061,6 +1063,7 @@ export type DownloadUpdatesFieldsFragment = {
             state: Types.DownloadState;
             tries: number;
             position: number;
+            errorMessage: string | null;
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
@@ -1113,6 +1116,7 @@ export type ClearDownloaderMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1200,6 +1204,7 @@ export type DequeueChapterDownloadMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1253,6 +1258,7 @@ export type DequeueChapterDownloadsMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1306,6 +1312,7 @@ export type EnqueueChapterDownloadMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1359,6 +1366,7 @@ export type EnqueueChapterDownloadsMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1412,6 +1420,7 @@ export type ReorderChapterDownloadMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1465,6 +1474,7 @@ export type ReorderChapterDownloadsMutation = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1538,6 +1548,7 @@ export type GetDownloadStatusQuery = {
             state: Types.DownloadState;
             tries: number;
             position: number;
+            errorMessage: string | null;
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
@@ -1592,6 +1603,7 @@ export type DownloadStatusSubscription = {
                 state: Types.DownloadState;
                 tries: number;
                 position: number;
+                errorMessage: string | null;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
