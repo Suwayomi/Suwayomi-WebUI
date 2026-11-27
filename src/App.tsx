@@ -204,7 +204,12 @@ const UserManagementRoute = () => {
     if (!accessToken && refreshToken && isAuthRequired !== false) {
         return lazyLoadFallback.fallback;
     }
-    return accessToken?.canManageUsers ? <UserManagement /> : <Navigate to={AppRoutes.settings.path} replace />;
+
+    if (!accessToken?.canManageUsers) {
+        return <Navigate to={AppRoutes.settings.path} replace />;
+    }
+
+    return <UserManagement />;
 };
 
 const MainApp = () => {

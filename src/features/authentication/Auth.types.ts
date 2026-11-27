@@ -27,6 +27,11 @@ export interface DecodedJwt<T extends object> {
     payload: JwtPayload<T>;
 }
 
+export interface AccessTokenClaims {
+    roles?: string[];
+    permissions?: string[];
+}
+
 export interface TokenPayload {
     token: string;
     expireTimestamp: number;

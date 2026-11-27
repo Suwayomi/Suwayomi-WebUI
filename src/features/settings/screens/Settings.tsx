@@ -68,11 +68,12 @@ function SettingsMenu({
     const { t } = useLingui();
     const { pathname } = useLocation();
     const { accessToken } = AuthManager.useSession();
-    const items = SETTING_MENU_ITEMS.filter((item) => !item.requiresManageUsers || accessToken?.canManageUsers);
+
+    const visibleItems = SETTING_MENU_ITEMS.filter((item) => !item.requiresManageUsers || accessToken?.canManageUsers);
 
     return (
         <List {...slots?.list} sx={{ padding: 0 }}>
-            {items.map((item) => (
+            {visibleItems.map((item) => (
                 <ListItemLink
                     {...slots?.listItemLink}
                     key={item.to}

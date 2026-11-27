@@ -9,7 +9,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
-import type { DecodedJwt, TokenPayload } from '@/features/authentication/Auth.types.ts';
+import type { AccessTokenClaims, DecodedJwt, TokenPayload } from '@/features/authentication/Auth.types.ts';
 import { UserPermission, UserRole } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { epochToDate } from '@/base/utils/DateHelper.ts';
 import { d } from 'koration';
@@ -172,18 +172,21 @@ export class AuthManager {
     static setAccessToken(token: string): void {
         const {
             payload: { exp, sub, roles, permissions },
-        } = AuthManager.decodeToken<{ roles?: string[]; permissions?: string[] }>(token);
+        } = AuthManager.decodeToken<AccessTokenClaims>(token);
 
         assertIsDefined(exp);
 
         const isAdmin = Array.isArray(roles) && roles.includes(UserRole.Admin);
+        const canManageUsers =
+            isAdmin || (Array.isArray(permissions) && permissions.includes(UserPermission.ManageUsers));
         const userId = Number(sub);
+
         AuthManager.accessToken = {
             token,
             expireTimestamp: epochToDate(exp).valueOf(),
             userId: Array.isArray(roles) && Number.isSafeInteger(userId) && userId > 0 ? userId : null,
             isAdmin,
-            canManageUsers: isAdmin || (Array.isArray(permissions) && permissions.includes(UserPermission.ManageUsers)),
+            canManageUsers,
         };
         AuthManager.notify();
     }
