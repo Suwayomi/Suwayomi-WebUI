@@ -314,7 +314,11 @@ export const useReaderInfiniteScrollUpdateChapter = (
             d(5).seconds.inWholeMilliseconds,
             isInitialChapterRender,
         );
-        return () => scrollElement.removeEventListener('scroll', onScroll);
+
+        return () => {
+            clearTimeout(eventListenerTimeoutRef.current);
+            scrollElement.removeEventListener('scroll', onScroll);
+        };
     }, [
         readingMode,
         scrollElement,
