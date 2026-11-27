@@ -18,6 +18,8 @@ import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { UserAccountDialog, type ManagedUser } from '@/features/settings/components/UserAccountDialog.tsx';
+import { DeleteUserDialog } from '@/features/settings/components/DeleteUserDialog.tsx';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { UserRole } from '@/lib/graphql/generated/graphql-base.types.ts';
@@ -26,8 +28,11 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 export function UserManagement() {
     const { t } = useLingui();
     useAppTitle(t`User management`);
+    const { accessToken } = AuthManager.useSession();
+    const supportsDeletion = requestManager.useGetUserDeletionSupport();
     const { data, loading, error, refetch } = requestManager.useGetUsers();
     const [editing, setEditing] = useState<ManagedUser | 'new' | null>(null);
+    const [deleteId, setDeleteId] = useState<number | null>(null);
     const reload = () => refetch().catch(defaultPromiseErrorHandler('UserManagement::refetch'));
 
     if (error) {
@@ -36,6 +41,15 @@ export function UserManagement() {
     if (loading && !data) {
         return <LoadingPlaceholder />;
     }
+
+    const canDelete = (user: ManagedUser) =>
+        supportsDeletion &&
+        accessToken?.canManageUsers &&
+        accessToken.userId != null &&
+        user.id !== 1 &&
+        user.id !== accessToken.userId &&
+        (accessToken.isAdmin || !user.roles.includes(UserRole.Admin));
+    const deleteTarget = data?.users.nodes.find((user) => user.id === deleteId && canDelete(user));
 
     return (
         <Stack sx={{ p: 2, gap: 1 }}>
@@ -63,6 +77,16 @@ export function UserManagement() {
                                     {t`Edit`}
                                 </Button>
                             )}
+                            {canDelete(user) && (
+                                <Button
+                                    color="error"
+                                    disabled={loading}
+                                    onClick={() => setDeleteId(user.id)}
+                                    aria-label={t`Delete ${user.username}`}
+                                >
+                                    {t`Delete`}
+                                </Button>
+                            )}
                         </ListItem>
                     );
                 })}
@@ -73,6 +97,16 @@ export function UserManagement() {
                     onClose={() => setEditing(null)}
                     onSaved={() => {
                         setEditing(null);
+                        reload();
+                    }}
+                />
+            )}
+            {deleteTarget && (
+                <DeleteUserDialog
+                    user={deleteTarget}
+                    onClose={() => setDeleteId(null)}
+                    onDeleted={() => {
+                        setDeleteId(null);
                         reload();
                     }}
                 />

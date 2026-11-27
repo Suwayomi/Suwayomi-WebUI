@@ -171,15 +171,17 @@ export class AuthManager {
 
     static setAccessToken(token: string): void {
         const {
-            payload: { exp, roles, permissions },
+            payload: { exp, sub, roles, permissions },
         } = AuthManager.decodeToken<{ roles?: string[]; permissions?: string[] }>(token);
 
         assertIsDefined(exp);
 
         const isAdmin = Array.isArray(roles) && roles.includes(UserRole.Admin);
+        const userId = Number(sub);
         AuthManager.accessToken = {
             token,
             expireTimestamp: epochToDate(exp).valueOf(),
+            userId: Array.isArray(roles) && Number.isSafeInteger(userId) && userId > 0 ? userId : null,
             isAdmin,
             canManageUsers: isAdmin || (Array.isArray(permissions) && permissions.includes(UserPermission.ManageUsers)),
         };

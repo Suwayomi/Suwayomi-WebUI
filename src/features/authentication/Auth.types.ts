@@ -30,6 +30,7 @@ export interface DecodedJwt<T extends object> {
 export interface TokenPayload {
     token: string;
     expireTimestamp: number;
+    userId: number | null;
     isAdmin: boolean;
     canManageUsers: boolean;
 }
