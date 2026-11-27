@@ -38,6 +38,13 @@ import { SortBy, SortOrder, type SortSettings, type TMigratableSource } from '@/
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
 
+// letter groups are not listed and sort between "#" and the local source
+const LETTER_GROUP_ORDER: Record<string, number> = {
+    [DefaultLanguage.PINNED]: 0,
+    '#': 1,
+    [DefaultLanguage.OTHER]: 3,
+};
+
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
 
@@ -81,6 +88,28 @@ export class Sources {
             : sources;
 
         return [...new Set(filteredSources.map(Sources.getLanguage))];
+    }
+
+    /** Pinned sources, then "#" and one group per first letter, then the local source. */
+    static groupByFirstLetter<
+        Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo & SourceMetaInfo,
+    >(sources: Source[]): [string, Source[]][] {
+        const groups = Object.groupBy(sources, (source) => {
+            if (getSourceMetadata(source).isPinned) {
+                return DefaultLanguage.PINNED;
+            }
+
+            if (Sources.isLocalSource(source)) {
+                return DefaultLanguage.OTHER;
+            }
+
+            // NFD splits "É" into "E" and its accent, so it is filed under "E"
+            const letter = source.displayName.trim().normalize('NFD').charAt(0).toUpperCase();
+            return /[A-Z]/.test(letter) ? letter : '#';
+        });
+        return Object.entries(groups)
+            .toSorted(([a], [b]) => (LETTER_GROUP_ORDER[a] ?? 2) - (LETTER_GROUP_ORDER[b] ?? 2) || a.localeCompare(b))
+            .map(([key, group]) => [key, (group ?? []).toSorted((a, b) => a.displayName.localeCompare(b.displayName))]);
     }
 
     static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo & SourceMetaInfo>(

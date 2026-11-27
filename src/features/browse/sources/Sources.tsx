@@ -11,15 +11,18 @@ import IconButton from '@mui/material/IconButton';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ButtonBase from '@mui/material/ButtonBase';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { DefaultLanguage } from '@/base/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/features/browse/sources/components/SourceCard.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { isPinnedOrLastUsedSource, translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
+import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources as SourceService } from '@/features/source/services/Sources.ts';
@@ -37,7 +40,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     const { languages: shownLangs, setLanguages: setShownLangs } = SourceService.useLanguages();
     const {
-        settings: { showNsfw, lastUsedSourceId },
+        settings: { showNsfw },
     } = useMetadataServerSettings();
 
     const { data, loading: isLoading, error, refetch } = requestManager.useGetSourceList();
@@ -50,55 +53,43 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 keepLocalSource: true,
                 enabled: true,
             }),
-        [sources, shownLangs],
+        [sources, shownLangs, showNsfw],
     );
-    const sourcesForLanguageFilter = useMemo(
-        () =>
-            SourceService.filter(sources, {
-                isNsfw: showNsfw ? undefined : false,
-                removeLocalSource: true,
-            }),
-        [sources],
-    );
-    const sourcesByLanguage = useMemo(() => {
-        const lastUsedSource = SourceService.getLastUsedSource(lastUsedSourceId, filteredSources);
-        const groupedByLanguageTuple = Object.entries(
-            SourceService.groupByLanguage(filteredSources, { withPinnedGroup: true }),
+    const sourceGroups = useMemo(() => SourceService.groupByFirstLetter(filteredSources), [filteredSources]);
+    const [collapsedGroups, setCollapsedGroups] = useLocalStorage<string[]>('sources-collapsed-groups', []);
+    const toggleGroup = (group: string) =>
+        setCollapsedGroups(
+            collapsedGroups.includes(group)
+                ? collapsedGroups.filter((collapsedGroup) => collapsedGroup !== group)
+                : [...collapsedGroups, group],
         );
 
-        if (lastUsedSource) {
-            return [
-                [DefaultLanguage.LAST_USED_SOURCE, [lastUsedSource]],
-                ...groupedByLanguageTuple,
-            ] satisfies typeof groupedByLanguageTuple;
-        }
-
-        return groupedByLanguageTuple;
-    }, [filteredSources]);
-
     const sourceLanguages = useMemo(
-        () => SourceService.getLanguages(sourcesForLanguageFilter, { excludeLocalSource: true }),
-        [sources],
+        () =>
+            SourceService.getLanguages(
+                SourceService.filter(sources, { isNsfw: showNsfw ? undefined : false, removeLocalSource: true }),
+                { excludeLocalSource: true },
+            ),
+        [sources, showNsfw],
     );
     const areSourcesFromDifferentRepos = useMemo(
         () => SourceService.areFromMultipleStores(filteredSources),
         [filteredSources],
     );
-    const visibleSources = useMemo(
-        () => sourcesByLanguage.flatMap(([, sourcesOfLanguage]) => sourcesOfLanguage),
-        [sourcesByLanguage],
+    // a collapsed group keeps its header and has no items
+    const shownSourceGroups = useMemo(
+        () => sourceGroups.map(([group, sourcesOfGroup]) => (collapsedGroups.includes(group) ? [] : sourcesOfGroup)),
+        [sourceGroups, collapsedGroups],
     );
+    const visibleSources = useMemo(() => shownSourceGroups.flat(), [shownSourceGroups]);
 
-    const groupCounts = useMemo(
-        () => sourcesByLanguage.map((sourceGroup) => sourceGroup[1].length),
-        [sourcesByLanguage],
-    );
+    const groupCounts = useMemo(() => shownSourceGroups.map((group) => group.length), [shownSourceGroups]);
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => sourcesByLanguage[index][0], [sourcesByLanguage]),
+        useCallback((index) => sourceGroups[index][0], [sourceGroups]),
         useCallback(
-            (index, groupIndex) => `${sourcesByLanguage[groupIndex][0]}_${visibleSources[index].id}`,
-            [visibleSources],
+            (index, groupIndex) => `${sourceGroups[groupIndex][0]}_${visibleSources[index].id}`,
+            [sourceGroups, visibleSources],
         ),
     );
 
@@ -115,10 +106,9 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
-                sources={sourcesForLanguageFilter}
             />
         </>,
-        [t, shownLangs, sourceLanguages, sourcesForLanguageFilter],
+        [t, shownLangs, sourceLanguages, showNsfw],
     );
 
     if (isLoading) {
@@ -147,27 +137,36 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             groupCounts={groupCounts}
             computeItemKey={computeItemKey}
             groupContent={(index) => {
-                const [language] = sourcesByLanguage[index];
+                const [group] = sourceGroups[index];
+                const isCollapsed = collapsedGroups.includes(group);
+                const isLetter = group.length === 1;
 
                 return (
                     <StyledGroupHeader isFirstItem={!index}>
-                        <Typography variant="h5" component="h2">
-                            {translateExtensionLanguage(language)}
-                        </Typography>
+                        <ButtonBase
+                            onClick={() => toggleGroup(group)}
+                            aria-expanded={!isCollapsed}
+                            sx={{ width: '100%', justifyContent: 'space-between', pr: 2 }}
+                        >
+                            <Typography variant="h5" component="h2">
+                                {isLetter ? group : translateExtensionLanguage(group)}
+                            </Typography>
+                            {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                        </ButtonBase>
                     </StyledGroupHeader>
                 );
             }}
-            itemContent={(index, groupIndex) => {
-                const [language] = sourcesByLanguage[groupIndex];
+            itemContent={(index) => {
                 const source = visibleSources[index];
+
+                // GroupedVirtuoso bug: with only empty groups it still asks for an item
+                if (!source) {
+                    return null;
+                }
 
                 return (
                     <StyledGroupItemWrapper>
-                        <SourceCard
-                            source={source}
-                            showSourceRepo={areSourcesFromDifferentRepos}
-                            showLanguage={isPinnedOrLastUsedSource(language)}
-                        />
+                        <SourceCard source={source} showSourceRepo={areSourcesFromDifferentRepos} showLanguage />
                     </StyledGroupItemWrapper>
                 );
             }}

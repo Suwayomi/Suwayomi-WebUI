@@ -11,6 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { StringParam, useQueryParam } from 'use-query-params';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
@@ -61,6 +62,9 @@ import type { FilterChangeInput } from '@/lib/graphql/generated/graphql-base.typ
 import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
+import { BrowseTab } from '@/features/browse/Browse.types.ts';
+import { updateExtension } from '@/features/extension/Extensions.utils.ts';
+import { ExtensionAction } from '@/features/extension/Extensions.types.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -423,6 +427,21 @@ export function SourceMangas() {
         requestManager.clearBrowseCacheFor(sourceId);
     }, [clearCache]);
 
+    const uninstallExtension = async () => {
+        if (!source) {
+            return;
+        }
+
+        const { pkgName, isObsolete } = source.extension;
+
+        try {
+            await updateExtension(pkgName, isObsolete, ExtensionAction.UNINSTALL);
+            navigate(AppRoutes.browse.path(BrowseTab.SOURCES), { replace: true });
+        } catch (e) {
+            defaultPromiseErrorHandler('SourceMangas::uninstallExtension')(e);
+        }
+    };
+
     useAppTitleAndAction(
         source?.displayName ?? t`Source`,
         <>
@@ -448,6 +467,20 @@ export function SourceMangas() {
                         color="inherit"
                     >
                         <SettingsIcon />
+                    </IconButton>
+                </CustomTooltip>
+            )}
+            {!isLocalSource && (
+                <CustomTooltip title={t`Uninstall`} disabled={!source}>
+                    <IconButton
+                        disabled={!source}
+                        onClick={() =>
+                            uninstallExtension().catch(defaultPromiseErrorHandler('SourceMangas::uninstall'))
+                        }
+                        aria-label={t`Uninstall`}
+                        color="inherit"
+                    >
+                        <DeleteIcon />
                     </IconButton>
                 </CustomTooltip>
             )}

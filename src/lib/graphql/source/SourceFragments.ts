@@ -111,6 +111,12 @@ export const SOURCE_BROWSE_FIELDS = gql`
         isConfigurable
         supportsLatest
 
+        extension {
+            pkgName
+            name
+            isObsolete
+        }
+
         meta {
             ...SOURCE_META_FIELDS
         }

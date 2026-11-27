@@ -3652,6 +3652,7 @@ export type SourceBrowseFieldsFragment = {
     homeUrl: string | null;
     isConfigurable: boolean;
     supportsLatest: boolean;
+    extension: { __typename: 'ExtensionType'; pkgName: string; name: string; isObsolete: boolean };
     id: string;
     name: string;
     displayName: string;
@@ -4052,6 +4053,7 @@ export type GetSourceBrowseQuery = {
         homeUrl: string | null;
         isConfigurable: boolean;
         supportsLatest: boolean;
+        extension: { __typename: 'ExtensionType'; pkgName: string; name: string; isObsolete: boolean };
         id: string;
         name: string;
         displayName: string;

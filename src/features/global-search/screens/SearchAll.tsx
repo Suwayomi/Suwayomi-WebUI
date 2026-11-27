@@ -320,7 +320,7 @@ export const SearchAll = ({
                 pinned: shouldShowOnlyPinnedSources ? true : undefined,
                 enabled: true,
             }),
-        [sources, shownLangs, shouldShowOnlyPinnedSources],
+        [sources, shownLangs, shouldShowOnlyPinnedSources, showNsfw],
     );
     const sourcesSortedByName = useMemo(() => [...filteredSources].toSorted(compareSourceByName), [filteredSources]);
     const sourcesSortedByResult = useMemo(
@@ -354,10 +354,9 @@ export const SearchAll = ({
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
-                sources={sources}
             />
         </>,
-        [shownLangs, setShownLangs, sourceLanguages, sources],
+        [shownLangs, setShownLangs, sourceLanguages, showNsfw],
     );
 
     if (loading) {

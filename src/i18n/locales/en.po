@@ -1717,10 +1717,6 @@ msgstr "Enable the WebView via CEF (Chromium)"
 msgid "Enabled languages"
 msgstr "Enabled languages"
 
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Enabled languages and sources"
-msgstr "Enabled languages and sources"
-
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1891,6 +1887,7 @@ msgstr "Filename"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
 msgid "Filter"
 msgstr "Filter"
 
@@ -2812,10 +2809,6 @@ msgstr "No sources available to migrate to"
 msgid "No sources found. Install Some extensions first."
 msgstr "No sources found. Install Some extensions first."
 
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "No sources installed"
-msgstr "No sources installed"
-
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
@@ -2854,6 +2847,7 @@ msgid "Novel"
 msgstr "Novel"
 
 #: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
 msgid "NSFW (18+) sources"
 msgstr "NSFW (18+) sources"
 
@@ -4189,6 +4183,7 @@ msgid "Understood"
 msgstr "Understood"
 
 #: src/features/extension/Extensions.constants.ts
+#: src/features/source/browse/screens/SourceMangas.tsx
 msgid "Uninstall"
 msgstr "Uninstall"
 
