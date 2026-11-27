@@ -16,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import DnsIcon from '@mui/icons-material/Dns';
+import GroupIcon from '@mui/icons-material/Group';
 import WebIcon from '@mui/icons-material/Web';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -33,6 +34,7 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { OffsetComponent, useOffsetComponent } from '@/base/components/OffsetComponent.tsx';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 const SETTING_MENU_ITEMS = [
     { to: AppRoutes.settings.children.appearance.path, icon: <PaletteIcon />, label: msg`Appearance` },
@@ -47,6 +49,12 @@ const SETTING_MENU_ITEMS = [
     { to: AppRoutes.settings.children.device.path, icon: <DevicesIcon />, label: msg`Device` },
     { to: AppRoutes.settings.children.webui.path, icon: <WebIcon />, label: msg`WebUI` },
     { to: AppRoutes.settings.children.server.path, icon: <DnsIcon />, label: msg`Server` },
+    {
+        to: AppRoutes.settings.children.users.path,
+        icon: <GroupIcon />,
+        label: msg`User management`,
+        requiresManageUsers: true,
+    },
 ];
 
 function SettingsMenu({
@@ -59,10 +67,12 @@ function SettingsMenu({
 }) {
     const { t } = useLingui();
     const { pathname } = useLocation();
+    const { accessToken } = AuthManager.useSession();
+    const items = SETTING_MENU_ITEMS.filter((item) => !item.requiresManageUsers || accessToken?.canManageUsers);
 
     return (
         <List {...slots?.list} sx={{ padding: 0 }}>
-            {SETTING_MENU_ITEMS.map((item) => (
+            {items.map((item) => (
                 <ListItemLink
                     {...slots?.listItemLink}
                     key={item.to}

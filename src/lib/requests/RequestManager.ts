@@ -196,6 +196,12 @@ import type {
     UpdateSourcePreferencesMutationVariables,
     UpdateWebuiMutation,
     UpdateWebuiMutationVariables,
+    GetUsersQuery,
+    GetUsersQueryVariables,
+    RegisterUserMutation,
+    RegisterUserMutationVariables,
+    UpdateUserMutation,
+    UpdateUserMutationVariables,
     UserLoginMutation,
     UserLoginMutationVariables,
     ValidateBackupQuery,
@@ -344,7 +350,8 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, REFRESH_ACCESS_TOKEN } from '@/lib/graphql/user/UserMutation.ts';
+import { USER_LOGIN, REFRESH_ACCESS_TOKEN, REGISTER_USER, UPDATE_USER } from '@/lib/graphql/user/UserMutation.ts';
+import { GET_USERS } from '@/lib/graphql/user/UserQuery.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -4055,6 +4062,32 @@ export class RequestManager {
             TRACKER_FETCH_BIND,
             { recordId },
             options,
+        );
+    }
+
+    public useGetUsers(): AbortableApolloUseQueryResponse<GetUsersQuery, GetUsersQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_USERS, {}, { fetchPolicy: 'no-cache' });
+    }
+
+    public registerUser(
+        input: RegisterUserMutationVariables['input'],
+    ): AbortableApolloMutationResponse<RegisterUserMutation> {
+        return this.doRequest<RegisterUserMutation, RegisterUserMutationVariables>(
+            GQLMethod.MUTATION,
+            REGISTER_USER,
+            { input },
+            { fetchPolicy: 'no-cache' },
+        );
+    }
+
+    public updateUser(
+        input: UpdateUserMutationVariables['input'],
+    ): AbortableApolloMutationResponse<UpdateUserMutation> {
+        return this.doRequest<UpdateUserMutation, UpdateUserMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_USER,
+            { input },
+            { fetchPolicy: 'no-cache' },
         );
     }
 

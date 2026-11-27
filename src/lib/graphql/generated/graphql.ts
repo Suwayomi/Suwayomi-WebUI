@@ -5178,6 +5178,40 @@ export type RefreshAccessTokenMutation = {
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };
 
+export type RegisterUserMutationVariables = Exact<{
+    input: Types.RegisterInput;
+}>;
+
+export type RegisterUserMutation = {
+    __typename: 'Mutation';
+    register: { __typename: 'RegisterPayload'; clientMutationId: string | null };
+};
+
+export type UpdateUserMutationVariables = Exact<{
+    input: Types.UpdateUserInput;
+}>;
+
+export type UpdateUserMutation = {
+    __typename: 'Mutation';
+    updateUser: { __typename: 'UpdateUserPayload'; clientMutationId: string | null };
+};
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUsersQuery = {
+    __typename: 'Query';
+    users: {
+        __typename: 'UserNodeList';
+        nodes: Array<{
+            __typename: 'UserType';
+            id: number;
+            username: string;
+            roles: Array<Types.UserRole>;
+            permissions: Array<Types.UserPermission>;
+        }>;
+    };
+};
+
 export type WebviewClearCacheCookiesMutationVariables = Exact<{ [key: string]: never }>;
 
 export type WebviewClearCacheCookiesMutation = {

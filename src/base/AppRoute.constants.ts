@@ -102,6 +102,10 @@ export const AppRoutes = {
                 match: 'server',
                 path: '/settings/server',
             },
+            users: {
+                match: 'users',
+                path: '/settings/users',
+            },
             webui: {
                 match: 'webui',
                 path: '/settings/webui',

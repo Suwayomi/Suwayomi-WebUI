@@ -395,6 +395,10 @@ msgstr "Aborted"
 msgid "About"
 msgstr "About"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Access adult content"
+msgstr "Access adult content"
+
 #: src/features/device/screens/DeviceSetting.tsx
 msgid "Active device"
 msgstr "Active device"
@@ -447,6 +451,15 @@ msgstr "Add tracking"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Added manga to library!"
 msgstr "Added manga to library!"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Administrator"
+msgstr "Administrator"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Administrators have all permissions. These selections apply if the role changes to User."
+msgstr "Administrators have all permissions. These selections apply if the role changes to User."
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Advanced"
@@ -732,6 +745,10 @@ msgstr "Browser"
 msgid "Build time"
 msgstr "Build time"
 
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Built-in administrator"
+msgstr "Built-in administrator"
+
 #: src/features/manga/components/cards/MangaCard.tsx
 msgid "Bulk migration manual search"
 msgstr "Bulk migration manual search"
@@ -795,6 +812,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/settings/components/UserAccountDialog.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
 #: src/features/source/configuration/components/EditTextPreference.tsx
@@ -1179,6 +1197,10 @@ msgstr "Could not load theme fonts"
 msgid "Could not load track info"
 msgstr "Could not load track info"
 
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Could not load users"
+msgstr "Could not load users"
+
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Could not log in to {0}"
@@ -1307,6 +1329,11 @@ msgstr "Create backup"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Create theme"
 msgstr "Create theme"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Create user"
+msgstr "Create user"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Created theme"
@@ -1602,6 +1629,10 @@ msgstr "Download ahead ({count})"
 msgid "Download badges"
 msgstr "Download badges"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Download chapters"
+msgstr "Download chapters"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Download location"
 msgstr "Download location"
@@ -1664,9 +1695,16 @@ msgstr "Edge"
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
 #: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/settings/screens/UserManagement.tsx
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Edit"
 msgstr "Edit"
+
+#. placeholder {0}: user.username
+#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/screens/UserManagement.tsx
+msgid "Edit {0}"
+msgstr "Edit {0}"
 
 #: src/features/category/screens/CategorySettings.tsx
 #: src/features/library/screens/LibrarySettings.tsx
@@ -2221,9 +2259,17 @@ msgstr "Information"
 msgid "Install"
 msgstr "Install"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Install extensions"
+msgstr "Install extensions"
+
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Install external extension"
 msgstr "Install external extension"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Install external extensions"
+msgstr "Install external extensions"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Installed"
@@ -2505,6 +2551,26 @@ msgstr "Logging in to {trackerName}…"
 #: src/features/manga/Manga.constants.ts
 msgid "entry-type-detection-long-strip"
 msgstr "Long strip"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Manage cache"
+msgstr "Manage cache"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Manage extension stores"
+msgstr "Manage extension stores"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Manage server settings"
+msgstr "Manage server settings"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Manage source preferences"
+msgstr "Manage source preferences"
+
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Manage users"
+msgstr "Manage users"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid "Manage your existing devices.\n"
@@ -3045,6 +3111,10 @@ msgstr "Pending…"
 msgid "Percentage Tolerance"
 msgstr "Percentage Tolerance"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Permissions"
+msgstr "Permissions"
+
 #: src/features/browse/sources/components/SourceCard.tsx
 msgid "Pin source"
 msgstr "Pin source"
@@ -3315,11 +3385,16 @@ msgstr "Right and left"
 msgid "Right to left"
 msgstr "Right to left"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Role"
+msgstr "Role"
+
 #: src/features/theme/Themes.ts
 msgid "Rosegold"
 msgstr "Rosegold"
 
 #: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/settings/components/UserAccountDialog.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
@@ -4192,6 +4267,10 @@ msgstr "Understood"
 msgid "Uninstall"
 msgstr "Uninstall"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Uninstall extensions"
+msgstr "Uninstall extensions"
+
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstalling"
 msgstr "Uninstalling"
@@ -4300,6 +4379,10 @@ msgid "Use a custom WebUI.\n"
 msgstr "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+msgid "Use server defaults"
+msgstr "Use server defaults"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Use SOCKS proxy"
 msgstr "Use SOCKS proxy"
@@ -4324,8 +4407,19 @@ msgstr "Use the latest released version."
 msgid "Use the version that was delivered with the server release"
 msgstr "Use the version that was delivered with the server release"
 
+#: src/features/settings/components/UserAccountDialog.tsx
+#: src/features/settings/screens/UserManagement.tsx
+msgid "User"
+msgstr "User"
+
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/UserManagement.tsx
+msgid "User management"
+msgstr "User management"
+
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
+#: src/features/settings/components/UserAccountDialog.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Username"
 msgstr "Username"
