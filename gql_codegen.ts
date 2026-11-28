@@ -7,7 +7,6 @@
  */
 
 import type { CodegenConfig } from '@graphql-codegen/cli';
-// eslint-disable-next-line import-x/no-extraneous-dependencies
 import 'dotenv/config';
 
 const config: CodegenConfig = {
@@ -47,5 +46,4 @@ const config: CodegenConfig = {
     },
 };
 
-// eslint-disable-next-line import-x/no-default-export
 export default config;

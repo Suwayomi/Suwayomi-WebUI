@@ -38,7 +38,7 @@ export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TE
                         if (action === ExtensionAction.UNINSTALL) {
                             handleBack();
                         }
-                    } catch (e) {
+                    } catch {
                         defaultPromiseErrorHandler('ExtensionInfo::ActionButton::onClick');
                     }
                 }}

@@ -23,7 +23,6 @@ interface State {
 }
 
 class RealErrorBoundary extends Component<Props, State> {
-    // oxlint-disable-next-line react/state-in-constructor
     public state: State = { error: null };
 
     private prevPath: string = '';
@@ -46,7 +45,7 @@ class RealErrorBoundary extends Component<Props, State> {
     }
 
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        // oxlint-disable-next-line no-console
+        // biome-ignore lint/suspicious/noConsole: kept as before the Biome migration
         console.error('Uncaught error:', error, errorInfo);
 
         this.props.setTrackPathChange(true);

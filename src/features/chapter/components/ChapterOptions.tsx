@@ -8,7 +8,7 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import RadioGroup from '@mui/material/RadioGroup';
-import React from 'react';
+import type React from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';

@@ -142,7 +142,6 @@ export class AuthManager {
             throw new Error('Invalid JWT');
         }
 
-        // oxlint-disable-next-line unicorn/consistent-function-scoping
         const decode = (part: string) => {
             const base64 = part.replaceAll('-', '+').replaceAll('_', '/');
 

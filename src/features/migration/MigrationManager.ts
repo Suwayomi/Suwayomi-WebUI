@@ -160,7 +160,7 @@ export class MigrationManager {
             MigrationManager.parallelSourcesQueue = pLimit(
                 result?.settings.maxSourcesInParallel ?? MAX_SOURCES_IN_PARALLEL,
             );
-        } catch (error) {
+        } catch {
             MigrationManager.parallelSourcesQueue = pLimit(MAX_SOURCES_IN_PARALLEL);
         }
 
@@ -236,7 +236,7 @@ export class MigrationManager {
                 try {
                     await MigrationManager.abort('goToPreviousPhase');
                     return false;
-                } catch (e) {
+                } catch {
                     return false;
                 }
         }
@@ -486,7 +486,7 @@ export class MigrationManager {
                 for (const entry of sourceEntries) {
                     signal.throwIfAborted();
 
-                    // oxlint-disable-next-line no-await-in-loop
+                    // biome-ignore lint/performance/noAwaitInLoops: kept as before the Biome migration
                     await MigrationManager.migrateSingleEntry(entry.mangaId, options, signal);
                 }
             }),
@@ -881,7 +881,7 @@ export class MigrationManager {
                             chapters: updatedMatch.data.fetchMangaAndChapters?.chapters ?? null,
                         };
                     }
-                } catch (e) {
+                } catch {
                     // ignore
                 }
 

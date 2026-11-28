@@ -221,7 +221,7 @@ const mapObjectToMetadata = (obj: object, tabs: number = 0) => (
         {Object.entries(obj)
             .filter(([key]) => key !== '__typename')
             .map(([key, value], index, array) =>
-                !!value && typeof value === 'object' && !Array.isArray(value) ? (
+                value && typeof value === 'object' && !Array.isArray(value) ? (
                     <Fragment key={key}>
                         {index >= 1 && <br />}
                         <TypographyMaxLines component="span">{indent(key, tabs, ' ')}</TypographyMaxLines>

@@ -141,7 +141,7 @@ export const SourceLanguageSelect = ({
                         await setSelectedLanguages(result.selectedLanguages).catch((e) =>
                             Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
                         );
-                    } catch (e) {
+                    } catch {
                         // Ignore
                     }
                 }}

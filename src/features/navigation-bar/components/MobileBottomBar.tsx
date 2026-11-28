@@ -9,7 +9,6 @@
 import Paper from '@mui/material/Paper';
 import type { CSSProperties } from 'react';
 import { useCallback, useLayoutEffect, useRef } from 'react';
-import {} from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';

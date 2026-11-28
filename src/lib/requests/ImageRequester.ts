@@ -112,7 +112,7 @@ export class ImageRequester {
 
         try {
             const isCached = await ImageCache.has(url);
-            if (!!ignoreQueue || isCached) {
+            if (ignoreQueue || isCached) {
                 return {
                     key: `image-cache-${url}`,
                     promise: request(),
@@ -121,7 +121,7 @@ export class ImageRequester {
             }
 
             return this.imageQueue.enqueue(sourceId, url, request, priority);
-        } catch (error) {
+        } catch {
             return this.imageQueue.enqueue(sourceId, url, request, priority);
         }
     }

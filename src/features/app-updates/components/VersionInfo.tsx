@@ -146,7 +146,7 @@ export const VersionInfo = ({
                     downloadAsLink,
                 )}
                 onClick={onClick}
-                {...(!!url && isUpdateAvailable
+                {...(url && isUpdateAvailable
                     ? {
                           href: url,
                           target: '_blank',

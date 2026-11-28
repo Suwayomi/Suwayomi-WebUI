@@ -127,12 +127,15 @@ const useSourceManga = (
 
     switch (contentType) {
         case SourceContentType.POPULAR:
+            // biome-ignore lint/correctness/useHookAtTopLevel: kept as before the Biome migration
             result = requestManager.useGetSourcePopularMangas(sourceId, initialPages);
             break;
         case SourceContentType.LATEST:
+            // biome-ignore lint/correctness/useHookAtTopLevel: kept as before the Biome migration
             result = requestManager.useGetSourceLatestMangas(sourceId, initialPages);
             break;
         case SourceContentType.SEARCH:
+            // biome-ignore lint/correctness/useHookAtTopLevel: kept as before the Biome migration
             result = requestManager.useSourceSearch(
                 sourceId,
                 searchTerm ?? '',
@@ -284,6 +287,7 @@ export function SourceMangas() {
         [sourceId],
     );
 
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const setFiltersToApply = (filters: IPos[]) => {
         setCurrentFiltersToApply(filters);
         setLocationFiltersToApply(filters);

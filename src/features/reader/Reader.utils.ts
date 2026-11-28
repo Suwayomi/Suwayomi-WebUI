@@ -158,7 +158,7 @@ const getPageBackgroundColor = (
         return [top, right, bottom, left];
     })();
 
-    // oxlint-disable-next-line unicorn/consistent-function-scoping
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const considerBlack = (hex: string | undefined | null, threshold: number): boolean => {
         if (!hex) {
             return true;
@@ -168,7 +168,7 @@ const getPageBackgroundColor = (
         return r <= threshold && g <= threshold && b <= threshold;
     };
 
-    // oxlint-disable-next-line unicorn/consistent-function-scoping
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const considerWhite = (hex: string | undefined | null, threshold: number): boolean => {
         if (!hex) {
             return true;
@@ -178,6 +178,7 @@ const getPageBackgroundColor = (
         return r >= threshold && g >= threshold && b >= threshold;
     };
 
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const getNormalizedColor = (hex: string | undefined | null, threshold: { white: number; black: number }) => {
         if (!hex || considerWhite(hex, threshold.white)) {
             return '#ffffff';
@@ -200,7 +201,9 @@ const getPageBackgroundColor = (
 
         return Object.values(
             mapValues((colors) => {
+                // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
                 const proportionSum = sumBy((color) => color!.proportion, colors);
+                // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
                 const populationSum = sumBy((color) => color!.population, colors);
 
                 const fillsWholeBorder = proportionSum >= 0.97;
@@ -248,7 +251,7 @@ const updatePageBackgroundColor = async (
                 ColorThief.getPalette(ctx.getImageData(0, img.height - yOffset, img.width, borderSampleSize), options),
                 ColorThief.getPalette(ctx.getImageData(xOffset, 0, borderSampleSize, img.height), options),
             ]);
-        } catch (e) {
+        } catch {
             return null;
         }
     })();

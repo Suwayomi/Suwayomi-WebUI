@@ -50,9 +50,13 @@ const updateVersionsInPackageJson = (dependencies: OutdatedDependency[]) => {
  * @param asJson
  * @param stdio - only considered in case asJson is falsy
  */
-const execOutdatedCmd = ({ asJson = false, stdio }: { asJson?: boolean; stdio?: ExecSyncOptions['stdio'] } = {}):
-    | string
-    | null => {
+const execOutdatedCmd = ({
+    asJson = false,
+    stdio,
+}: {
+    asJson?: boolean;
+    stdio?: ExecSyncOptions['stdio'];
+} = {}): string | null => {
     try {
         execSync(`pnpm outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined })?.toString();
         return null;

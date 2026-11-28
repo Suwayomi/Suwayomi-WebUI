@@ -9,7 +9,8 @@
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { OptionsPanel } from '@/base/components/modals/OptionsPanel.tsx';
 

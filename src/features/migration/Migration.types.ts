@@ -106,8 +106,7 @@ export enum MigrationEntryStatus {
 }
 
 export interface MigrationMatch
-    extends
-        MangaIdInfo,
+    extends MangaIdInfo,
         MangaTitleInfo,
         MangaThumbnailInfo,
         MangaSourceIdInfo,

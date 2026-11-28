@@ -60,7 +60,7 @@ export type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | '
 export type MetadataBulkParams<
     ItemKey extends string,
     Item extends object,
-    // oxlint-disable-next-line no-shadow
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     Metadata extends object,
 > = {
     [key in ItemKey]: (Item & GqlMetaHolder)[];

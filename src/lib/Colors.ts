@@ -32,7 +32,6 @@ export class Colors {
     }
 
     static rgbToHex({ r, g, b }: Rgb): string {
-        // oxlint-disable-next-line unicorn/consistent-function-scoping
         const toHex = (value: number) =>
             Math.round(Math.max(0, Math.min(255, value)))
                 .toString(16)

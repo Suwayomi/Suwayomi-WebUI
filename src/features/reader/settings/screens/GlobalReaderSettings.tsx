@@ -30,7 +30,6 @@ export const GlobalReaderSettings = () => {
         request: { loading, error, refetch },
     } = useDefaultReaderSettingsWithDefaultFlag();
 
-    // oxlint-disable-next-line unicorn/consistent-function-scoping
     const updateSetting = <Setting extends keyof IReaderSettings>(
         key: Setting,
         value: IReaderSettings[Setting],

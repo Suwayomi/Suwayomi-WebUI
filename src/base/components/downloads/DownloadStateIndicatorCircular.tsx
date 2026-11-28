@@ -79,15 +79,13 @@ export const DownloadStateIndicatorCircular = ({
                     component="div"
                     sx={{ color, position: 'absolute', opacity: Number(!hovered) }}
                 >
-                    <>
-                        {isDownloading && progress}
-                        {!isDownloading && (
-                            <>
-                                {stateText}
-                                {isPartiallyDownloaded ? ` (${progress})` : ''}
-                            </>
-                        )}
-                    </>
+                    {isDownloading && progress}
+                    {!isDownloading && (
+                        <>
+                            {stateText}
+                            {isPartiallyDownloaded ? ` (${progress})` : ''}
+                        </>
+                    )}
                 </Typography>
                 <CustomTooltip title={t`Cancel`}>
                     <IconButton

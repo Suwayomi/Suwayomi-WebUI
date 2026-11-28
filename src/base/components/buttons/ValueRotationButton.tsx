@@ -26,10 +26,8 @@ export interface ValueRotationButtonBaseProps<Value extends string | number> {
     valueToDisplayData: ValueToDisplayData<Value>;
 }
 
-export interface ValueRotationButtonDefaultableProps<Value extends string | number> extends OptionalProperty<
-    ValueRotationButtonBaseProps<Value>,
-    'value'
-> {
+export interface ValueRotationButtonDefaultableProps<Value extends string | number>
+    extends OptionalProperty<ValueRotationButtonBaseProps<Value>, 'value'> {
     isDefaultable?: boolean;
     onDefault?: () => void;
 }

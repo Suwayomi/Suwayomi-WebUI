@@ -285,7 +285,7 @@ export class Mangas {
 
                 try {
                     await Chapters.download(Chapters.getIds(chaptersToDownload), { disableConfirmation });
-                } catch (e) {
+                } catch {
                     // Ignore - Error gets handled in Chapters
                 }
             },
@@ -303,7 +303,7 @@ export class Mangas {
 
                 try {
                     await Chapters.delete(Chapters.getIds(chapters), { disableConfirmation });
-                } catch (e) {
+                } catch {
                     // Ignore - Error gets handled in Chapters
                 }
             },
@@ -324,7 +324,7 @@ export class Mangas {
                         ...options,
                         trackProgressMangaId: mangaIds.length === 1 ? mangaIds[0] : undefined,
                     });
-                } catch (e) {
+                } catch {
                     // Ignore - Error gets handled in Chapters
                 }
             },
@@ -342,7 +342,7 @@ export class Mangas {
 
                 try {
                     await Chapters.markAsUnread(Chapters.getIds(chapters), { disableConfirmation });
-                } catch (e) {
+                } catch {
                     // Ignore - Error gets handled in Chapters
                 }
             },

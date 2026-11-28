@@ -126,7 +126,7 @@ export function LanguageSelect({
                         const updatedSelectedLanguages = await AwaitableComponent.show(LanguageSelectDialog, props);
 
                         setSelectedLanguages(updatedSelectedLanguages);
-                    } catch (e) {
+                    } catch {
                         // ignore
                     }
                 }}

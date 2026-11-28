@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { ReactNode } from 'react';
-import { type Theme } from '@mui/material/styles';
+import type { Theme } from '@mui/material/styles';
 import type { SystemCssProperties } from '@mui/system/styleFunctionSx';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckIcon from '@mui/icons-material/Check';

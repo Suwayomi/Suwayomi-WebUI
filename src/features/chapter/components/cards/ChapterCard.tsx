@@ -15,7 +15,8 @@ import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import type { MouseEvent, TouchEvent } from 'react';
-import React, { memo, useRef } from 'react';
+import type React from 'react';
+import { memo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLingui } from '@lingui/react/macro';
@@ -112,12 +113,11 @@ export const ChapterCard = memo((props: IProps) => {
 
     const longPressBind = usePress({
         onLongPress: (event, { context: openMenu }) => {
-            if (!isSelecting && !!menuButtonRef.current) {
+            if (!isSelecting && menuButtonRef.current) {
                 handleClickOpenMenu(event, () => (openMenu as (event: Element) => void)?.(menuButtonRef.current!));
                 return;
             }
 
-            // oxlint-disable-next-line no-param-reassign
             event.shiftKey = true;
             handleClick(event);
         },

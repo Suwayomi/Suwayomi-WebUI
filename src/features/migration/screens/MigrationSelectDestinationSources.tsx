@@ -177,7 +177,7 @@ export const MigrationSelectDestinationSources = () => {
                         const searchOptions = await AwaitableComponent.show(MigrationBulkSearchOptionsDialog);
 
                         await MigrationManager.startSearch(selectedItemIds, searchOptions);
-                    } catch (e) {
+                    } catch {
                         // Ignore
                     }
                 }}

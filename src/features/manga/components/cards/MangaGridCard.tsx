@@ -146,41 +146,40 @@ export const MangaGridCard = memo(
                                     handleSelection={handleSelection}
                                 />
                             </Stack>
-                            <>
+
+                            {gridLayout !== GridLayout.Comfortable && (
+                                <>
+                                    <BottomGradient />
+                                    <BottomGradientDoubledDown />
+                                </>
+                            )}
+                            <Stack
+                                direction="row"
+                                sx={{
+                                    justifyContent: gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end',
+                                    alignItems: 'end',
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    width: '100%',
+                                    p: 1,
+                                    gap: 1,
+                                }}
+                            >
                                 {gridLayout !== GridLayout.Comfortable && (
-                                    <>
-                                        <BottomGradient />
-                                        <BottomGradientDoubledDown />
-                                    </>
+                                    <CustomTooltip title={title} placement="top">
+                                        <TypographyMaxLines
+                                            component="h3"
+                                            sx={{
+                                                color: 'white',
+                                                textShadow: '0px 0px 3px #000000',
+                                            }}
+                                        >
+                                            {title}
+                                        </TypographyMaxLines>
+                                    </CustomTooltip>
                                 )}
-                                <Stack
-                                    direction="row"
-                                    sx={{
-                                        justifyContent: gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end',
-                                        alignItems: 'end',
-                                        position: 'absolute',
-                                        bottom: 0,
-                                        width: '100%',
-                                        p: 1,
-                                        gap: 1,
-                                    }}
-                                >
-                                    {gridLayout !== GridLayout.Comfortable && (
-                                        <CustomTooltip title={title} placement="top">
-                                            <TypographyMaxLines
-                                                component="h3"
-                                                sx={{
-                                                    color: 'white',
-                                                    textShadow: '0px 0px 3px #000000',
-                                                }}
-                                            >
-                                                {title}
-                                            </TypographyMaxLines>
-                                        </CustomTooltip>
-                                    )}
-                                    {continueReadingButton}
-                                </Stack>
-                            </>
+                                {continueReadingButton}
+                            </Stack>
                         </CardActionArea>
                     </Card>
                     {gridLayout === GridLayout.Comfortable && (

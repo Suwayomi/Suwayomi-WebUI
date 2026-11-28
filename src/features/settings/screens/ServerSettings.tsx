@@ -836,7 +836,7 @@ export const ServerSettings = () => {
                             });
 
                             await updateSettings(convertBackupFlagsToSyncData(flags));
-                        } catch (e) {
+                        } catch {
                             // Ignore
                         }
                     }}

@@ -31,9 +31,8 @@ export const importDayJsLocale = async (locale: string): Promise<DayJsLocale> =>
     const dayjsLocale = getDayJsLocale(locale);
 
     try {
-        // oxlint-disable-next-line no-use-before-define
         await localesToImport[dayjsLocale]();
-    } catch (e) {
+    } catch {
         // ignore - dayjs falls back to "en" by default
     }
 

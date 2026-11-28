@@ -7,7 +7,11 @@
  */
 
 export default {
-    '*.{ts,tsx,js,jsx}': ['oxfmt --write', 'oxlint --fix', () => `pnpm i18n:extract`, 'git add src/i18n/locales/*.po'],
-    '*.{json,md,yml,yaml,css,scss,html,graphql}': 'oxfmt --write',
+    '*.{ts,tsx,js,jsx}': [
+        'biome check --write --no-errors-on-unmatched',
+        () => `pnpm i18n:extract`,
+        'git add src/i18n/locales/*.po',
+    ],
+    '*.{json,md,yml,yaml,css,graphql}': 'biome format --write --no-errors-on-unmatched',
     '*.{ts,tsx,json}': () => 'pnpm tsc',
 };

@@ -51,7 +51,7 @@ export const TriStateFilter: React.FC<Props> = (props) => {
     const [val, setval] = React.useState(convertTriStateToNumber(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
-        // oxlint-disable-next-line no-nested-ternary
+        // biome-ignore lint/style/noNestedTernary: kept as before the Biome migration
         const newState = checked === undefined ? 0 : checked ? 1 : 2;
         setval(newState);
         const upd = update.filter((e: { positions: number }) => !isEqual(positions, e.positions));

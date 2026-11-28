@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* oxlint-disable max-classes-per-file */
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
@@ -63,6 +62,7 @@ export class Storage {
         const currentValue = this.getItem(key);
         const actualKey = getKey(key);
 
+        // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
         const fireEvent = (valueToStore: string | undefined) => {
             if (!emitEvent) {
                 return;

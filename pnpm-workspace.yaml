@@ -1,8 +1,8 @@
 saveExact: true
 minimumReleaseAge: 10080 # 7 days
 allowBuilds:
-    '@swc/core': true
+    "@swc/core": true
     core-js: true
     esbuild: true
 overrides:
-    '@swc/core': 1.15.11
+    "@swc/core": 1.15.11

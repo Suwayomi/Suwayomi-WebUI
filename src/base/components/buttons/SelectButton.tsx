@@ -33,10 +33,8 @@ export interface SelectButtonBaseProps<Value extends string | number, MultiValue
     defaultIcon?: MultiValue extends Value[] ? never : ReactNode;
 }
 
-export interface SelectButtonDefaultableProps<
-    Value extends string | number,
-    MultiValue extends Value | Value[] = Value,
-> extends OptionalProperty<SelectButtonBaseProps<Value, MultiValue>, 'value'> {
+export interface SelectButtonDefaultableProps<Value extends string | number, MultiValue extends Value | Value[] = Value>
+    extends OptionalProperty<SelectButtonBaseProps<Value, MultiValue>, 'value'> {
     isDefaultable?: boolean;
     onDefault?: () => void;
 }

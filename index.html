@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- biome-ignore lint/a11y/useHtmlLang: kept as before the Biome migration -->
 <html>
     <head>
         <title>Suwayomi</title>
@@ -37,13 +38,13 @@
                         return baseTag.href.replace(window.location.origin, '').slice(0, -1);
                     })();
                     storageValue = window.localStorage.getItem(`suwayomi_webui_${subpath}_theme_background`);
-                } catch (error) {
+                } catch {
                     return null;
                 }
 
                 try {
                     return JSON.parse(storageValue);
-                } catch (e) {
+                } catch {
                     return storageValue;
                 }
             })();

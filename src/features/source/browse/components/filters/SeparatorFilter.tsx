@@ -7,7 +7,7 @@
  */
 
 import Divider from '@mui/material/Divider';
-import React from 'react';
+import type React from 'react';
 
 interface Props {
     name: string;

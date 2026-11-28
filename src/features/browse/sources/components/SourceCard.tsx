@@ -10,7 +10,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import type React from 'react';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import PushPinIcon from '@mui/icons-material/PushPin';
@@ -95,6 +95,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             {showLanguage && languageCodeToName(lang)}
                             {isNsfw(contentWarning) && (
                                 <Typography variant="caption" color="error">
+                                    {/** biome-ignore lint/style/useConsistentCurlyBraces: kept as before the Biome migration */}
                                     {' 18+'}
                                 </Typography>
                             )}

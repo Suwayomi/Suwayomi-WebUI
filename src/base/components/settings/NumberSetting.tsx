@@ -18,7 +18,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useCallback, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
-import * as React from 'react';
+import type * as React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';

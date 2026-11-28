@@ -7,7 +7,7 @@
  */
 
 import type { ListSubheaderProps } from '@mui/material/ListSubheader';
-// oxlint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: kept as before the Biome migration
 import MuiListSubheader from '@mui/material/ListSubheader';
 import { OffsetComponent } from '@/base/components/OffsetComponent.tsx';
 import type { ComponentProps } from 'react';

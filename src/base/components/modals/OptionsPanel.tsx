@@ -8,7 +8,7 @@
 
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import React from 'react';
+import type React from 'react';
 
 interface IProps {
     open: boolean;

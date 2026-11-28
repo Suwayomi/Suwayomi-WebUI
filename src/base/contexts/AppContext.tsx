@@ -7,7 +7,7 @@
  */
 
 import { StyledEngineProvider } from '@mui/material/styles';
-import React from 'react';
+import type React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';

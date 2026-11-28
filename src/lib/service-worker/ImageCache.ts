@@ -46,7 +46,7 @@ export class ImageCache {
             const response = await cache.match(url, { ignoreVary: true });
 
             return response !== undefined;
-        } catch (error) {
+        } catch {
             return false;
         }
     }
@@ -57,7 +57,7 @@ export class ImageCache {
             const response = await cache.match(url);
 
             return response || null;
-        } catch (error) {
+        } catch {
             return null;
         }
     }

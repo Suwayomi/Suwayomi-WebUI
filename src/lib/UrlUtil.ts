@@ -12,7 +12,7 @@ export class UrlUtil {
     static asUrl(url: string): URL | null {
         try {
             return new URL(url);
-        } catch (e) {
+        } catch {
             return null;
         }
     }

@@ -44,9 +44,11 @@ export const doesAppMetadataKeyExistIn = (
     key: string,
     prefixes?: string[],
     appPrefix?: string,
+    // biome-ignore lint/suspicious/noPrototypeBuiltins: kept as before the Biome migration
 ): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, prefixes, appPrefix));
 
 export const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string): boolean =>
+    // biome-ignore lint/suspicious/noPrototypeBuiltins: kept as before the Biome migration
     Object.prototype.hasOwnProperty.call(meta ?? {}, key);
 
 export const getAppMetadataFrom = (

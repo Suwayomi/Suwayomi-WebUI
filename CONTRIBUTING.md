@@ -22,11 +22,11 @@ The latest version will always be `PREVIEW`.
 ### When to update
 
 - changes get added that require a new minimum server version
-    - **update:** the mapped server version for the `PREVIEW` version
+  - **update:** the mapped server version for the `PREVIEW` version
 - releasing a new version
-    - **update:** in case the minimum server version has
-        - not changed: the latest WebUI version mapping that is not the `PREVIEW` version has to be updated
-        - changed: add a new entry below the `PREVIEW` version with the mapped server version from `PREVIEW`
+  - **update:** in case the minimum server version has
+    - not changed: the latest WebUI version mapping that is not the `PREVIEW` version has to be updated
+    - changed: add a new entry below the `PREVIEW` version with the mapped server version from `PREVIEW`
 
 ## Coding Style Guide
 

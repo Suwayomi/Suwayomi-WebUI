@@ -73,6 +73,7 @@ export const More = () => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={t(item.moreTitle ?? item.title)}
+                                // biome-ignore lint/correctness/useHookAtTopLevel: kept as before the Biome migration
                                 secondary={item.useBadge?.().title}
                             />
                         </ListItemLink>

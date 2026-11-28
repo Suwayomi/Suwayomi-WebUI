@@ -1221,6 +1221,7 @@ export class RequestManager {
                                       GetExtensionsFetchMutation['fetchExtensions']
                                   >['extensions'][number],
                               ],
+                        // biome-ignore lint/suspicious/noNonNullAssertedOptionalChain: kept as before the Biome migration
                         extensionStores: cachedExtensions.data?.fetchExtensions!.extensionStores,
                     },
                 },

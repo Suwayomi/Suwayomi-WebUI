@@ -29,8 +29,7 @@ import { ZustandUtil } from '@/lib/zustand/ZustandUtil.ts';
 const UNSERIALIZABLE_KEYS = ['scrollRef'];
 
 interface ReaderStore
-    extends
-        ReaderOverlayStoreSlice,
+    extends ReaderOverlayStoreSlice,
         ReaderAutoScrollStoreSlice,
         ReaderPagesStoreSlice,
         ReaderChaptersStoreSlice,

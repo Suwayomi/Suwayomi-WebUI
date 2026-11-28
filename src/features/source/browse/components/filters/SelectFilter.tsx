@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,6 +32,7 @@ function NoSelect(
     updateFilterValue: (value: IPos[]) => void,
     update: any,
 ) {
+    // biome-ignore lint/correctness/useHookAtTopLevel: kept as before the Biome migration
     const [val, setval] = useState(state);
 
     if (values) {

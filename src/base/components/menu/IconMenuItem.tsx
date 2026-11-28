@@ -15,7 +15,7 @@ import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
 import MenuItem from '@mui/material/MenuItem';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { Ref } from 'react';
-import React from 'react';
+import type React from 'react';
 
 import type { OverridableComponent } from '@mui/material/OverridableComponent';
 import type { SvgIconTypeMap } from '@mui/material/SvgIcon';

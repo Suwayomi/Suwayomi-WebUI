@@ -1,0 +1,277 @@
+{
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "includes": ["**", "!.github", "!src/lib/graphql/generated", "!pnpm-lock.yaml", "!CHANGELOG.md"]
+    },
+    "formatter": {
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 120
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "single",
+            "jsxQuoteStyle": "double",
+            "semicolons": "always",
+            "trailingCommas": "all"
+        }
+    },
+    "assist": {
+        "enabled": false
+    },
+    "linter": {
+        "rules": {
+            "preset": "none",
+            "a11y": {
+                "noAccessKey": "error",
+                "noAriaUnsupportedElements": "error",
+                "noDistractingElements": "error",
+                "noHeaderScope": "error",
+                "noLabelWithoutControl": "error",
+                "noPositiveTabindex": "error",
+                "noRedundantAlt": "error",
+                "noRedundantRoles": "error",
+                "useAltText": "error",
+                "useAnchorContent": "error",
+                "useAriaActivedescendantWithTabindex": "error",
+                "useAriaPropsForRole": "error",
+                "useAriaPropsSupportedByRole": "error",
+                "useButtonType": "error",
+                "useHeadingContent": "error",
+                "useHtmlLang": "error",
+                "useIframeTitle": "error",
+                "useKeyWithClickEvents": "error",
+                "useKeyWithMouseEvents": "error",
+                "useMediaCaption": "error",
+                "useValidAnchor": "error",
+                "useValidAriaProps": "error",
+                "useValidAriaRole": "error",
+                "useValidAriaValues": "error",
+                "useValidAutocomplete": "error",
+                "noAutofocus": "error",
+                "noNoninteractiveTabindex": "error",
+                "noStaticElementInteractions": "error"
+            },
+            "complexity": {
+                "noAdjacentSpacesInRegex": "error",
+                "noBannedTypes": "error",
+                "noCommaOperator": "error",
+                "noExtraBooleanCast": "error",
+                "noUselessCatch": "error",
+                "noUselessEscapeInRegex": "error",
+                "noUselessFragments": "error",
+                "noUselessRename": "error",
+                "noUselessReturn": "error",
+                "noUselessStringConcat": "error",
+                "noUselessTernary": "error",
+                "noUselessThisAlias": "error",
+                "noUselessTypeConstraint": "error",
+                "useFlatMap": "error",
+                "useLiteralKeys": "error"
+            },
+            "correctness": {
+                "noChildrenProp": "error",
+                "noConstantCondition": "error",
+                "noConstructorReturn": "error",
+                "noEmptyCharacterClassInRegex": "error",
+                "noEmptyPattern": "error",
+                "noInvalidUseBeforeDeclaration": "error",
+                "noNonoctalDecimalEscape": "error",
+                "noPrecisionLoss": "error",
+                "noRenderReturnValue": "error",
+                "noSelfAssign": "error",
+                "noSwitchDeclarations": "error",
+                "noUnsafeFinally": "error",
+                "noUnsafeOptionalChaining": "error",
+                "noUnusedImports": "error",
+                "noUnusedInstantiation": "error",
+                "noUnusedLabels": "error",
+                "noUnusedPrivateClassMembers": "error",
+                "noUnusedVariables": "error",
+                "noVoidElementsWithChildren": "error",
+                "useHookAtTopLevel": "error",
+                "useIsNan": "error",
+                "useJsxKeyInIterable": "error",
+                "useValidForDirection": "error",
+                "useYield": "error"
+            },
+            "performance": {
+                "noAwaitInLoops": "error"
+            },
+            "security": {
+                "noBlankTarget": "error",
+                "noDangerouslySetInnerHtml": "error",
+                "noDangerouslySetInnerHtmlWithChildren": "error",
+                "noGlobalEval": "error",
+                "noScriptUrl": "error"
+            },
+            "style": {
+                "noCommonJs": "error",
+                "noDefaultExport": "error",
+                "noMultiAssign": "error",
+                "noNamespace": "error",
+                "noNestedTernary": "error",
+                "noParameterAssign": "error",
+                "noUselessElse": "error",
+                "noYodaExpression": "error",
+                "useArrayLiterals": "error",
+                "useAsConstAssertion": "error",
+                "useBlockStatements": "error",
+                "useCollapsedElseIf": "error",
+                "useConsistentArrowReturn": "error",
+                "useConsistentCurlyBraces": "error",
+                "useConst": "error",
+                "useDefaultParameterLast": "error",
+                "useDefaultSwitchClause": "error",
+                "useDestructuring": "error",
+                "useExponentiationOperator": "error",
+                "useFragmentSyntax": "error",
+                "useImportType": "error",
+                "useImportsFirst": "error",
+                "useObjectSpread": "error",
+                "useSelfClosingElements": "error",
+                "useTemplate": "error",
+                "useThrowOnlyError": "error",
+                "noRestrictedImports": {
+                    "level": "error",
+                    "options": {
+                        "paths": {
+                            "use-long-press": {
+                                "importNames": ["useLongPress"],
+                                "message": "Use the wrapper \"usePress\" instead"
+                            },
+                            "@mui/material/ListSubheader": {
+                                "importNames": ["default"],
+                                "message": "Use src/base/lists/ListSubheader instead"
+                            }
+                        },
+                        "patterns": [
+                            {
+                                "group": ["./**", "../**"],
+                                "message": "Use the \"@/\" alias instead of relative import paths."
+                            },
+                            {
+                                "group": ["@mui/*", "!@mui/material", "!@mui/icons-material", "!@mui/x-date-pickers"],
+                                "message": "Import from a path within the package."
+                            },
+                            {
+                                "group": ["@mui/*/*/*"],
+                                "message": "Import is nested too deep."
+                            },
+                            {
+                                "group": ["lodash", "lodash/*", "!lodash/fp", "!lodash/fp/*"],
+                                "message": "Use lodash-fp instead."
+                            }
+                        ]
+                    }
+                }
+            },
+            "suspicious": {
+                "noAlert": "error",
+                "noArrayIndexKey": "error",
+                "noAssignInExpressions": "error",
+                "noAsyncPromiseExecutor": "error",
+                "noCatchAssign": "error",
+                "noCommentText": "error",
+                "noCompareNegZero": "error",
+                "noConsole": "error",
+                "noConstantBinaryExpressions": "error",
+                "noControlCharactersInRegex": "error",
+                "noDebugger": "error",
+                "noDoubleEquals": "error",
+                "noDuplicateCase": "error",
+                "noDuplicateElseIf": "error",
+                "noDuplicateEnumValues": "error",
+                "noDuplicateJsxProps": "error",
+                "noEmptyInterface": "error",
+                "noExtraNonNullAssertion": "error",
+                "noFocusedTests": "error",
+                "noGlobalIsFinite": "error",
+                "noGlobalIsNan": "error",
+                "noIrregularWhitespace": "error",
+                "noLoopFunc": "error",
+                "noMisleadingCharacterClass": "error",
+                "noMisleadingInstantiator": "error",
+                "noNonNullAssertedOptionalChain": "error",
+                "noPrototypeBuiltins": "error",
+                "noReturnAssign": "error",
+                "noSelfCompare": "error",
+                "noShadow": "error",
+                "noShadowRestrictedNames": "error",
+                "noSparseArray": "error",
+                "noTemplateCurlyInString": "error",
+                "noUnknownAttribute": "error",
+                "noUnsafeDeclarationMerging": "error",
+                "noUnusedExpressions": "error",
+                "noUselessEscapeInString": "error",
+                "noUselessRegexBackrefs": "error",
+                "noVar": "error",
+                "noWith": "error",
+                "useDefaultSwitchClauseLast": "error",
+                "useNamespaceKeyword": "error"
+            },
+            "nursery": {
+                "noExtendNative": "error",
+                "noPromiseExecutorReturn": "error",
+                "noSelfImport": "error",
+                "noTripleSlashReference": "error",
+                "usePromiseRejectErrors": "error"
+            }
+        }
+    },
+    "overrides": [
+        {
+            "includes": [
+                "src/base/utils/MediaQuery.tsx",
+                "src/base/AppInitializer.ts",
+                "src/features/authentication/AuthManager.ts",
+                "src/features/chapter/services/Chapters.ts",
+                "src/features/metadata/services/MetadataMigrations.ts",
+                "src/features/migration/MigrationManager.ts",
+                "src/features/reader/services/ReaderControls.ts",
+                "src/features/reader/services/ReaderService.ts",
+                "src/features/source/services/Sources.ts",
+                "src/lib/dnd-kit/DndKitUtil.ts",
+                "src/lib/requests/PagedSourceMangas.ts",
+                "src/lib/requests/RequestManager.ts",
+                "src/lib/requests/client/GraphQLClient.ts",
+                "src/lib/virtuoso/Virtuoso.util.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "correctness": {
+                        "useHookAtTopLevel": "off"
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["**/*.config.ts", "**/*.config.js", "gql_codegen.ts", "**/*.d.ts"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noDefaultExport": "off"
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["tools/scripts/**"],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "noConsole": "off"
+                    },
+                    "style": {
+                        "noRestrictedImports": "off"
+                    }
+                }
+            }
+        }
+    ]
+}

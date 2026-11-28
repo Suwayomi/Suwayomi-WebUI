@@ -7,7 +7,7 @@
  */
 
 import type { BaseSyntheticEvent } from 'react';
-import React from 'react';
+import type React from 'react';
 import { chainEventHandlers } from 'material-ui-popup-state/chainEventHandlers';
 import type { SxProps, Theme } from '@mui/material/styles';
 

@@ -15,7 +15,7 @@ import type {
     LongPressResult,
     LongPressTouchHandlers,
 } from 'use-long-press';
-// oxlint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: kept as before the Biome migration
 import { useLongPress } from 'use-long-press';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { armNativeContextMenuOnSecondRightClick, SECONDARY_MOUSE_BUTTON } from '@/base/utils/NativeContextMenu.ts';

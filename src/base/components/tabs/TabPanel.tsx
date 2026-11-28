@@ -8,7 +8,7 @@
 
 import type { BoxProps } from '@mui/material/Box';
 import Box from '@mui/material/Box';
-import React from 'react';
+import type React from 'react';
 
 interface IProps extends BoxProps {
     children: React.ReactNode;

@@ -154,7 +154,7 @@ export class AppInitializer {
         AppInitializer.stop();
 
         for (const actions of AppInitializer.config) {
-            // oxlint-disable-next-line no-await-in-loop
+            // biome-ignore lint/performance/noAwaitInLoops: kept as before the Biome migration
             await AppInitializer.startActions(actions);
         }
     }
@@ -254,7 +254,7 @@ export class AppInitializer {
                 const result = (await Promise.race([finalController.promise, Promise.resolve(false)])) ?? true;
 
                 return result;
-            } catch (error) {
+            } catch {
                 return true;
             }
         };

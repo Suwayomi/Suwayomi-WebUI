@@ -133,19 +133,15 @@ export const ReaderHotkeys = ({
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () =>
         getReaderOverlayStore().setIsVisible(!getReaderOverlayStore().isVisible),
     );
-    useHotkeys(
-        hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],
-        () => {
-            updateSettingCycleThrough(
-                'pageScaleMode',
-                getReaderSettingsStore().pageScaleMode.value,
-                READER_PAGE_SCALE_MODE_VALUES,
-                getReaderSettingsStore().pageScaleMode.isDefault,
-                true,
-            );
-        },
-        [],
-    );
+    useHotkeys(hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE], () => {
+        updateSettingCycleThrough(
+            'pageScaleMode',
+            getReaderSettingsStore().pageScaleMode.value,
+            READER_PAGE_SCALE_MODE_VALUES,
+            getReaderSettingsStore().pageScaleMode.isDefault,
+            true,
+        );
+    }, []);
     useHotkeys(hotkeys[ReaderHotkey.STRETCH_IMAGE], () =>
         ReaderService.updateSetting('shouldStretchPage', !getReaderSettingsStore().shouldStretchPage.value),
     );

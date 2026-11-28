@@ -7,7 +7,7 @@
  */
 
 import FormControlLabel from '@mui/material/FormControlLabel';
-import React from 'react';
+import type React from 'react';
 import type { ThreeStateCheckboxProps } from '@/base/components/inputs/ThreeStateCheckbox.tsx';
 import { ThreeStateCheckbox } from '@/base/components/inputs/ThreeStateCheckbox.tsx';
 

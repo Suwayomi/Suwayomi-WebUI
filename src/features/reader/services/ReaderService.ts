@@ -133,7 +133,7 @@ export class ReaderService {
                 });
 
                 return settings.shouldEnterFullscreen;
-            } catch (e) {
+            } catch {
                 return DEFAULT_READER_SETTINGS.shouldEnterFullscreen;
             }
         })();

@@ -13,6 +13,6 @@ export const defaultPromiseErrorHandler =
             return;
         }
 
-        // oxlint-disable-next-line no-console
+        // biome-ignore lint/suspicious/noConsole: kept as before the Biome migration
         console.error(`${name} failed due to`, error);
     };

@@ -9,7 +9,7 @@
 import type { Direction, Theme, TypeBackground } from '@mui/material/styles';
 import { createTheme as createMuiTheme, responsiveFontSizes, useTheme } from '@mui/material/styles';
 import { useCallback } from 'react';
-// oxlint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: kept as before the Biome migration
 import { deepmerge } from '@mui/utils';
 import { complement, hsl, parseToHsl } from 'polished';
 import type { HslaColor, HslColor } from 'polished/lib/types/color';
@@ -47,6 +47,7 @@ const createBackgroundColors = (color: string, lightnessPaper: number, lightness
 const getBackgroundColor = (
     type: 'light' | 'dark',
     appTheme: AppTheme['muiTheme'],
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     theme: Theme,
     setPureBlackMode: boolean = false,
 ): Partial<TypeBackground> | undefined => {
@@ -57,7 +58,7 @@ const getBackgroundColor = (
         };
     }
 
-    if (type === 'light' && !!theme.colorSchemes.light) {
+    if (type === 'light' && theme.colorSchemes.light) {
         if (typeof appTheme.colorSchemes?.light === 'object' && appTheme.colorSchemes.light.palette?.background) {
             return appTheme.colorSchemes.light.palette.background;
         }
@@ -65,7 +66,7 @@ const getBackgroundColor = (
         return createBackgroundColors(theme.colorSchemes.light.palette.primary.dark, 0.87, 0.93);
     }
 
-    if (type === 'dark' && !!theme.colorSchemes.dark) {
+    if (type === 'dark' && theme.colorSchemes.dark) {
         if (typeof appTheme.colorSchemes?.dark === 'object' && appTheme.colorSchemes.dark.palette?.background) {
             return appTheme.colorSchemes.dark.palette.background;
         }

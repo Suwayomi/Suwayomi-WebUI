@@ -143,14 +143,14 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                         await MangaMigration.migrateByIdWithFetch(migrationSourceMangaId, id, options);
                                     } catch (e) {
                                         Notifications.error(
-                                            t(MANGA_ACTION_TO_TRANSLATION['migrate'].error),
+                                            t(MANGA_ACTION_TO_TRANSLATION.migrate.error),
                                             getErrorMessage(e),
                                         );
                                     }
                                     optionsDialog.submit(options);
 
                                     ReactRouter.navigate(AppRoutes.manga.path(id), { replace: true });
-                                } catch (e) {
+                                } catch {
                                     optionsDialog.update({ isMigrating: false, startMigration: () => migrate() });
                                 }
                             },
@@ -168,7 +168,6 @@ export const MangaCard = memo((props: MangaCardProps) => {
     const longPressBind = usePress({
         onLongPress: useCallback(
             (e: any, { context }: any) => {
-                // oxlint-disable-next-line no-param-reassign
                 e.shiftKey = true;
                 handleClick(e, context as () => void);
             },

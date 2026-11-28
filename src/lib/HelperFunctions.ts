@@ -14,7 +14,7 @@ import { t } from '@lingui/core/macro';
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {
         return JSON.parse(...args);
-    } catch (e) {
+    } catch {
         return null;
     }
 };

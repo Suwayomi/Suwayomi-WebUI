@@ -9,7 +9,8 @@
 import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
 import type { CheckboxProps } from '@mui/material/Checkbox';
 import Checkbox from '@mui/material/Checkbox';
-import React, { useCallback } from 'react';
+import type React from 'react';
+import { useCallback } from 'react';
 
 type CheckState = boolean | undefined | null;
 

@@ -84,6 +84,7 @@ export const NestedMenuItem = ({ ref, ...props }: NestedMenuItemProps) => {
 
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const changeMenuOpenState = (open: boolean) => {
         if (isSubMenuOpen === open) {
             return;

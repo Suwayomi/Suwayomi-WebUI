@@ -129,7 +129,6 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         return BaseClient.getBaseUrl();
     }
 
-    // oxlint-disable-next-line no-unused-vars
     protected shouldQueueRequest(operationName?: string): boolean {
         return AuthManager.shouldQueueRequests();
     }

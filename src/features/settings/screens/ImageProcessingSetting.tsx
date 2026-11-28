@@ -68,7 +68,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
     const onSubmit = async () => {
         try {
             await updateSetting(toValidServerConversions(tmpConversions));
-        } catch (e) {
+        } catch {
             // ignore error
         }
     };

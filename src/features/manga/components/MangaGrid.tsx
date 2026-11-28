@@ -184,21 +184,20 @@ const VerticalGrid = ({
             />
         </Box>
         {/* render div to prevent UI jumping around when showing/hiding loading placeholder */}
-        {/* oxlint-disable no-nested-ternary */}
         {isSelectModeActive && gridLayout === GridLayout.List ? (
             <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} />
+            // biome-ignore lint/style/noNestedTernary: kept as before the Biome migration
         ) : isLoading ? (
             <LoadingPlaceholder />
+            // biome-ignore lint/style/noNestedTernary: kept as before the Biome migration
         ) : hasNextPage ? (
             <div style={{ height: '75px' }} />
         ) : null}
-        {/* oxlint-enable no-nested-ternary */}
     </>
 );
 
 export interface IMangaGridProps
-    extends
-        Omit<DefaultGridProps, 'GridItemContainer'>,
+    extends Omit<DefaultGridProps, 'GridItemContainer'>,
         Partial<React.ComponentProps<typeof EmptyViewAbsoluteCentered>> {
     hasNextPage: boolean;
     loadMore: () => void;

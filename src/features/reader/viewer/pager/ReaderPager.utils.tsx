@@ -386,7 +386,6 @@ const getIsPageInViewportInfo = (
         argBounds,
     );
 
-    // oxlint-disable-next-line unicorn/consistent-function-scoping
     const meetsBounds = (value: number, viewportValue: number, { min, max, threshold }: Required<InViewportBound>) =>
         value >= min && value <= max && value <= viewportValue + threshold;
 

@@ -53,7 +53,7 @@ export async function loadCatalog(locale: string): Promise<void> {
 export async function initializeLocalization(): Promise<void> {
     try {
         await loadCatalog(detectLocale());
-    } catch (e) {
+    } catch {
         await loadCatalog(DEFAULT_LOCALE);
     }
 }

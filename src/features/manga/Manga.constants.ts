@@ -159,7 +159,7 @@ export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
  * The actual matching data is in {@link MANGA_TAGS_BY_MANGA_TYPE} below.
  */
 // @ts-ignore - see comment
-// oxlint-disable-next-line no-unused-vars
+// biome-ignore lint/correctness/noUnusedVariables: kept as before the Biome migration
 const MANGA_TAG_DESCRIPTORS_BY_MANGA_TYPE: Record<MangaType, MessageDescriptor[]> = {
     [MangaType.MANGA]: [
         msg({

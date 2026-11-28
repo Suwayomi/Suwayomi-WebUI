@@ -97,7 +97,6 @@ const BaseBasePager = ({
 
     const setRef = useCallback(
         (pagesIndex: number, element: HTMLElement | null) => {
-            // oxlint-disable-next-line no-param-reassign
             imageRefs.current[pagesIndex] = element;
         },
         [imageRefs],

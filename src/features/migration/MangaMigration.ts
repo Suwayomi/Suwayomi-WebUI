@@ -52,7 +52,6 @@ export class MangaMigration {
             throw new Error('MangaMigration::migrate: missing chapters data');
         }
 
-        // oxlint-disable-next-line unicorn/consistent-function-scoping
         const performMigrationActions = async (...actionCreators: [boolean | undefined, MigrateActionCreator][]) => {
             const migrationActions: TupleUnion<keyof MigrateAction> = ['copy', 'cleanup'];
 
@@ -64,7 +63,7 @@ export class MangaMigration {
                 // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
                 // only happens in case the copy succeeded
 
-                // oxlint-disable-next-line no-await-in-loop
+                // biome-ignore lint/performance/noAwaitInLoops: kept as before the Biome migration
                 await Promise.all(actions.flatMap((action) => action[migrationAction]()));
             }
         };

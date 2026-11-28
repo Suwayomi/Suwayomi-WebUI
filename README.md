@@ -8,45 +8,45 @@ Thus, there is no need to manually download any builds unless you want to host t
 ## Features
 
 - Library management
-    - Library page - manga management
-        - Filter/Sort/Search your manga
-        - Use categories to categorize your manga
-        - Select manga in your library and perform actions (e.g. download, change categories, mark as read, ...) on one or multiple manga
-    - Manga page - chapter management
-        - Filter/Sort the chapter list
-        - Select chapters and perform actions (e.g. download, bookmark, mark as read, ...) on one or multiple manga
-    - Select a range of manga/chapters by using shift + left click or long press
-    - Overview of duplicated manga in your library (settings > library)
+  - Library page - manga management
+    - Filter/Sort/Search your manga
+    - Use categories to categorize your manga
+    - Select manga in your library and perform actions (e.g. download, change categories, mark as read, ...) on one or multiple manga
+  - Manga page - chapter management
+    - Filter/Sort the chapter list
+    - Select chapters and perform actions (e.g. download, bookmark, mark as read, ...) on one or multiple manga
+  - Select a range of manga/chapters by using shift + left click or long press
+  - Overview of duplicated manga in your library (settings > library)
 - Reader
-    - Desktop and Mobile UI
-    - Default settings per reading mode
-    - Settings per manga
-    - Reading modes (Single/Double Page, Continuous Vertical/Horizontal, Webtoon)
-    - Page scale modes (limit by width/height/screen, scale small pages, custom reader width)
-    - Image filters
-    - Customizable keybinds
-    - Auto scrolling
-    - Infinite chapter scrolling
-    - Option to ignore duplicated chapters while reading
-    - Option to automatically download next chapters while reading
-    - Option to automatically delete downloaded chapters after reading them
-    - ...
+  - Desktop and Mobile UI
+  - Default settings per reading mode
+  - Settings per manga
+  - Reading modes (Single/Double Page, Continuous Vertical/Horizontal, Webtoon)
+  - Page scale modes (limit by width/height/screen, scale small pages, custom reader width)
+  - Image filters
+  - Customizable keybinds
+  - Auto scrolling
+  - Infinite chapter scrolling
+  - Option to ignore duplicated chapters while reading
+  - Option to automatically download next chapters while reading
+  - Option to automatically delete downloaded chapters after reading them
+  - ...
 - Download queue
 - Reading history (**rudimentary**)
 - Settings per device (e.g. different reader settings for pc, phone and tablet)
 - Sources
-    - Migration of manga between sources
-    - Hide in library manga while browsing sources
-    - Save source searches to easily reuse them
-    - Duplication check when adding a new manga to your library
-    - Quick add/remove a manga to your library in the source browse (hover with mouse on pc or long press on touch devices)
+  - Migration of manga between sources
+  - Hide in library manga while browsing sources
+  - Save source searches to easily reuse them
+  - Duplication check when adding a new manga to your library
+  - Quick add/remove a manga to your library in the source browse (hover with mouse on pc or long press on touch devices)
 - App updates
-    - Inform about available WebUI and Server updates
-    - Inform about successful WebUI and Server updates since the last time the app was used
+  - Inform about available WebUI and Server updates
+  - Inform about successful WebUI and Server updates since the last time the app was used
 - Themes
-    - Use predefined themes
-    - Create your own themes
-    - Dynamic theme on manga pages
+  - Use predefined themes
+  - Create your own themes
+  - Dynamic theme on manga pages
 
 ## Preview
 

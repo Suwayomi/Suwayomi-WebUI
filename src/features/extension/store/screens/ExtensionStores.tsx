@@ -163,7 +163,7 @@ const ExtensionStoreCard = ({
                                                 getErrorMessage(e),
                                             );
                                         }
-                                    } catch (e) {
+                                    } catch {
                                         // ignore
                                     }
                                 }}

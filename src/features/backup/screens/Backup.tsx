@@ -288,7 +288,7 @@ export function Backup() {
                                 });
 
                                 updateSettings(convertToAutoBackupFlags(flags));
-                            } catch (e) {
+                            } catch {
                                 // Ignore
                             }
                         }}

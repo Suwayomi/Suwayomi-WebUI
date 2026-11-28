@@ -44,6 +44,7 @@ export const MangaOptionButton = ({
 
     const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
 
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
     const handleSelectionChange = (e: ChangeEvent, isSelected: boolean) => {
         preventDefaultAction(e);
         handleSelection?.(id, isSelected);
