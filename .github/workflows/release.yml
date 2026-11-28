@@ -29,22 +29,17 @@ jobs:
           path: master
           fetch-depth: 0
 
-      - name: Set up NodeJs
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
+        name: Install Bun
         with:
-          node-version-file: './master/package.json'
-
-      - uses: pnpm/action-setup@v4.2.0
-        name: Install pnpm
-        with:
-          version: 11.1.2
+          bun-version-file: './master/package.json'
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/bun.lock') }}
 
       - name: Generate Tag Name
         id: GenTagName
@@ -54,10 +49,10 @@ jobs:
 
       - name: Build webUI
         run: |
-          pnpm ci
-          pnpm build
-          pnpm build-zip
-          pnpm build-md5
+          bun install --frozen-lockfile
+          bun run build
+          bun run build-zip
+          bun run build-md5
 
       - name: Rename artifact
         run: |

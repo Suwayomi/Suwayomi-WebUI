@@ -76,8 +76,8 @@ const generateResources = async () => {
     updateI18nIndex(resourceNames);
     updateLinguiConfig(resourceNames);
 
-    execSync('pnpm tsc', { stdio: 'inherit' });
-    execSync(`pnpm biome check --write ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
+    execSync('bun run tsc', { stdio: 'inherit' });
+    execSync(`bun run biome check --write ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
 
     const hasI18nIndexChanged = execSync('git status --porcelain').toString().includes(I18N_INDEX_PATH);
     const hasLinguiConfigChanged = execSync('git status --porcelain').toString().includes(LINGUI_CONFIG_PATH);

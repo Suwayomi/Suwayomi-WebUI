@@ -1,0 +1,11 @@
+[install]
+exact = true
+minimumReleaseAge = 604800 # 7 days, in seconds
+
+[run]
+# run package binaries (vite, lingui, ...) with Bun instead of Node
+bun = true
+
+[test]
+root = "src"
+preload = ["./tools/test/dom.ts", "./tools/test/setup.ts"]

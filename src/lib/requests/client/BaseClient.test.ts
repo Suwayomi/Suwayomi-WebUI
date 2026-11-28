@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { beforeEach, expect, test } from 'vitest';
+import { beforeEach, expect, test } from 'bun:test';
 import { CombinedGraphQLErrors } from '@apollo/client';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';

@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { ExecSyncOptions } from 'node:child_process';
 import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import packageJson from '../../package.json';
@@ -14,16 +13,10 @@ import packageJson from '../../package.json';
 type TPackageJson = typeof packageJson;
 type DependencyType = keyof Pick<TPackageJson, 'dependencies' | 'devDependencies'>;
 
-type OutdatedPayload = {
-    current: string;
-    latest: string;
-    wanted: string;
-    isDeprecated: boolean;
-    dependencyType: DependencyType;
-};
-
-type OutdatedDependency = OutdatedPayload & {
+type OutdatedDependency = {
     name: string;
+    latest: string;
+    dependencyType: DependencyType;
     isMajorUpdate: boolean;
 };
 
@@ -43,58 +36,37 @@ const updateVersionsInPackageJson = (dependencies: OutdatedDependency[]) => {
         updateVersionInPackageJson(dependencyType, name as keyof TPackageJson[typeof dependencyType], latest),
     );
 
-    writeFileSync('package.json', `${JSON.stringify(packageJson, null, 2)}\n`);
+    writeFileSync('package.json', `${JSON.stringify(packageJson, null, 4)}\n`);
 };
 
-/**
- * @param asJson
- * @param stdio - only considered in case asJson is falsy
- */
-const execOutdatedCmd = ({
-    asJson = false,
-    stdio,
-}: {
-    asJson?: boolean;
-    stdio?: ExecSyncOptions['stdio'];
-} = {}): string | null => {
-    try {
-        execSync(`pnpm outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined })?.toString();
-        return null;
-    } catch (e: any) {
-        if (e?.stdout === null) {
-            return null;
-        }
+// "bun outdated" has no JSON output, so the table rows get parsed: | name (dev) | current | update | latest |
+const getOutdatedDependencies = (): OutdatedDependency[] =>
+    execSync('bun outdated', { encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } })
+        .split('\n')
+        .map((line) =>
+            line
+                .split('|')
+                .slice(1, -1)
+                .map((cell) => cell.trim()),
+        )
+        .filter(([name, current]) => !!name && /^\d/.test(current ?? ''))
+        // "*" marks a newer version that is held back by "minimumReleaseAge"
+        .map((cells) => cells.map((cell) => cell.replace(/\s*\*$/, '')))
+        .map(([label, current, , latest]) => {
+            const [name] = label.split(' ');
+            const dependencyType = PACKAGE_TYPES.find((type) => name in packageJson[type]);
 
-        if (!Buffer.isBuffer(e.stdout)) {
-            throw e;
-        }
+            return {
+                name,
+                latest,
+                dependencyType: dependencyType!,
+                isUpdate: current !== latest,
+                isMajorUpdate: current.split('.')[0] !== latest.split('.')[0],
+            };
+        })
+        .filter(({ dependencyType, isUpdate }) => !!dependencyType && isUpdate);
 
-        return e.stdout.toString();
-    }
-};
-
-const getOutdatedDependencies = (): OutdatedDependency[] => {
-    const output = execOutdatedCmd({ asJson: true });
-
-    if (output === null) {
-        return [];
-    }
-
-    const outdatedPayload = JSON.parse(output) as Record<string, OutdatedPayload>;
-
-    const outdatedPackages = Object.entries(outdatedPayload).map(([name, info]) => ({
-        name,
-        ...info,
-    }));
-
-    return outdatedPackages
-        .map((dependency) => ({
-            ...dependency,
-            isMajorUpdate: dependency.current.split('.')[0] !== dependency.latest.split('.')[0],
-        }))
-        .filter(({ dependencyType }) => PACKAGE_TYPES.includes(dependencyType))
-        .toSorted((a, b) => a.dependencyType.localeCompare(b.dependencyType));
-};
+const showOutdated = () => execSync('bun outdated', { stdio: 'inherit' });
 
 const log = (...args: Parameters<typeof console.log>) => console.log('updateDependencies:', ...args);
 
@@ -109,7 +81,7 @@ const updateDependencies = () => {
         return;
     }
 
-    execOutdatedCmd({ stdio: 'inherit' });
+    showOutdated();
 
     if (!autoUpdatableDependencies.length) {
         log('no automatically updatable dependencies found');
@@ -120,15 +92,15 @@ const updateDependencies = () => {
 
     updateVersionsInPackageJson(autoUpdatableDependencies);
 
-    execSync('pnpm i', { stdio: 'inherit' });
+    execSync('bun install', { stdio: 'inherit' });
 
     log('commiting changes...');
 
-    execSync('git add package.json pnpm-lock.yaml && git commit -m "Update dependencies"', { stdio: 'inherit' });
+    execSync('git add package.json bun.lock && git commit -m "Update dependencies"', { stdio: 'inherit' });
 
     log('updated dependencies with non breaking changes. Check dependencies with breaking changes listed below:');
 
-    execOutdatedCmd({ stdio: 'inherit' });
+    showOutdated();
 };
 
 updateDependencies();

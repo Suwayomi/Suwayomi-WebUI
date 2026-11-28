@@ -6,7 +6,7 @@
         "useIgnoreFile": true
     },
     "files": {
-        "includes": ["**", "!.github", "!src/lib/graphql/generated", "!pnpm-lock.yaml", "!CHANGELOG.md"]
+        "includes": ["**", "!.github", "!src/lib/graphql/generated", "!CHANGELOG.md"]
     },
     "formatter": {
         "indentStyle": "space",

@@ -26,34 +26,29 @@ jobs:
           path: master
           fetch-depth: 0
 
-      - name: Set up NodeJs
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
+        name: Install Bun
         with:
-          node-version-file: './master/package.json'
-
-      - uses: pnpm/action-setup@v4.2.0
-        name: Install pnpm
-        with:
-          version: 11.1.2
+          bun-version-file: './master/package.json'
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/bun.lock') }}
 
       - name: Install dependencies
         run: |
           cd master
-          pnpm ci
+          bun install --frozen-lockfile
 
       - name: Update i18n resources
         run: |
           cd master
           echo "WEBLATE_TOKEN=${{ secrets.MY_SECRET }}" > .env
-          pnpm i18n:gen-resources
-          pnpm manga:gen-type-tags
+          bun run i18n:gen-resources
+          bun run manga:gen-type-tags
 
       - name: Push changes
         run: |

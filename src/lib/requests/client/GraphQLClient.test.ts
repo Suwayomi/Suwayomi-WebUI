@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { expect, test, vi } from 'vitest';
+import { expect, test, spyOn } from 'bun:test';
 import { ApolloLink, gql, ServerError } from '@apollo/client';
 import { firstValueFrom, of, throwError } from 'rxjs';
 // imported through the request manager to keep the app's import order (the modules are circular)
@@ -14,8 +14,8 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 test('waits as long as the server asks to after a rate limit', async () => {
     const client = requestManager.graphQLClient as any;
-    const addRateLimit = vi.spyOn(client, 'addRateLimit').mockImplementation(() => {});
-    vi.spyOn(client, 'awaitRateLimit').mockResolvedValue(undefined);
+    const addRateLimit = spyOn(client, 'addRateLimit').mockImplementation(() => {});
+    spyOn(client, 'awaitRateLimit').mockResolvedValue(undefined);
 
     let calls = 0;
     const server = new ApolloLink((operation) => {

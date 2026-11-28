@@ -25,6 +25,7 @@
         "noFallthroughCasesInSwitch": true,
         "types": [
             "@types/lodash",
+            "@types/bun",
             "@types/node",
             "@types/react",
             "@types/react-dom",

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { expect, test, vi } from 'vitest';
+import { expect, test, mock } from 'bun:test';
 import { RestClient } from '@/lib/requests/client/RestClient.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
@@ -22,7 +22,7 @@ test('retries an unauthorized request only once', async () => {
     );
     // answers 200 from the 6th call on, so that an unlimited retry ends instead of hanging the test
     let calls = 0;
-    (client as any).client = vi.fn(async () => new Response(null, { status: ++calls > 5 ? 200 : 401 }));
+    (client as any).client = mock(async () => new Response(null, { status: ++calls > 5 ? 200 : 401 }));
 
     await expect(client.fetcher('/image', { checkResponseIsJson: false })).rejects.toThrow('status 401');
     expect(calls).toBe(2);

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { expect, test } from 'vitest';
+import { expect, test } from 'bun:test';
 import { Queue } from '@/lib/Queue.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
@@ -26,7 +26,7 @@ test('clearing the queue rejects pending items without crashing their scheduled 
     queue.clear();
     await expect(pending.promise).rejects.toThrow('Queue::clear');
 
-    // the scheduled run of the cleared item happens now; vitest fails the run on an unhandled error
+    // the scheduled run of the cleared item happens now; bun fails the run on an unhandled error
     blocker.resolve();
     await nextTick();
 });
