@@ -24,3 +24,27 @@ export const REFRESH_ACCESS_TOKEN = gql`
         }
     }
 `;
+
+export const REGISTER_USER = gql`
+    mutation REGISTER_USER($input: RegisterInput!) {
+        register(input: $input) {
+            clientMutationId
+        }
+    }
+`;
+
+export const UPDATE_USER = gql`
+    mutation UPDATE_USER($input: UpdateUserInput!) {
+        updateUser(input: $input) {
+            clientMutationId
+        }
+    }
+`;
+
+export const DELETE_USER = gql`
+    mutation DELETE_USER($input: DeleteUserInput!) {
+        deleteUser(input: $input) {
+            clientMutationId
+        }
+    }
+`;

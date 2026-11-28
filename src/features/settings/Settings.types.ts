@@ -20,7 +20,9 @@ import type {
     SettingsDownloadConversionHeader,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { MetadataHistorySettings } from '@/features/history/History.types.ts';
-import type { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetServerSettingsQuery, GetUsersQuery } from '@/lib/graphql/generated/graphql.ts';
+
+export type ManagedUser = GetUsersQuery['users']['nodes'][number];
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 

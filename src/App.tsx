@@ -80,6 +80,7 @@ const { ImageProcessingSetting } = loadable(
     lazyLoadFallback,
 );
 const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
+const { UserManagement } = loadable(() => import('@/features/settings/screens/UserManagement.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/features/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/features/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
 const { Migration } = loadable(() => import('@/features/migration/screens/Migration.tsx'), lazyLoadFallback);
@@ -197,6 +198,20 @@ const PrivateRoutes = () => {
     return <Outlet />;
 };
 
+const UserManagementRoute = () => {
+    const { accessToken, refreshToken, isAuthRequired } = AuthManager.useSession();
+
+    if (!accessToken && refreshToken && isAuthRequired !== false) {
+        return lazyLoadFallback.fallback;
+    }
+
+    if (!accessToken?.canManageUsers) {
+        return <Navigate to={AppRoutes.settings.path} replace />;
+    }
+
+    return <UserManagement />;
+};
+
 const MainApp = () => {
     const { navBarWidth, appBarHeight, bottomBarHeight } = useNavBarContext();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
@@ -277,6 +292,7 @@ const MainApp = () => {
                             </Route>
                             <Route path={AppRoutes.settings.children.backup.match} element={<Backup />} />
                             <Route path={AppRoutes.settings.children.server.match} element={<ServerSettings />} />
+                            <Route path={AppRoutes.settings.children.users.match} element={<UserManagementRoute />} />
                             <Route path={AppRoutes.settings.children.webui.match} element={<WebUISettings />} />
                             <Route path={AppRoutes.settings.children.browse.match}>
                                 <Route index element={<BrowseSettings />} />

@@ -612,6 +612,11 @@ export type DeleteSourceMetasPayload = {
     sources: Array<SourceType>;
 };
 
+export type DeleteUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    userId: Scalars['Int']['input'];
+};
+
 export type DequeueChapterDownloadInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     id: Scalars['Int']['input'];
@@ -2371,6 +2376,13 @@ export type RefreshTokenPayload = {
     clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
+export type RegisterInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    password: Scalars['String']['input'];
+    userPermissions?: InputMaybe<Array<UserPermission>>;
+    username: Scalars['String']['input'];
+};
+
 export type RemoveExtensionStoreInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     indexUrl: Scalars['String']['input'];
@@ -3621,6 +3633,13 @@ export type UpdateTrackPayload = {
     trackRecord?: Maybe<TrackRecordType>;
 };
 
+export type UpdateUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    permissions?: InputMaybe<Array<UserPermission>>;
+    role?: InputMaybe<UserRole>;
+    userId: Scalars['Int']['input'];
+};
+
 export type UpdaterJobsInfoType = {
     __typename?: 'UpdaterJobsInfoType';
     finishedJobs: Scalars['Int']['output'];
@@ -3640,6 +3659,25 @@ export type UpdaterUpdates = {
     /** Indicates whether updates have been omitted based on the "maxUpdates" subscription variable. In case updates have been omitted, the "updateStatus" query should be re-fetched. */
     omittedUpdates: Scalars['Boolean']['output'];
 };
+
+export enum UserPermission {
+    AccessNsfw = 'ACCESS_NSFW',
+    DownloadChapters = 'DOWNLOAD_CHAPTERS',
+    InstallExtensions = 'INSTALL_EXTENSIONS',
+    InstallExternalExtensions = 'INSTALL_EXTERNAL_EXTENSIONS',
+    ManageCache = 'MANAGE_CACHE',
+    ManageExtensionStores = 'MANAGE_EXTENSION_STORES',
+    ManageSettings = 'MANAGE_SETTINGS',
+    ManageSourcePreferences = 'MANAGE_SOURCE_PREFERENCES',
+    ManageUsers = 'MANAGE_USERS',
+    UninstallExtensions = 'UNINSTALL_EXTENSIONS',
+}
+
+export enum UserRole {
+    Admin = 'ADMIN',
+    User = 'USER',
+    Visitor = 'VISITOR',
+}
 
 export type ValidateBackupInput = {
     backup: Scalars['Upload']['input'];
