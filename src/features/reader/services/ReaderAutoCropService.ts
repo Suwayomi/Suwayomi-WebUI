@@ -9,6 +9,7 @@
 import { useEffect, useState } from 'react';
 import { usePrevious } from '@mantine/hooks';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ReaderAutoCropCache } from '@/features/reader/services/ReaderAutoCropCache.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
@@ -17,7 +18,7 @@ const MAX_CROP_CACHE_SIZE = 150;
 const CORNER_SAMPLE_SIZE = 8;
 const TRANSPARENT_ALPHA_THRESHOLD = 32;
 
-const cropCache = new Map<string, string>();
+const cropCache = new ReaderAutoCropCache(MAX_CROP_CACHE_SIZE);
 const pendingPromises = new Map<string, ControlledPromise<string>>();
 
 interface CropBounds {
@@ -477,35 +478,7 @@ const loadImage = async (imageSrc: string): Promise<LoadedImage> => {
     };
 };
 
-const setCropCache = (src: string, resultUrl: string): void => {
-    if (cropCache.has(src)) {
-        const oldUrl = cropCache.get(src);
-        const shouldRevokeOldUrl = oldUrl && oldUrl !== src && oldUrl !== resultUrl && oldUrl.startsWith('blob:');
-        if (shouldRevokeOldUrl) {
-            URL.revokeObjectURL(oldUrl);
-        }
-        cropCache.delete(src);
-    } else if (cropCache.size >= MAX_CROP_CACHE_SIZE) {
-        const oldestKey = cropCache.keys().next().value;
-        if (oldestKey) {
-            const oldestUrl = cropCache.get(oldestKey);
-            const shouldRevokeOldestUrl = oldestUrl && oldestUrl !== oldestKey && oldestUrl.startsWith('blob:');
-            if (shouldRevokeOldestUrl) {
-                URL.revokeObjectURL(oldestUrl);
-            }
-            cropCache.delete(oldestKey);
-        }
-    }
-    cropCache.set(src, resultUrl);
-};
-
 export const clearReaderAutoCropCache = (): void => {
-    cropCache.forEach((url, src) => {
-        const isBlobUrl = url !== src && url.startsWith('blob:');
-        if (isBlobUrl) {
-            URL.revokeObjectURL(url);
-        }
-    });
     cropCache.clear();
 
     pendingPromises.forEach((controlled) => {
@@ -515,8 +488,9 @@ export const clearReaderAutoCropCache = (): void => {
 };
 
 const cropPageBorders = async (imageSrc: string): Promise<string> => {
-    if (cropCache.has(imageSrc)) {
-        return cropCache.get(imageSrc)!;
+    const cachedCrop = cropCache.get(imageSrc);
+    if (cachedCrop) {
+        return cachedCrop;
     }
 
     if (pendingPromises.has(imageSrc)) {
@@ -528,7 +502,7 @@ const cropPageBorders = async (imageSrc: string): Promise<string> => {
     const isStillActive = () => pendingPromises.get(imageSrc) === controlled;
     const resolveWithFallback = () => {
         if (isStillActive()) {
-            setCropCache(imageSrc, imageSrc);
+            cropCache.set(imageSrc, imageSrc);
             controlled.resolve(imageSrc);
         }
     };
@@ -580,7 +554,7 @@ const cropPageBorders = async (imageSrc: string): Promise<string> => {
             }
 
             const croppedUrl = URL.createObjectURL(blob);
-            setCropCache(imageSrc, croppedUrl);
+            cropCache.set(imageSrc, croppedUrl);
             controlled.resolve(croppedUrl);
         } catch {
             resolveWithFallback();
@@ -606,10 +580,12 @@ export const useReaderAutoCrop = (src: string | undefined, enabled: boolean): st
             return;
         }
 
+        const release = cropCache.retain(src);
+
         const cached = cropCache.get(src);
         if (cached) {
             setCroppedSrc(cached);
-            return;
+            return release;
         }
 
         let isSubscribed = true;
@@ -625,6 +601,7 @@ export const useReaderAutoCrop = (src: string | undefined, enabled: boolean): st
 
         return () => {
             isSubscribed = false;
+            release();
         };
     }, [src, enabled]);
 

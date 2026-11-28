@@ -13,19 +13,21 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Notifications } from '@/base/notification/Notifications.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { parseTrackerOAuthState } from '@/features/tracker/services/TrackerOAuthState.ts';
 
 export const TrackerOAuthLogin = () => {
     const { t } = useLingui();
     const navigate = useNavigate();
 
-    const url = new URL(window.location.href);
-    const { trackerId, trackerName }: { trackerId: number; trackerName: string } = JSON.parse(
-        url.searchParams.get('state') ?? '{}',
-    );
+    const { trackerId, trackerName = '' } = parseTrackerOAuthState(window.location.href) ?? {};
 
     useEffect(() => {
         const login = async () => {
             try {
+                if (trackerId === undefined) {
+                    throw new Error('Invalid login redirect');
+                }
+
                 await requestManager.loginToTrackerOauth(trackerId, window.location.href).response;
             } catch (e) {
                 Notifications.error(t`Could not log in to ${trackerName}`, getErrorMessage(e));
