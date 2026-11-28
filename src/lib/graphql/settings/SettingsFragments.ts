@@ -14,13 +14,6 @@ export const SERVER_SETTINGS = gql`
         ip
         port
 
-        # Socks proxy
-        socksProxyEnabled
-        socksProxyVersion
-        socksProxyHost
-        socksProxyPort
-        socksProxyUsername
-        socksProxyPassword
 
         # webUI
         webUIFlavor
@@ -102,13 +95,6 @@ export const SERVER_SETTINGS = gql`
         # local source
         localSourcePath
 
-        # Cloudflare bypass
-        flareSolverrEnabled
-        flareSolverrUrl
-        flareSolverrTimeout
-        flareSolverrSessionName
-        flareSolverrSessionTtl
-        flareSolverrAsResponseFallback
 
         # OPDS
         opdsUseBinaryFileSizes

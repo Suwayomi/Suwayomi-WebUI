@@ -1977,12 +1977,6 @@ export type PartialSettingsType = Settings & {
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
-    flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
-    flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
-    flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
-    flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
-    flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
-    flareSolverrUrl?: Maybe<Scalars['String']['output']>;
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2023,12 +2017,6 @@ export type PartialSettingsType = Settings & {
     opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
     port?: Maybe<Scalars['Int']['output']>;
     serveConversions?: Maybe<Array<SettingsDownloadConversionType>>;
-    socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
-    socksProxyHost?: Maybe<Scalars['String']['output']>;
-    socksProxyPassword?: Maybe<Scalars['String']['output']>;
-    socksProxyPort?: Maybe<Scalars['String']['output']>;
-    socksProxyUsername?: Maybe<Scalars['String']['output']>;
-    socksProxyVersion?: Maybe<Scalars['Int']['output']>;
     syncDataCategories?: Maybe<Scalars['Boolean']['output']>;
     syncDataChapters?: Maybe<Scalars['Boolean']['output']>;
     syncDataHistory?: Maybe<Scalars['Boolean']['output']>;
@@ -2079,12 +2067,6 @@ export type PartialSettingsTypeInput = {
     excludeEntryWithUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
     excludeNotStarted?: InputMaybe<Scalars['Boolean']['input']>;
     excludeUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
-    flareSolverrAsResponseFallback?: InputMaybe<Scalars['Boolean']['input']>;
-    flareSolverrEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-    flareSolverrSessionName?: InputMaybe<Scalars['String']['input']>;
-    flareSolverrSessionTtl?: InputMaybe<Scalars['Int']['input']>;
-    flareSolverrTimeout?: InputMaybe<Scalars['Int']['input']>;
-    flareSolverrUrl?: InputMaybe<Scalars['String']['input']>;
     globalUpdateInterval?: InputMaybe<Scalars['Float']['input']>;
     hikariMaxPoolSize?: InputMaybe<Scalars['Int']['input']>;
     initialOpenInBrowserEnabled?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2113,12 +2095,6 @@ export type PartialSettingsTypeInput = {
     opdsUseBinaryFileSizes?: InputMaybe<Scalars['Boolean']['input']>;
     port?: InputMaybe<Scalars['Int']['input']>;
     serveConversions?: InputMaybe<Array<SettingsDownloadConversionTypeInput>>;
-    socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
-    socksProxyHost?: InputMaybe<Scalars['String']['input']>;
-    socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
-    socksProxyPort?: InputMaybe<Scalars['String']['input']>;
-    socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
-    socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
     syncDataCategories?: InputMaybe<Scalars['Boolean']['input']>;
     syncDataChapters?: InputMaybe<Scalars['Boolean']['input']>;
     syncDataHistory?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2631,12 +2607,6 @@ export type Settings = {
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
-    flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
-    flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
-    flareSolverrSessionName?: Maybe<Scalars['String']['output']>;
-    flareSolverrSessionTtl?: Maybe<Scalars['Int']['output']>;
-    flareSolverrTimeout?: Maybe<Scalars['Int']['output']>;
-    flareSolverrUrl?: Maybe<Scalars['String']['output']>;
     globalUpdateInterval?: Maybe<Scalars['Float']['output']>;
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2677,12 +2647,6 @@ export type Settings = {
     opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
     port?: Maybe<Scalars['Int']['output']>;
     serveConversions?: Maybe<Array<SettingsDownloadConversion>>;
-    socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
-    socksProxyHost?: Maybe<Scalars['String']['output']>;
-    socksProxyPassword?: Maybe<Scalars['String']['output']>;
-    socksProxyPort?: Maybe<Scalars['String']['output']>;
-    socksProxyUsername?: Maybe<Scalars['String']['output']>;
-    socksProxyVersion?: Maybe<Scalars['Int']['output']>;
     syncDataCategories?: Maybe<Scalars['Boolean']['output']>;
     syncDataChapters?: Maybe<Scalars['Boolean']['output']>;
     syncDataHistory?: Maybe<Scalars['Boolean']['output']>;
@@ -2788,12 +2752,6 @@ export type SettingsType = Settings & {
     excludeUnreadChapters: Scalars['Boolean']['output'];
     /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos: Array<Scalars['String']['output']>;
-    flareSolverrAsResponseFallback: Scalars['Boolean']['output'];
-    flareSolverrEnabled: Scalars['Boolean']['output'];
-    flareSolverrSessionName: Scalars['String']['output'];
-    flareSolverrSessionTtl: Scalars['Int']['output'];
-    flareSolverrTimeout: Scalars['Int']['output'];
-    flareSolverrUrl: Scalars['String']['output'];
     globalUpdateInterval: Scalars['Float']['output'];
     /** @deprecated Removed - does not do anything */
     gqlDebugLogsEnabled: Scalars['Boolean']['output'];
@@ -2834,12 +2792,6 @@ export type SettingsType = Settings & {
     opdsUseBinaryFileSizes: Scalars['Boolean']['output'];
     port: Scalars['Int']['output'];
     serveConversions: Array<SettingsDownloadConversionType>;
-    socksProxyEnabled: Scalars['Boolean']['output'];
-    socksProxyHost: Scalars['String']['output'];
-    socksProxyPassword: Scalars['String']['output'];
-    socksProxyPort: Scalars['String']['output'];
-    socksProxyUsername: Scalars['String']['output'];
-    socksProxyVersion: Scalars['Int']['output'];
     syncDataCategories: Scalars['Boolean']['output'];
     syncDataChapters: Scalars['Boolean']['output'];
     syncDataHistory: Scalars['Boolean']['output'];

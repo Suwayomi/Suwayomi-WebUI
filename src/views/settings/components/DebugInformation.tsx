@@ -58,8 +58,6 @@ import { Trackers } from '@/controllers/tracker/services/Trackers.ts';
 import pickBy from 'lodash/fp/pickBy';
 
 const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
-    'socksProxyUsername',
-    'socksProxyPassword',
     'authUsername',
     'authPassword',
     'downloadConversions',
@@ -69,13 +67,9 @@ const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'databasePassword',
     'syncYomiApiKey',
     'jwtAudience',
-    'socksProxyHost',
-    'socksProxyPort',
     'electronPath',
     'downloadsPath',
     'localSourcePath',
-    'flareSolverrUrl',
-    'flareSolverrSessionName',
     'databaseUrl',
     'syncYomiHost',
 ];

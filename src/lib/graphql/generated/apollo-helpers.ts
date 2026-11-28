@@ -1200,12 +1200,6 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'excludeNotStarted'
     | 'excludeUnreadChapters'
     | 'extensionRepos'
-    | 'flareSolverrAsResponseFallback'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
     | 'hikariMaxPoolSize'
@@ -1240,12 +1234,6 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
-    | 'socksProxyEnabled'
-    | 'socksProxyHost'
-    | 'socksProxyPassword'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyVersion'
     | 'syncDataCategories'
     | 'syncDataChapters'
     | 'syncDataHistory'
@@ -1301,12 +1289,6 @@ export type PartialSettingsTypeFieldPolicy = {
     excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>;
     excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrAsResponseFallback?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1341,12 +1323,6 @@ export type PartialSettingsTypeFieldPolicy = {
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1633,12 +1609,6 @@ export type SettingsKeySpecifier = (
     | 'excludeNotStarted'
     | 'excludeUnreadChapters'
     | 'extensionRepos'
-    | 'flareSolverrAsResponseFallback'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
     | 'hikariMaxPoolSize'
@@ -1673,12 +1643,6 @@ export type SettingsKeySpecifier = (
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
-    | 'socksProxyEnabled'
-    | 'socksProxyHost'
-    | 'socksProxyPassword'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyVersion'
     | 'syncDataCategories'
     | 'syncDataChapters'
     | 'syncDataHistory'
@@ -1734,12 +1698,6 @@ export type SettingsFieldPolicy = {
     excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>;
     excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrAsResponseFallback?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1774,12 +1732,6 @@ export type SettingsFieldPolicy = {
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1886,12 +1838,6 @@ export type SettingsTypeKeySpecifier = (
     | 'excludeNotStarted'
     | 'excludeUnreadChapters'
     | 'extensionRepos'
-    | 'flareSolverrAsResponseFallback'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
     | 'globalUpdateInterval'
     | 'gqlDebugLogsEnabled'
     | 'hikariMaxPoolSize'
@@ -1926,12 +1872,6 @@ export type SettingsTypeKeySpecifier = (
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
-    | 'socksProxyEnabled'
-    | 'socksProxyHost'
-    | 'socksProxyPassword'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyVersion'
     | 'syncDataCategories'
     | 'syncDataChapters'
     | 'syncDataHistory'
@@ -1987,12 +1927,6 @@ export type SettingsTypeFieldPolicy = {
     excludeNotStarted?: FieldPolicy<any> | FieldReadFunction<any>;
     excludeUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     extensionRepos?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrAsResponseFallback?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionName?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrSessionTtl?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrTimeout?: FieldPolicy<any> | FieldReadFunction<any>;
-    flareSolverrUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     globalUpdateInterval?: FieldPolicy<any> | FieldReadFunction<any>;
     gqlDebugLogsEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     hikariMaxPoolSize?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2027,12 +1961,6 @@ export type SettingsTypeFieldPolicy = {
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPassword?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
-    socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;

@@ -40,15 +40,8 @@ msgstr "{0, plural, one {# day} other {# days}}"
 msgid "{0, plural, one {# manga} other {# manga}}"
 msgstr "{0, plural, one {# manga} other {# manga}}"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# minute} other {# minutes}}"
-msgstr "{0, plural, one {# minute} other {# minutes}}"
-
 #. placeholder {0}: autoScroll.value
-#. placeholder {0}: serverSettings.flareSolverrTimeout
 #: src/views/reader/components/auto-scroll/settings/ReaderSettingAutoScroll.tsx
-#: src/views/settings/screens/ServerSettings.tsx
 msgid "{0, plural, one {# second} other {# seconds}}"
 msgstr "{0, plural, one {# second} other {# seconds}}"
 
@@ -979,10 +972,6 @@ msgstr "Client data"
 #: src/views/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Close"
 msgstr "Close"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Cloudflare bypass"
-msgstr "Cloudflare bypass"
 
 #: src/views/reader/components/filters/settings/ReaderSettingRGBA.tsx
 msgid "Color filter blend mode"
@@ -1920,38 +1909,6 @@ msgstr "Fit screen"
 msgid "Fit width"
 msgstr "Fit width"
 
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr enabled"
-msgstr "FlareSolverr enabled"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
-msgstr "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr request timeout"
-msgstr "FlareSolverr request timeout"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr server url"
-msgstr "FlareSolverr server url"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr session name"
-msgstr "FlareSolverr session name"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr session TTL"
-msgstr "FlareSolverr session TTL"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr setup confirmation"
-msgstr "Flaresolverr setup confirmation"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
-msgstr "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
-
 #: src/views/settings/screens/WebUISettings.tsx
 msgid "Flavor"
 msgstr "Flavor"
@@ -2080,10 +2037,6 @@ msgstr "Hotkey already exists"
 #: src/views/downloads/components/DownloadAheadSetting.tsx
 msgid "How many chapters should get downloaded while reading."
 msgstr "How many chapters should get downloaded while reading."
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "How much time FlareSolverr has to handle the request"
-msgstr "How much time FlareSolverr has to handle the request"
 
 #: src/views/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "If enabled, chooses the match furthest ahead.\n"
@@ -3242,10 +3195,6 @@ msgstr "Reset"
 msgid "Reset to Default"
 msgstr "Reset to Default"
 
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Response fallback"
-msgstr "Response fallback"
-
 #: src/views/backup/components/BackupValidationDialog.tsx
 msgid "Restore"
 msgstr "Restore"
@@ -3415,17 +3364,12 @@ msgid "Searching…"
 msgstr "Searching…"
 
 #: src/views/settings/components/images/Processing.tsx
-#: src/views/settings/screens/ServerSettings.tsx
 msgid "Second"
 msgstr "Second"
 
 #: src/views/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Second to last read chapter"
 msgstr "Second to last read chapter"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "See <0>FlareSolverr</0> for information on how to set it up"
 
 #: src/views/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
@@ -3664,30 +3608,6 @@ msgstr "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
 msgid "Smooth auto scrolling"
 msgstr "Smooth auto scrolling"
 
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS host"
-msgstr "SOCKS host"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS password"
-msgstr "SOCKS password"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS port"
-msgstr "SOCKS port"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS proxy"
-msgstr "SOCKS proxy"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS username"
-msgstr "SOCKS username"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "SOCKS version"
-msgstr "SOCKS version"
-
 #: src/views/base/components/feedback/ErrorBoundary.tsx
 msgid "Something went wrong\n"
 "An error occurred that we cannot recover from"
@@ -3892,10 +3812,6 @@ msgstr "That haven't been started"
 #: src/controllers/base/services/notification/BasicAuthDeprecationReminder.ts
 msgid "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
 msgstr "The \"Basic Authentication\" mode is deprecated and will be removed in the future. Switch to another authentication mode"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "The address of the FlareSolverr server"
-msgstr "The address of the FlareSolverr server"
 
 #: src/views/settings/screens/ImagesSettings.tsx
 msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
@@ -4165,7 +4081,6 @@ msgid "Unable to load sources"
 msgstr "Unable to load sources"
 
 #: src/controllers/migration/services/MigrationManager.ts
-#: src/views/settings/screens/ServerSettings.tsx
 msgid "Understood"
 msgstr "Understood"
 
@@ -4282,17 +4197,9 @@ msgid "Use a custom WebUI.\n"
 msgstr "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Use SOCKS proxy"
-msgstr "Use SOCKS proxy"
-
 #: src/models/settings/Settings.constants.ts
 msgid "Use the default WebUI"
 msgstr "Use the default WebUI"
-
-#: src/views/settings/screens/ServerSettings.tsx
-msgid "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)"
-msgstr "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)"
 
 #: src/models/settings/Settings.constants.ts
 msgid "Use the latest features and help us get them ready for a stable release."
