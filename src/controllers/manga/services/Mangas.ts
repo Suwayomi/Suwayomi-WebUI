@@ -1,0 +1,556 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { DocumentNode, Unmasked } from '@apollo/client';
+import { t } from '@lingui/core/macro';
+import { i18n } from '@/i18n';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type {
+    GetMangaMetaQuery,
+    GetMangasBaseQuery,
+    GetMangasBaseQueryVariables,
+    GetMangasChapterIdsWithStateQuery,
+    GetMangasChapterIdsWithStateQueryVariables,
+    MangaBaseFieldsFragment,
+} from '@/lib/graphql/generated/graphql.ts';
+import { Chapters } from '@/controllers/chapter/services/Chapters.ts';
+import { getMetadataServerSettings } from '@/controllers/settings/services/ServerSettingsMetadata.ts';
+import { GET_MANGA_META, GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
+import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
+import type {
+    ChangeCategoriesOptions,
+    DownloadChaptersOptions,
+    MangaAction,
+    MangaActionOption,
+    MangaArtistInfo,
+    MangaAuthorInfo,
+    MangaCardMode,
+    MangaDownloadInfo,
+    MangaGenreInfo,
+    MangaIdInfo,
+    MangaLocationState,
+    MangaSourceNameInfo,
+    MangaThumbnailInfo,
+    MangaTitleInfo,
+    MangaUnreadInfo,
+    MarkAsReadOptions,
+    PerformActionOptions,
+} from '@/models/manga/Manga.types.ts';
+import { MangaType } from '@/models/manga/Manga.types.ts';
+import {
+    ARTIST_AUTHOR_SEPARATOR_REGEX,
+    I18N_PLURAL,
+    MANGA_ACTION_TO_CONFIRMATION_REQUIRED,
+    MANGA_ACTION_TO_TRANSLATION,
+    MANGA_TAGS_BY_MANGA_TYPE,
+    SOURCES_BY_MANGA_TYPE,
+} from '@/models/manga/Manga.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { assertIsDefined } from '@/utils/base/Asserts.ts';
+import { Confirmation } from '@/controllers/base/services/AppAwaitableComponent.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { MigrationManager } from '@/controllers/migration/services/MigrationManager.ts';
+import uniq from 'lodash/fp/uniq';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { type ChapterConditionInput, ChapterOrderBy } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
+import { filterChapters } from '@/utils/chapter/ChapterList.util.tsx';
+import mapValues from 'lodash/fp/mapValues';
+import { getMangaMetadata } from '@/controllers/manga/services/MangaMetadata.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+export class Mangas {
+    static getIds(mangas: MangaIdInfo[]): number[] {
+        return mangas.map((manga) => manga.id);
+    }
+
+    static getFromCache<T = MangaBaseFieldsFragment>(
+        id: MangaIdInfo['id'],
+        fragment: DocumentNode = MANGA_BASE_FIELDS,
+        fragmentName: string = 'MANGA_BASE_FIELDS',
+    ): Unmasked<T> | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'MangaType',
+                id,
+            }),
+            fragment,
+            fragmentName,
+        });
+    }
+
+    static isNotDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
+        return totalCount > 0 && downloadCount === 0;
+    }
+
+    static getNotDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isNotDownloaded);
+    }
+
+    static isFullyDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
+        return totalCount > 0 && downloadCount === totalCount;
+    }
+
+    static getFullyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isFullyDownloaded);
+    }
+
+    static isPartiallyDownloaded(manga: MangaDownloadInfo): boolean {
+        const {
+            chapters: { totalCount },
+        } = manga;
+
+        return totalCount > 0 && !Mangas.isNotDownloaded(manga) && !Mangas.isFullyDownloaded(manga);
+    }
+
+    static getPartiallyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isPartiallyDownloaded);
+    }
+
+    static isUnread({ unreadCount, chapters: { totalCount } }: MangaUnreadInfo): boolean {
+        return totalCount > 0 && unreadCount === totalCount;
+    }
+
+    static getUnread<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isUnread);
+    }
+
+    static isFullyRead({ unreadCount, chapters: { totalCount } }: MangaUnreadInfo): boolean {
+        return totalCount > 0 && unreadCount === 0;
+    }
+
+    static getFullyRead<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isFullyRead);
+    }
+
+    static isPartiallyRead(manga: MangaUnreadInfo): boolean {
+        const {
+            chapters: { totalCount },
+        } = manga;
+
+        return totalCount > 0 && !Mangas.isUnread(manga) && !Mangas.isFullyRead(manga);
+    }
+
+    static getPartiallyRead<Mangas extends MangaUnreadInfo>(mangas: Mangas[]): Mangas[] {
+        return mangas.filter(Mangas.isPartiallyRead);
+    }
+
+    static getThumbnailUrl(manga: Partial<MangaThumbnailInfo>): string {
+        const url = UrlUtil.addParams(manga.thumbnailUrl ?? '', {
+            fetchedAt: manga.thumbnailUrlLastFetched,
+            sourceId: manga.sourceId,
+        });
+
+        return requestManager.getValidImgUrlFor(url);
+    }
+
+    static getDuplicateLibraryMangas(
+        title: string,
+    ): ReturnType<typeof requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>> {
+        return requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>(GET_MANGAS_BASE, {
+            condition: { inLibrary: true },
+            filter: { title: { likeInsensitive: title } },
+        });
+    }
+
+    static async getChapterIdsWithState(
+        mangaIds: number[],
+        {
+            excludedScanlators,
+            ...state
+        }: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'> & {
+            excludedScanlators?: string[];
+        },
+    ): Promise<GetMangasChapterIdsWithStateQuery['chapters']['nodes']> {
+        const { data } = await requestManager.getChapters<
+            GetMangasChapterIdsWithStateQuery,
+            GetMangasChapterIdsWithStateQueryVariables
+        >(
+            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
+            {
+                filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
+                condition: { ...state },
+                order: [{ by: ChapterOrderBy.SourceOrder }],
+            },
+            {
+                fetchPolicy: 'network-only',
+            },
+        ).response;
+
+        return data?.chapters.nodes ?? [];
+    }
+
+    static async downloadChapters(
+        mangaIds: number[],
+        { size, onlyUnread, downloadAhead = false, disableConfirmation }: DownloadChaptersOptions = {},
+    ): Promise<void> {
+        return Mangas.executeAction(
+            'download',
+            I18N_PLURAL,
+            async () => {
+                // This should be cached by the time this function gets called, so it shouldn't trigger an actual request
+                const mangaResponses = await Promise.all(
+                    mangaIds.map((id) => requestManager.getManga<GetMangaMetaQuery>(GET_MANGA_META, id).response),
+                );
+                const mangaByMangaId = Object.groupBy(
+                    mangaResponses.map((response) => response.data?.manga).filter((manga) => manga !== undefined),
+                    (manga) => manga.id,
+                );
+
+                const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
+                    Mangas.getChapterIdsWithState(mangaIds, {
+                        isRead: onlyUnread ? false : undefined,
+                        isDownloaded: false,
+                    }),
+                    downloadAhead
+                        ? Mangas.getChapterIdsWithState(mangaIds, {
+                              isRead: false,
+                              isDownloaded: true,
+                          })
+                        : [],
+                ]);
+
+                const chaptersToConsiderByMangaId = Object.groupBy(chaptersToConsider, (chapter) => chapter.mangaId);
+                const unReadDownloadedChaptersByMangaId = Object.groupBy(
+                    unReadDownloadedChapters,
+                    (chapter) => chapter.mangaId,
+                );
+
+                const filteredChaptersToConsiderByMangaId = mapValues((chapters) => {
+                    const { mangaId } = chapters![0]!;
+                    const manga = mangaByMangaId[mangaId]![0]!;
+
+                    return filterChapters(chapters!, getMangaMetadata(manga));
+                }, chaptersToConsiderByMangaId);
+                const filteredUnReadDownloadedChaptersByMangaId = mapValues((chapters) => {
+                    const { mangaId } = chapters![0]!;
+                    const manga = mangaByMangaId[mangaId]![0]!;
+
+                    return filterChapters(chapters!, getMangaMetadata(manga));
+                }, unReadDownloadedChaptersByMangaId);
+
+                type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
+
+                const mangaIdToDefaultDownloadSize = mangaIds.map((mangaId) => [
+                    String(mangaId),
+                    size,
+                ]) satisfies MangaIdToDownloadSize[];
+
+                const mangaIdToDownloadSize = Object.entries(filteredUnReadDownloadedChaptersByMangaId).map(
+                    ([mangaId, downloadedChapters = []]) => {
+                        const downloadAheadSize = Math.max(
+                            0,
+                            (size ?? downloadedChapters.length) - downloadedChapters.length,
+                        );
+                        const actualSize = downloadAhead ? downloadAheadSize : size;
+
+                        return [mangaId, actualSize];
+                    },
+                ) satisfies MangaIdToDownloadSize[];
+
+                const mangaIdToActualDownloadSize = Object.entries(
+                    Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
+                ) satisfies MangaIdToDownloadSize[];
+
+                const chaptersToDownload = mangaIdToActualDownloadSize
+                    .flatMap(([mangaId, actualSize]) => {
+                        const mangaChapters = filteredChaptersToConsiderByMangaId[Number(mangaId)] ?? [];
+
+                        if (!mangaChapters.length) {
+                            return [];
+                        }
+
+                        const shouldDownloadAll = actualSize === undefined;
+                        if (shouldDownloadAll) {
+                            return mangaChapters;
+                        }
+
+                        const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+                        const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+
+                        return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+                    })
+                    .filter(Chapters.isDownloadable);
+
+                if (!chaptersToDownload.length) {
+                    return Promise.resolve();
+                }
+
+                try {
+                    await Chapters.download(Chapters.getIds(chaptersToDownload), { disableConfirmation });
+                } catch {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+            true,
+        );
+    }
+
+    static async deleteChapters(mangaIds: number[], { disableConfirmation }: MangaActionOption): Promise<void> {
+        return Mangas.executeAction(
+            'delete',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
+
+                try {
+                    await Chapters.delete(Chapters.getIds(chapters), { disableConfirmation });
+                } catch {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+            true,
+        );
+    }
+
+    static async markAsRead(mangaIds: number[], options: MarkAsReadOptions): Promise<void> {
+        return Mangas.executeAction(
+            'mark_as_read',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
+
+                try {
+                    await Chapters.markAsRead(chapters, {
+                        ...options,
+                        trackProgressMangaId: mangaIds.length === 1 ? mangaIds[0] : undefined,
+                    });
+                } catch {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+            true,
+        );
+    }
+
+    static async markAsUnread(mangaIds: number[], { disableConfirmation }: MangaActionOption = {}): Promise<void> {
+        return Mangas.executeAction(
+            'mark_as_unread',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
+
+                try {
+                    await Chapters.markAsUnread(Chapters.getIds(chapters), { disableConfirmation });
+                } catch {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+            true,
+        );
+    }
+
+    static async removeFromLibrary(mangaIds: number[], { disableConfirmation }: MangaActionOption = {}): Promise<void> {
+        const { removeMangaFromCategories } = await getMetadataServerSettings();
+        return Mangas.executeAction(
+            'remove_from_library',
+            mangaIds.length,
+            () =>
+                requestManager.updateMangas(mangaIds, {
+                    updateMangas: { inLibrary: false },
+                    updateMangasCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
+                }).response,
+            disableConfirmation,
+        );
+    }
+
+    static async changeCategories(
+        mangaIds: number[],
+        { changeCategoriesPatch, disableConfirmation }: ChangeCategoriesOptions,
+    ): Promise<void> {
+        return Mangas.executeAction(
+            'change_categories',
+            mangaIds.length,
+            () => requestManager.updateMangasCategories(mangaIds, changeCategoriesPatch).response,
+            disableConfirmation,
+        );
+    }
+
+    static async migrate(mangaIds: MangaIdInfo['id'][]): Promise<void> {
+        if (!MigrationManager.isFinished() && MigrationManager.isActive()) {
+            Notifications.error(t`A migration is already in progress`);
+            return;
+        }
+
+        MigrationManager.reset();
+
+        const mangas = mangaIds.map((mangaId) => {
+            const manga = Mangas.getFromCache(mangaId, MANGA_MIGRATION_FIELDS, 'MANGA_MIGRATION_FIELDS');
+            assertIsDefined(manga);
+
+            return manga;
+        });
+        const sourceIds = uniq(mangas.map((manga) => manga.sourceId));
+
+        MigrationManager.selectSources(sourceIds);
+        MigrationManager.selectMangas(mangas, {
+            pathname: SubpathUtil.getPathname(),
+            search: document.location.search,
+            hash: document.location.hash,
+        });
+
+        ReactRouter.navigate(AppRoutes.migrate.path);
+    }
+
+    private static async executeAction(
+        action: MangaAction,
+        itemCount: number,
+        fnToExecute: () => Promise<unknown>,
+        disableConfirmation?: boolean,
+        errorOnlyToast?: boolean,
+    ): Promise<void> {
+        const { always, bulkAction, bulkActionCountForce } = MANGA_ACTION_TO_CONFIRMATION_REQUIRED[action];
+        const requiresConfirmation =
+            !disableConfirmation &&
+            (always || (bulkAction && itemCount > 1) || (bulkActionCountForce && itemCount >= bulkActionCountForce));
+        const confirmationMessage = MANGA_ACTION_TO_TRANSLATION[action].confirmation;
+
+        try {
+            if (requiresConfirmation) {
+                assertIsDefined(confirmationMessage);
+
+                try {
+                    await Confirmation.show({
+                        title: t`Are you sure?`,
+                        /* lingui-extract-ignore */
+                        message: i18n.t({ ...confirmationMessage, values: { count: itemCount } }),
+                        actions: {
+                            confirm: {
+                                title: t`Ok`,
+                            },
+                        },
+                    });
+                } catch (_) {
+                    return;
+                }
+            }
+
+            await fnToExecute();
+
+            if (errorOnlyToast) {
+                return;
+            }
+
+            Notifications.success(
+                /* lingui-extract-ignore */
+                i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),
+            );
+        } catch (e) {
+            Notifications.error(
+                /* lingui-extract-ignore */
+                i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].error, values: { count: itemCount } }),
+                getErrorMessage(e),
+            );
+            throw e;
+        }
+    }
+
+    static async performAction<Action extends MangaAction>(
+        action: Action,
+        mangaIds: number[],
+        {
+            wasManuallyMarkedAsRead,
+            changeCategoriesPatch,
+            downloadAhead,
+            onlyUnread,
+            size,
+            disableConfirmation,
+        }: PerformActionOptions<Action>,
+    ): Promise<void> {
+        switch (action) {
+            case 'download':
+                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size, disableConfirmation });
+            case 'delete':
+                return Mangas.deleteChapters(mangaIds, { disableConfirmation });
+            case 'mark_as_read':
+                return Mangas.markAsRead(mangaIds, {
+                    wasManuallyMarkedAsRead,
+                    disableConfirmation,
+                });
+            case 'mark_as_unread':
+                return Mangas.markAsUnread(mangaIds, { disableConfirmation });
+            case 'remove_from_library':
+                return Mangas.removeFromLibrary(mangaIds, { disableConfirmation });
+            case 'change_categories':
+                return Mangas.changeCategories(mangaIds, {
+                    changeCategoriesPatch: changeCategoriesPatch!,
+                    disableConfirmation,
+                });
+            case 'migrate': {
+                return Mangas.migrate(mangaIds);
+            }
+            default:
+                throw new Error(`Mangas::performAction: unknown action "${action}"`);
+        }
+    }
+
+    static getType(manga: MangaGenreInfo & MangaSourceNameInfo): MangaType {
+        if (Mangas.isType(manga, MangaType.MANGA)) {
+            return MangaType.MANGA;
+        }
+
+        if (Mangas.isType(manga, MangaType.COMIC)) {
+            return MangaType.COMIC;
+        }
+
+        if (Mangas.isType(manga, MangaType.WEBTOON)) {
+            return MangaType.WEBTOON;
+        }
+
+        if (Mangas.isType(manga, MangaType.MANHWA)) {
+            return MangaType.MANHWA;
+        }
+
+        if (Mangas.isType(manga, MangaType.MANHUA)) {
+            return MangaType.MANHUA;
+        }
+
+        return MangaType.MANGA;
+    }
+
+    static isType(manga: MangaGenreInfo & MangaSourceNameInfo, type: MangaType): boolean {
+        const isMatchByGenre = manga.genre.some((genre) =>
+            MANGA_TAGS_BY_MANGA_TYPE[type].some((tag) => genre.toLowerCase().includes(tag.toLowerCase())),
+        );
+        const isMatchBySource = SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '');
+
+        return isMatchByGenre || isMatchBySource;
+    }
+
+    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo): boolean {
+        return (
+            Mangas.isType(manga, MangaType.WEBTOON) ||
+            Mangas.isType(manga, MangaType.MANHWA) ||
+            Mangas.isType(manga, MangaType.MANHUA)
+        );
+    }
+
+    static getArtists<Manga extends MangaArtistInfo>(manga: Manga): string[] | undefined {
+        return manga.artist?.split(ARTIST_AUTHOR_SEPARATOR_REGEX);
+    }
+
+    static getAuthors<Manga extends MangaAuthorInfo>(manga: Manga): string[] | undefined {
+        return manga.author?.split(ARTIST_AUTHOR_SEPARATOR_REGEX);
+    }
+
+    static createLocationState<Manga extends MangaTitleInfo>(
+        manga: Manga,
+        mode: MangaCardMode | undefined,
+    ): MangaLocationState {
+        return {
+            mangaTitle: manga.title,
+            mode,
+        };
+    }
+}

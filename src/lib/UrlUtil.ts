@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SearchParam } from '@/base/Base.types.ts';
+import { SearchParam } from '@/models/base/Base.types.ts';
 
 export class UrlUtil {
     static asUrl(url: string): URL | null {

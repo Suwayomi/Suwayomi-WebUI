@@ -1,0 +1,337 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { fromEvent } from 'file-selector';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import { StringParam, useQueryParam } from 'use-query-params';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+import { useWindowEvent } from '@mantine/hooks';
+import { useLingui } from '@lingui/react/macro';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { AppbarSearch } from '@/views/base/components/AppbarSearch.tsx';
+import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
+import { LanguageSelect } from '@/views/base/components/inputs/LanguageSelect.tsx';
+import { ExtensionCard } from '@/views/browse/components/extensions/ExtensionCard.tsx';
+import { StyledGroupedVirtuoso } from '@/views/base/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/views/base/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/views/base/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { EmptyViewAbsoluteCentered } from '@/views/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import {
+    filterExtensions,
+    getLanguagesFromExtensions,
+    groupExtensionsByLanguage,
+    translateExtensionLanguage,
+} from '@/utils/extension/Extensions.utils.ts';
+import type { TExtension } from '@/models/extension/Extensions.types.ts';
+import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/models/extension/Extensions.types.ts';
+import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP } from '@/models/extension/Extensions.constants.ts';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { STABLE_EMPTY_ARRAY } from '@/models/base/Base.constants.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/controllers/settings/services/ServerSettingsMetadata.ts';
+import type { MetadataBrowseSettings } from '@/models/browse/Browse.types.ts';
+import { useAppAction } from '@/controllers/navigation-bar/hooks/useAppAction.ts';
+import { SearchParam } from '@/models/base/Base.types.ts';
+import { i18n } from '@/i18n';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+const LANGUAGE = 0;
+const EXTENSIONS = 1;
+
+const GroupHeader = ({
+    groupName,
+    isFirstItem,
+    groupExtensionIds,
+    isUpdateGroup,
+    updatingExtensionIds,
+    setUpdatingExtensionIds,
+    handleExtensionUpdate,
+}: {
+    groupName: string;
+    isFirstItem: boolean;
+    groupExtensionIds: TExtension['pkgName'][];
+    isUpdateGroup: boolean;
+    updatingExtensionIds: TExtension['pkgName'][];
+    setUpdatingExtensionIds: (ids: TExtension['pkgName'][]) => void;
+    handleExtensionUpdate: () => void;
+}) => {
+    const { t } = useLingui();
+
+    return (
+        <StyledGroupHeader
+            key={groupName}
+            isFirstItem={isFirstItem}
+            sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', pr: 1 }}
+        >
+            <Typography variant="h5" component="h2">
+                {translateExtensionLanguage(groupName)}
+            </Typography>
+            {isUpdateGroup && (
+                <Button
+                    disabled={!!updatingExtensionIds.length}
+                    variant="contained"
+                    onClick={() => {
+                        setUpdatingExtensionIds(groupExtensionIds);
+
+                        requestManager
+                            .updateExtensions(groupExtensionIds, { update: true })
+                            .response.then(() => handleExtensionUpdate())
+                            .catch((e) =>
+                                Notifications.error(
+                                    /* lingui-extract-ignore */
+                                    i18n.t({
+                                        ...EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP[ExtensionAction.UPDATE],
+                                        values: { count: groupExtensionIds.length },
+                                    }),
+                                    getErrorMessage(e),
+                                ),
+                            )
+                            .finally(() => setUpdatingExtensionIds([]));
+                    }}
+                >
+                    {t`Update all`}
+                </Button>
+            )}
+        </StyledGroupHeader>
+    );
+};
+
+export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
+    const { t } = useLingui();
+
+    const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
+        requestManager.useExtensionListFetch();
+    const extensionStoresRequest = requestManager.useGetExtensionStores();
+
+    const {
+        settings: { browseLanguages: shownLangs, showNsfw },
+    } = useMetadataServerSettings();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<
+        keyof Pick<MetadataBrowseSettings, 'browseLanguages'>
+    >((e) => Notifications.error(t`Failed to save changes`, getErrorMessage(e)));
+
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
+
+    const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
+    const [refetchExtensions, setRefetchExtensions] = useState({});
+
+    const isLoading = extensionStoresRequest.loading || areExtensionsLoading;
+    const error = extensionStoresRequest.error ?? extensionsError;
+
+    const allExtensions = data?.fetchExtensions?.extensions ?? STABLE_EMPTY_ARRAY;
+    const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions), [allExtensions]);
+
+    const unsearchedFilteredExtensions = useMemo(
+        () => filterExtensions(allExtensions, { selectedLanguages: shownLangs, showNsfw }),
+        [allExtensions, shownLangs, showNsfw],
+    );
+
+    const filteredExtensions = useMemo(
+        () => filterExtensions(unsearchedFilteredExtensions, { query }),
+        [unsearchedFilteredExtensions, query],
+    );
+    const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
+    const groupCounts = useMemo(
+        () => groupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length),
+        [groupedExtensions],
+    );
+    const visibleExtensions = useMemo(
+        () => groupedExtensions.flatMap(([, extensions]) => extensions),
+        [groupedExtensions],
+    );
+
+    const visibleExtensionNames = useMemo(
+        () => unsearchedFilteredExtensions.map((extension) => extension.name),
+        [unsearchedFilteredExtensions],
+    );
+
+    const areReposDefined = !!extensionStoresRequest.data?.extensionStores.totalCount;
+    const areMultipleReposInUse = useMemo(() => {
+        if (!allExtensions.length) {
+            return false;
+        }
+
+        const store = allExtensions[0].extensionStore?.indexUrl;
+
+        return allExtensions.slice(1).some((extension) => extension.extensionStore?.indexUrl !== store);
+    }, [allExtensions]);
+
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        groupCounts,
+        useCallback((index) => groupedExtensions[index][LANGUAGE], [groupedExtensions]),
+        useCallback((index) => visibleExtensions[index].pkgName, [visibleExtensions]),
+    );
+
+    const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
+
+    const submitExternalExtension = (file: File) => {
+        if (!file.name.toLowerCase().match(/\.(apk|jar)$/g)) {
+            Notifications.error(t`Invalid filetype`);
+            return;
+        }
+
+        Notifications.info(t`Installing extension file…`);
+        requestManager
+            .installExternalExtension(file)
+            .response.then(() => {
+                handleExtensionUpdate();
+                Notifications.success(t`Extension installed`);
+            })
+            .catch((e) => Notifications.error(t`Could not install the extension`, getErrorMessage(e)));
+    };
+
+    useEffect(() => {
+        fetchExtensions();
+    }, [refetchExtensions]);
+
+    useAppAction(
+        <>
+            <AppbarSearch searchHistoryKey="extensions" suggestions={visibleExtensionNames} />
+            <CustomTooltip title={t`Install external extension`}>
+                <IconButton
+                    onClick={() => {
+                        const input = document.createElement('input');
+                        input.style.display = 'none';
+                        input.type = 'file';
+                        input.onchange = () => {
+                            const file = input.files?.[0];
+                            if (file) {
+                                submitExternalExtension(file);
+                            }
+                        };
+
+                        document.documentElement.appendChild(input);
+                        input.click();
+                        document.documentElement.removeChild(input);
+                    }}
+                    color="inherit"
+                >
+                    <AddIcon />
+                </IconButton>
+            </CustomTooltip>
+
+            <LanguageSelect
+                selectedLanguages={shownLangs}
+                setSelectedLanguages={(languages: string[]) =>
+                    updateMetadataServerSettings('browseLanguages', languages)
+                }
+                languages={allLangs}
+            />
+        </>,
+        [t, shownLangs, allLangs, visibleExtensionNames],
+    );
+
+    useWindowEvent('drop', async (e) => {
+        e.preventDefault();
+        const files = await fromEvent(e);
+        submitExternalExtension(files[0] as File);
+    });
+    useWindowEvent('dragover', (e) => {
+        e.preventDefault();
+    });
+
+    if (isLoading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t`Unable to load data`}
+                messageExtra={getErrorMessage(error)}
+                retry={() => {
+                    if (extensionStoresRequest.error) {
+                        extensionStoresRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('Extensions::refetchExtensionsStores'));
+                    }
+
+                    if (extensionsError) {
+                        fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetchExtensions'));
+                    }
+                }}
+            />
+        );
+    }
+
+    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
+    if (showAddRepoInfo) {
+        return (
+            <Stack
+                sx={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    rowGap: '10px',
+                    paddingTop: '20px',
+                }}
+            >
+                <Typography>{t`You have to add a extension store to be able to install extensions`}</Typography>
+                <Button
+                    component={Link}
+                    variant="contained"
+                    to={AppRoutes.settings.children.browse.children.extensionStores.path}
+                >
+                    {t`Add extension store`}
+                </Button>
+            </Stack>
+        );
+    }
+
+    return (
+        <StyledGroupedVirtuoso
+            persistKey="extensions"
+            heightToSubtract={tabsMenuHeight}
+            overscan={window.innerHeight * 0.5}
+            groupCounts={groupCounts}
+            groupContent={(index) => {
+                const [groupName, groupExtensions] = groupedExtensions[index];
+                const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
+
+                return (
+                    <GroupHeader
+                        groupName={groupName}
+                        isFirstItem={index === 0}
+                        groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
+                        isUpdateGroup={isUpdateGroup}
+                        updatingExtensionIds={updatingExtensionIds}
+                        setUpdatingExtensionIds={setUpdatingExtensionIds}
+                        handleExtensionUpdate={handleExtensionUpdate}
+                    />
+                );
+            }}
+            computeItemKey={computeItemKey}
+            itemContent={(index) => {
+                const item = visibleExtensions[index];
+
+                return (
+                    <StyledGroupItemWrapper>
+                        <ExtensionCard
+                            extension={item}
+                            handleUpdate={handleExtensionUpdate}
+                            showSourceStore={areMultipleReposInUse}
+                            forcedState={
+                                updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
+                            }
+                        />
+                    </StyledGroupItemWrapper>
+                );
+            }}
+        />
+    );
+}

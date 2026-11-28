@@ -8,7 +8,7 @@
 
 import { expect, test, mock } from 'bun:test';
 import { RestClient } from '@/lib/requests/client/RestClient.ts';
-import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
 
 const token = `e30.${btoa(JSON.stringify({ exp: 4_000_000_000 }))}.e30`;
 

@@ -1,0 +1,28 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
+import type { TExtension } from '@/models/extension/Extensions.types.ts';
+import { ExtensionMetadata } from '@/views/extension/components/info/ExtensionMetadata.tsx';
+import { languageCodeToName } from '@/utils/base/Languages.ts';
+import { isNsfw } from '@/utils/extension/Extensions.utils.ts';
+
+export const Meta = ({ versionName, lang, contentWarning }: TExtension) => {
+    const { t } = useLingui();
+
+    return (
+        <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <ExtensionMetadata title={t`Version`} value={versionName} />
+            <ExtensionMetadata title={t`Language`} value={languageCodeToName(lang)} />
+            {isNsfw(contentWarning) && (
+                <ExtensionMetadata title={t`Age rating`} value="18+" valueProps={{ color: 'error' }} />
+            )}
+        </Stack>
+    );
+};

@@ -23,12 +23,12 @@ import { useEffect } from 'react';
 import type { GraphQLFormattedError } from 'graphql';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import type { TypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
-import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
 import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { ChapterNodeList } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { getUniqueId } from '@/lib/HelperFunctions.ts';
-import { AppInitializer } from '@/base/AppInitializer.ts';
+import { AppInitializer } from '@/controllers/base/services/AppInitializer.ts';
 
 const typePolicies: TypedTypePolicies = {
     MangaType: {

@@ -10,7 +10,7 @@ import type { QueuePriority } from '@/lib/Queue.ts';
 import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
-import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
 import type { RestClient } from '@/lib/requests/client/RestClient.ts';
 import { type AbortableRequest, createAbortController } from '@/lib/requests/AbortableRequest.ts';
 

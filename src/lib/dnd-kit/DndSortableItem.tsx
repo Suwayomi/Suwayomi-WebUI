@@ -11,7 +11,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import type { ReactNode } from 'react';
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { applyStyles } from '@/utils/base/ApplyStyles.ts';
 
 export const DndSortableItem = ({
     id,

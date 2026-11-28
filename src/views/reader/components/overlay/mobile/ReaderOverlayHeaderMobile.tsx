@@ -1,0 +1,155 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
+import Slide from '@mui/material/Slide';
+import type { Ref } from 'react';
+import { memo } from 'react';
+import { useLingui } from '@lingui/react/macro';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { TypographyMaxLines } from '@/views/base/components/texts/TypographyMaxLines.tsx';
+import type { MobileHeaderProps } from '@/models/reader/overlay/ReaderOverlay.types.ts';
+import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { ReaderLibraryButton } from '@/views/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
+import { ReaderBookmarkButton } from '@/views/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
+import { FALLBACK_CHAPTER } from '@/models/chapter/Chapter.constants.ts';
+import { FALLBACK_MANGA } from '@/models/manga/Manga.constants.ts';
+import { ReaderExitButton } from '@/views/reader/components/overlay/navigation/ReaderExitButton.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import {
+    useReaderChaptersStore,
+    useReaderScrollbarStore,
+    useReaderStore,
+} from '@/controllers/reader/stores/ReaderStore.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ShareGuard } from '@/views/base/components/guard/ShareGuard.tsx';
+
+const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
+
+const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & { ref?: Ref<HTMLDivElement> }) => {
+    const { t } = useLingui();
+    const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
+    const currentChapter = useReaderChaptersStore('currentChapter');
+
+    const manga = useReaderStore('manga');
+    const scrollbar = useReaderScrollbarStore((state) => state);
+
+    const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
+    const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;
+
+    return (
+        <Slide direction="down" in={isVisible} ref={ref}>
+            <Stack
+                sx={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: `${scrollbar.ySize}px`,
+                    p: 2,
+                    pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
+                    backgroundColor: (theme) => `rgba(${theme.palette.background.paperChannel} / 0.95)`,
+                    pointerEvents: 'all',
+                    boxShadow: 2,
+                }}
+            >
+                <ReaderExitButton />
+                <Stack sx={{ flexGrow: 1 }}>
+                    {manga && currentChapter ? (
+                        <>
+                            <CustomTooltip title={title}>
+                                <TypographyMaxLines lines={1} component="h1" variant="h5">
+                                    <Link
+                                        component={RouterLink}
+                                        to={AppRoutes.manga.path(mangaId)}
+                                        sx={{ textDecoration: 'none', color: 'inherit' }}
+                                    >
+                                        {title}
+                                    </Link>
+                                </TypographyMaxLines>
+                            </CustomTooltip>
+                            <CustomTooltip title={name}>
+                                <TypographyMaxLines lines={1}>{name}</TypographyMaxLines>
+                            </CustomTooltip>
+                        </>
+                    ) : (
+                        <LoadingPlaceholder />
+                    )}
+                </Stack>
+                <ReaderLibraryButton />
+                <ReaderBookmarkButton id={chapterId} isBookmarked={isBookmarked} />
+                <IconButton {...bindTrigger(popupState)} color="inherit">
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu {...bindMenu(popupState)}>
+                    <MenuItem
+                        component={Link}
+                        disabled={!realUrl}
+                        href={realUrl ?? ''}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        {t`Open in browser`}
+                    </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        disabled={!realUrl}
+                        href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        {t`Open in WebView`}
+                    </MenuItem>
+                    <ShareGuard>
+                        <MenuItem
+                            disabled={!realUrl}
+                            onClick={() => {
+                                navigator
+                                    .share({
+                                        title: `${title} — ${name}`,
+                                        text: name,
+                                        url: realUrl ?? undefined,
+                                    })
+                                    .catch(defaultPromiseErrorHandler('ReaderOverlayHeaderMobile::share'));
+                            }}
+                        >
+                            {t`Share`}
+                        </MenuItem>
+                    </ShareGuard>
+                    <ShareGuard>
+                        <MenuItem
+                            disabled={!realUrl}
+                            onClick={() => {
+                                navigator
+                                    .share({
+                                        title: `${title} — ${name}`,
+                                        text: name,
+                                        url: realUrl ?? undefined,
+                                    })
+                                    .catch(defaultPromiseErrorHandler('ReaderOverlayHeaderMobile::share'));
+                            }}
+                        >
+                            {t`Share`}
+                        </MenuItem>
+                    </ShareGuard>
+                </Menu>
+            </Stack>
+        </Slide>
+    );
+};
+
+export const ReaderOverlayHeaderMobile = memo(BaseReaderOverlayHeaderMobile);

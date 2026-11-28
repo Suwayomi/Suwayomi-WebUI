@@ -1,0 +1,81 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { GridLayout } from '@/models/base/Base.types.ts';
+import type { MangaDescriptionInfo, MangaIdInfo, MangaTitleInfo } from '@/models/manga/Manga.types.ts';
+import type { TrackerIdInfo } from '@/models/tracker/Tracker.types.ts';
+
+export type MetadataLibrarySettings = {
+    showAddToLibraryCategorySelectDialog: boolean;
+    ignoreFilters: boolean;
+    fuzzySearch: boolean;
+    removeMangaFromCategories: boolean;
+    showTabSize: boolean;
+    showContinueReadingButton: boolean;
+    showDownloadBadge: boolean;
+    showUnreadBadge: boolean;
+    gridLayout: GridLayout;
+    /** the notification permission is granted per browser, thus, this only takes effect where it was granted */
+    notifyNewChapters: boolean;
+    notifyNewChaptersLastNotifiedAt: number;
+};
+export type LibrarySortMode =
+    | 'unreadChapters'
+    | 'totalChapters'
+    | 'alphabetically'
+    | 'dateAdded'
+    | 'lastRead'
+    | 'latestFetchedChapter'
+    | 'latestUploadedChapter'
+    | 'random';
+
+export interface LibraryOptions {
+    // sort options
+    sortBy: NullAndUndefined<LibrarySortMode>;
+    sortDesc: NullAndUndefined<boolean>;
+
+    // filter options
+    hasDownloadedChapters: NullAndUndefined<boolean>;
+    hasBookmarkedChapters: NullAndUndefined<boolean>;
+    hasUnreadChapters: NullAndUndefined<boolean>;
+    hasReadChapters: NullAndUndefined<boolean>;
+    hasDuplicateChapters: NullAndUndefined<boolean>;
+    hasTrackerBinding: {
+        filters: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
+        mode: FilterMode;
+    };
+    hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
+    hasSource: Record<string, NullAndUndefined<boolean>>;
+}
+
+export type TMangaDuplicate = MangaIdInfo & MangaTitleInfo & MangaDescriptionInfo;
+
+export type TMangaDuplicates<Manga> = Record<string, Manga[]>;
+
+export type TMangaDuplicateResult<Manga> = { byTitle: Manga[]; byAlternativeTitle: Manga[] };
+
+export type LibraryDuplicatesWorkerInput<Manga extends TMangaDuplicate = TMangaDuplicate> = {
+    mangas: Manga[];
+    checkAlternativeTitles: boolean;
+};
+
+export type LibraryDuplicatesDescriptionWorkerInput<Manga extends TMangaDuplicate = TMangaDuplicate> = {
+    mangasToCheck: Manga[];
+    mangas: Manga[];
+};
+
+export type LibraryOptionsContextType = {
+    options: LibraryOptions;
+    setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
+};
+
+export enum FilterMode {
+    AND = 'AND',
+    OR = 'OR',
+}

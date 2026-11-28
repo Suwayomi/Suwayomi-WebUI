@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
+import type { IReaderSettingsWithDefaultFlag } from '@/models/reader/Reader.types.ts';
+import { ReadingDirection } from '@/models/reader/Reader.types.ts';
+import type { ValueToDisplayData } from '@/models/base/Base.types.ts';
+import { ButtonSelectInput } from '@/views/base/components/inputs/ButtonSelectInput.tsx';
+import type { SelectButtonDefaultableProps } from '@/views/base/components/buttons/SelectButton.tsx';
+
+const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
+    [ReadingDirection.LTR]: {
+        title: msg`Left to right`,
+        icon: <ArrowCircleRightIcon />,
+    },
+    [ReadingDirection.RTL]: {
+        title: msg`Right to left`,
+        icon: <ArrowCircleLeftIcon />,
+    },
+};
+
+const READING_DIRECTION_VALUES = Object.values(ReadingDirection).filter((value) => typeof value === 'number');
+
+export const ReaderSettingReadingDirection = ({
+    readingDirection,
+    setReadingDirection,
+    ...buttonSelectInputProps
+}: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+        setReadingDirection: (readingDirection: ReadingDirection) => void;
+    }) => {
+    const { t } = useLingui();
+
+    return (
+        <ButtonSelectInput
+            {...buttonSelectInputProps}
+            label={t`Reading direction`}
+            value={readingDirection.isDefault ? undefined : readingDirection.value}
+            defaultValue={readingDirection.isDefault ? readingDirection.value : undefined}
+            values={READING_DIRECTION_VALUES}
+            setValue={setReadingDirection}
+            valueToDisplayData={VALUE_TO_DISPLAY_DATA}
+        />
+    );
+};

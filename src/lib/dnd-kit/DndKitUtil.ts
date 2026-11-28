@@ -9,7 +9,7 @@
 import type { PointerSensorOptions, Sensor, SensorDescriptor, SensorOptions } from '@dnd-kit/core';
 import { MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import type { AbstractPointerSensorOptions, PointerActivationConstraint } from '@dnd-kit/core/dist/sensors';
-import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/utils/base/MediaQuery.tsx';
 
 export class DndKitUtil {
     static getSensorForDevice(): Sensor<PointerSensorOptions> {

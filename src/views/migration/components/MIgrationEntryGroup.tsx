@@ -1,0 +1,98 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { MigrationEntryStatus, TMigrationEntry } from '@/models/migration/Migration.types.ts';
+import type { ButtonProps } from '@mui/material/Button';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import Stack from '@mui/material/Stack';
+import type { ReactNode } from 'react';
+import { memo } from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { MigrationEntry } from '@/views/migration/components/migration-entry/MigrationEntry.tsx';
+import { MigrationManager } from '@/controllers/migration/services/MigrationManager.ts';
+import { OffsetComponentWithContainer } from '@/views/base/components/OffsetComponent.tsx';
+import { Virtuoso } from 'react-virtuoso';
+
+const VirtuosoListWrapper = memo(({ children, ...props }: { children?: ReactNode }) => (
+    <Stack {...props} sx={{ gap: 1 }}>
+        {children}
+    </Stack>
+));
+
+export const MigrationEntryGroup = memo(
+    ({
+        status,
+        title,
+        entries,
+        color,
+        isMigrating = false,
+        isAborted = false,
+    }: {
+        status: MigrationEntryStatus;
+        title: string;
+        entries: TMigrationEntry[];
+        color: ButtonProps['color'];
+        isMigrating?: boolean;
+        isAborted?: boolean;
+    }) => {
+        const isExpanded = MigrationManager.useGroupExpandState(status);
+
+        if (!entries.length) {
+            return null;
+        }
+
+        return (
+            <Stack sx={{ width: '100%', gap: 2 }}>
+                <OffsetComponentWithContainer
+                    wrapperComponent={Stack}
+                    sx={{ pt: 2, backgroundColor: 'background.default' }}
+                    component={
+                        <Button
+                            onClick={() => MigrationManager.setGroupExpandState(status, !isExpanded)}
+                            color={color}
+                            variant="outlined"
+                            startIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                            size="large"
+                            sx={{
+                                py: 2,
+                                justifyContent: 'center',
+                                '& .MuiButton-startIcon': {
+                                    position: 'absolute',
+                                    left: (theme) => theme.spacing(4),
+                                    margin: 0,
+                                },
+                            }}
+                        >
+                            {title}
+                        </Button>
+                    }
+                >
+                    <Collapse in={isExpanded}>
+                        <Virtuoso
+                            useWindowScroll
+                            totalCount={entries.length}
+                            components={{
+                                List: VirtuosoListWrapper,
+                            }}
+                            computeItemKey={(index) => entries[index].mangaId}
+                            itemContent={(index) => (
+                                <MigrationEntry
+                                    entry={entries[index]}
+                                    isMigrating={isMigrating}
+                                    isAborted={isAborted}
+                                />
+                            )}
+                        />
+                    </Collapse>
+                </OffsetComponentWithContainer>
+            </Stack>
+        );
+    },
+);

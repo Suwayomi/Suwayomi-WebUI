@@ -1,0 +1,178 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { memo, useCallback } from 'react';
+import type { SpinnerImageProps } from '@/views/base/components/SpinnerImage.tsx';
+import { SpinnerImage } from '@/views/base/components/SpinnerImage.tsx';
+import type { IReaderSettings, ReaderCustomFilter, ReaderPagerProps } from '@/models/reader/Reader.types.ts';
+import {
+    getImageMarginStyling,
+    getImagePlaceholderStyling,
+    getReaderImageStyling,
+} from '@/utils/reader/viewer/pager/ReaderPager.utils.tsx';
+import { applyCSS, applyStyles } from '@/utils/base/ApplyStyles.ts';
+import { MediaQuery } from '@/utils/base/MediaQuery.tsx';
+import type { NavbarContextType } from '@/models/navigation-bar/NavigationBar.types.ts';
+import { useReaderScrollbarStore, useReaderSettingsStore } from '@/controllers/reader/stores/ReaderStore.ts';
+import { ScrollDirection } from '@/models/base/Base.types.ts';
+import { getSafeAreaInsets } from '@/utils/reader/settings/ReaderSettings.utils.tsx';
+import { useReaderAutoCrop } from '@/controllers/reader/services/ReaderAutoCropService.ts';
+
+const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
+    Object.keys(customFilter)
+        .map((key) => {
+            const filter = key as keyof ReaderCustomFilter;
+            const value = customFilter[filter];
+
+            switch (filter) {
+                case 'brightness':
+                case 'contrast':
+                case 'saturate':
+                    return (value as ReaderCustomFilter['brightness' | 'contrast' | 'saturate']).enabled
+                        ? `${filter}(${(value as ReaderCustomFilter['brightness' | 'contrast' | 'saturate']).value / 100})`
+                        : '';
+                case 'hue':
+                    return (value as ReaderCustomFilter['hue']).enabled
+                        ? `hue-rotate(${(value as ReaderCustomFilter['brightness' | 'contrast' | 'saturate']).value}deg)`
+                        : '';
+                case 'rgba':
+                    return '';
+                case 'sepia':
+                case 'grayscale':
+                case 'invert':
+                    return value ? `${filter}(${Number(value)})` : '';
+                default:
+                    throw new Error(`Unexpected "CustomFilter" (${filter})`);
+            }
+        })
+        .join(' ');
+
+const BaseReaderPage = ({
+    pageIndex,
+    pagesIndex,
+    isPrimaryPage,
+    display,
+    doublePage = false,
+    position,
+    marginTop,
+    shouldLoad,
+    readingMode,
+    customFilter,
+    pageScaleMode,
+    shouldStretchPage,
+    readerWidth,
+    safeAreaInset,
+    onLoad,
+    onError,
+    setRef,
+    readerNavBarWidth,
+    isLoaded,
+    ...props
+}: Omit<
+    SpinnerImageProps,
+    'spinnerSx' | 'spinnerStyle' | 'imgSx' | 'hideImgSx' | 'hideImgStyle' | 'imgStyle' | 'onLoad' | 'onError'
+> &
+    Pick<
+        IReaderSettings,
+        'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'safeAreaInset'
+    > &
+    Pick<NavbarContextType, 'readerNavBarWidth'> & {
+        pageIndex: number;
+        pagesIndex: number;
+        isPrimaryPage: boolean;
+        display: boolean;
+        doublePage?: boolean;
+        position?: 'left' | 'right';
+        marginTop?: number;
+        onLoad: ReaderPagerProps['onLoad'];
+        onError: ReaderPagerProps['onError'];
+        setRef?: (pagesIndex: number, ref: HTMLElement | null) => void;
+        isLoaded?: boolean;
+    }) => {
+    const { src } = props;
+    const shouldCropBorders = useReaderSettingsStore((state) => state.shouldCropBorders.value);
+    const autoCroppedSrc = useReaderAutoCrop(src, Boolean(shouldCropBorders && (shouldLoad || isLoaded)));
+
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
+    const scrollbar = useReaderScrollbarStore((state) => state);
+
+    const handleLoad = useCallback(
+        () => onLoad?.(pagesIndex, src, isPrimaryPage),
+        [onLoad, pagesIndex, src, isPrimaryPage],
+    );
+    const handleError = useCallback(() => onError?.(pageIndex, src), [onError, pageIndex, src]);
+    const updateRef = useCallback((element: HTMLElement | null) => setRef?.(pagesIndex, element), [pagesIndex, setRef]);
+
+    if (!display && !shouldLoad) {
+        return null;
+    }
+
+    return (
+        <SpinnerImage
+            {...props}
+            src={autoCroppedSrc ?? src}
+            onLoad={handleLoad}
+            onError={handleError}
+            shouldLoad={shouldLoad}
+            shouldDecode
+            ref={updateRef}
+            spinnerSx={{
+                backgroundColor: 'background.paper',
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                ...getImageMarginStyling(doublePage, position),
+            }}
+            spinnerStyle={getImagePlaceholderStyling(
+                readingMode,
+                shouldStretchPage,
+                pageScaleMode,
+                readerWidth,
+                [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
+                [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
+                doublePage,
+                isTabletWidth,
+            )}
+            imgSx={{
+                objectFit: 'contain',
+                objectPosition: position,
+                userSelect: 'none',
+                ...getImageMarginStyling(doublePage, position),
+                display: 'block',
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                ...applyStyles(!isLoaded, {
+                    margin: 'unset',
+                }),
+            }}
+            imgStyle={{
+                ...getReaderImageStyling(
+                    readingMode,
+                    shouldStretchPage,
+                    pageScaleMode,
+                    doublePage,
+                    readerWidth,
+                    [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
+                    [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
+                ),
+                filter: getCustomFilterString(customFilter),
+                ...applyCSS(marginTop !== undefined, { marginTop: `${marginTop}px` }),
+            }}
+            hideImgSx={{
+                visibility: 'hidden',
+                minWidth: 0,
+                minHeight: 0,
+                width: 0,
+                height: 0,
+            }}
+        />
+    );
+};
+
+export const ReaderPage = memo(BaseReaderPage);

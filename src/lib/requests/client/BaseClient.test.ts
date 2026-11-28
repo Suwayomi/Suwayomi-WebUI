@@ -9,7 +9,7 @@
 import { beforeEach, expect, test } from 'bun:test';
 import { CombinedGraphQLErrors } from '@apollo/client';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
-import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
 
 const failRefreshWith = (error: unknown) =>
     (BaseClient as any).refreshAccessToken(() => ({ response: Promise.reject(error) }));

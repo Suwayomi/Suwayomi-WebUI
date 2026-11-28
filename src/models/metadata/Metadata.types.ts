@@ -1,0 +1,71 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { MetadataServerSettingKeys, SearchMetadataKeys } from '@/models/settings/Settings.types.ts';
+import type { MangaMetadataKeys } from '@/models/manga/Manga.types.ts';
+import type { SourceMetadataKeys } from '@/models/source/Source.types.ts';
+import type { CategoryMetadataKeys } from '@/models/category/Category.types.ts';
+import type { MetaType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { IReaderSettings } from '@/models/reader/Reader.types.ts';
+
+export interface IMetadataMigration {
+    appKeyPrefix?: { oldPrefix: string; newPrefix: string };
+    values?: {
+        /**
+         * In case the migration should only be applied to a specific metadata key.
+         * Otherwise, all metadata keys will get migrated.
+         */
+        key?: string;
+        oldValue: string | RegExp | undefined;
+        newValue: string | ((oldValue: string, key: string, oldMetadata: Metadata) => string);
+    }[];
+    keys?: { oldKey: string; newKey: string }[];
+    deleteKeys?: string[];
+}
+
+export type Metadata<Keys extends string = string, Values = string> = {
+    [key in Keys]: Values;
+};
+
+export type GqlMetaHolder = { meta?: MetaType[] };
+
+export type MetadataHolder<Keys extends string = string, Values = string> = {
+    meta?: Metadata<Keys, Values>;
+};
+
+export type AllowedMetadataValueTypes = string | boolean | number | undefined | null;
+
+interface MetadataAppliedMigration {
+    migration: number;
+}
+
+export type AppMetadataKeys =
+    | keyof MetadataAppliedMigration
+    | MetadataServerSettingKeys
+    | MangaMetadataKeys
+    | keyof IReaderSettings
+    | SearchMetadataKeys
+    | SourceMetadataKeys
+    | CategoryMetadataKeys;
+
+export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
+
+export type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | 'source';
+
+export type MetadataBulkParams<
+    ItemKey extends string,
+    Item extends object,
+    // biome-ignore lint/suspicious/noShadow: kept as before the Biome migration
+    Metadata extends object,
+> = {
+    [key in ItemKey]: (Item & GqlMetaHolder)[];
+} & (
+    | { update: KeyValuePairs<Metadata>[]; delete: (keyof Metadata)[] }
+    | { update: KeyValuePairs<Metadata>[]; delete?: never }
+    | { update?: never; delete: (keyof Metadata)[] }
+);

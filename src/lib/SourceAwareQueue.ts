@@ -7,7 +7,7 @@
  */
 
 import { Queue, type QueuePriority } from '@/lib/Queue';
-import { Sources } from '@/features/source/services/Sources.ts';
+import { Sources } from '@/controllers/source/services/Sources.ts';
 
 export class SourceAwareQueue {
     private static readonly DEFAULT_ID = '__global__';

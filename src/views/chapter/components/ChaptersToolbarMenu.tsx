@@ -1,0 +1,108 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import FilterList from '@mui/icons-material/FilterList';
+import IconButton from '@mui/material/IconButton';
+import * as React from 'react';
+import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
+import Menu from '@mui/material/Menu';
+import DownloadIcon from '@mui/icons-material/Download';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { useMemo } from 'react';
+import { useLingui } from '@lingui/react/macro';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { ChapterOptions } from '@/views/chapter/components/ChapterOptions.tsx';
+import type { updateChapterListOptions } from '@/utils/chapter/ChapterList.util.tsx';
+import { isFilterActive } from '@/utils/chapter/ChapterList.util.tsx';
+import type {
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterListOptions,
+    ChapterReadInfo,
+} from '@/models/chapter/Chapter.types.ts';
+import { ChaptersDownloadActionMenuItems } from '@/views/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
+import { Chapters } from '@/controllers/chapter/services/Chapters.ts';
+
+interface IProps {
+    mangaId: number;
+    options: ChapterListOptions;
+    updateOption: ReturnType<typeof updateChapterListOptions>;
+    chapters: (ChapterIdInfo & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[];
+    scanlators: string[];
+    excludeScanlators: string[];
+}
+
+export const ChaptersToolbarMenu = ({
+    mangaId,
+    options,
+    updateOption,
+    chapters,
+    scanlators,
+    excludeScanlators,
+}: IProps) => {
+    const { t } = useLingui();
+
+    const [open, setOpen] = React.useState(false);
+    const isFiltered = isFilterActive(options);
+
+    const areAllChaptersRead = useMemo(() => chapters.every(Chapters.isRead), [chapters]);
+    const areAllChaptersDownloaded = useMemo(() => chapters.every(Chapters.isDownloaded), [chapters]);
+
+    return (
+        <>
+            <CustomTooltip title={t`Mark all as read`} disabled={areAllChaptersRead}>
+                <IconButton
+                    disabled={areAllChaptersRead}
+                    onClick={() =>
+                        Chapters.markAsRead(Chapters.getNonRead(chapters), {
+                            wasManuallyMarkedAsRead: true,
+                            trackProgressMangaId: mangaId,
+                        })
+                    }
+                    color="inherit"
+                >
+                    <DoneAllIcon />
+                </IconButton>
+            </CustomTooltip>
+            <PopupState variant="popover" popupId="chapterlist-download-button">
+                {(popupState) => (
+                    <>
+                        <CustomTooltip title={t`Download`} disabled={areAllChaptersRead}>
+                            <IconButton
+                                disabled={areAllChaptersDownloaded}
+                                {...bindTrigger(popupState)}
+                                color="inherit"
+                            >
+                                <DownloadIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                        {popupState.isOpen && (
+                            <Menu {...bindMenu(popupState)}>
+                                <ChaptersDownloadActionMenuItems mangaIds={[mangaId]} closeMenu={popupState.close} />
+                            </Menu>
+                        )}
+                    </>
+                )}
+            </PopupState>
+            <CustomTooltip title={t`Filter and sort`}>
+                <IconButton onClick={() => setOpen(true)} color="inherit">
+                    <FilterList color={isFiltered ? 'warning' : undefined} />
+                </IconButton>
+            </CustomTooltip>
+            <ChapterOptions
+                open={open}
+                onClose={() => setOpen(false)}
+                options={options}
+                updateOption={updateOption}
+                scanlators={scanlators}
+                excludedScanlators={excludeScanlators}
+            />
+        </>
+    );
+};

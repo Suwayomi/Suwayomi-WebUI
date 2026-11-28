@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { useLingui } from '@lingui/react/macro';
+import type { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/models/reader/Reader.types.ts';
+import {
+    READING_MODE_VALUE_TO_DISPLAY_DATA,
+    READING_MODE_VALUES,
+} from '@/models/reader/settings/ReaderSettings.constants.tsx';
+
+import type { SelectButtonDefaultableProps } from '@/views/base/components/buttons/SelectButton.tsx';
+import { SelectButton } from '@/views/base/components/buttons/SelectButton.tsx';
+
+export const ReaderNavBarDesktopReadingMode = ({
+    readingMode,
+    setReadingMode,
+    ...buttonSelectInputProps
+}: Pick<IReaderSettingsWithDefaultFlag, 'readingMode'> &
+    Pick<SelectButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
+        setReadingMode: (mode: ReadingMode) => void;
+    }) => {
+    const { t } = useLingui();
+
+    return (
+        <SelectButton
+            {...buttonSelectInputProps}
+            tooltip={t`Reading mode`}
+            value={readingMode.isDefault ? undefined : readingMode.value}
+            defaultValue={readingMode.isDefault ? readingMode.value : undefined}
+            values={READING_MODE_VALUES}
+            setValue={setReadingMode}
+            valueToDisplayData={READING_MODE_VALUE_TO_DISPLAY_DATA}
+            defaultIcon={READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].icon}
+            isCollapsible
+        />
+    );
+};

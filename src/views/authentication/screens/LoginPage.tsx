@@ -1,0 +1,141 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { useEffect, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+import { StringParam, useQueryParam } from 'use-query-params';
+import { useLingui } from '@lingui/react/macro';
+import { PasswordTextField } from '@/views/base/components/inputs/PasswordTextField.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { useNavBarContext } from '@/contexts/navigation-bar/NavbarContext.tsx';
+import { SearchParam } from '@/models/base/Base.types.ts';
+import { SplashScreen } from '@/views/authentication/components/SplashScreen.tsx';
+import { ServerAddressSetting } from '@/views/settings/components/ServerAddressSetting.tsx';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+export const LoginPage = ({ redirect = true }: { redirect?: boolean }) => {
+    const theme = useTheme();
+    const { t } = useLingui();
+    const { setOverride } = useNavBarContext();
+    const navigate = useNavigate();
+    const isAuthenticated = AuthManager.useIsAuthenticated();
+
+    const [redirectTarget] = useQueryParam(SearchParam.REDIRECT, StringParam);
+    const [loginUser, { loading: isLoading }] = requestManager.useLoginUser();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const doLogin = async () => {
+        try {
+            const { data } = await loginUser({ variables: { username, password } });
+
+            if (data) {
+                AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
+                requestManager.processQueues();
+                if (redirect) {
+                    navigate(redirectTarget ?? AppRoutes.root.path);
+                }
+            }
+        } catch (e) {
+            Notifications.error(t`Could not log in to Suwayomi`, getErrorMessage(e));
+        }
+    };
+
+    useEffect(() => {
+        setOverride({ status: true, value: null });
+
+        return () => setOverride({ status: false, value: null });
+    }, []);
+
+    if (isAuthenticated) {
+        return <Navigate to={AppRoutes.root.path} replace />;
+    }
+
+    return (
+        <Stack
+            sx={{
+                [theme.breakpoints.up('lg')]: {
+                    flexDirection: 'row',
+                },
+            }}
+        >
+            <SplashScreen
+                slots={{
+                    stackProps: {
+                        sx: {
+                            position: 'unset',
+                            minWidth: 'auto',
+                            minHeight: '50dvh',
+                            flexBasis: '60%',
+                            p: 4,
+                            [theme.breakpoints.up('lg')]: {
+                                minHeight: '0dvh',
+                                height: '100dvh',
+                            },
+                        },
+                    },
+                    serverAddressProps: {
+                        sx: {
+                            display: 'none',
+                        },
+                    },
+                }}
+            />
+            <Stack
+                sx={{
+                    position: 'relative',
+                    minHeight: '50dvh',
+                    flexBasis: '40%',
+                    p: 4,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    [theme.breakpoints.up('lg')]: {
+                        minHeight: '0dvh',
+                        height: '100dvh',
+                    },
+                }}
+            >
+                <Stack sx={{ maxWidth: 300, gap: 2 }}>
+                    <Stack>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="username"
+                            name="username"
+                            label={t`Username`}
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <PasswordTextField
+                            margin="dense"
+                            fullWidth
+                            variant="standard"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Stack>
+                    <Button disabled={isLoading || (!username && !password)} variant="contained" onClick={doLogin}>
+                        {t`Log in`}
+                    </Button>
+                    <Stack sx={{ position: 'absolute', left: 0, bottom: 0 }}>
+                        <ServerAddressSetting />
+                    </Stack>
+                </Stack>
+            </Stack>
+        </Stack>
+    );
+};

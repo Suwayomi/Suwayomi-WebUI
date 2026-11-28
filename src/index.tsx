@@ -9,7 +9,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '@/base/AppSession.ts';
+import '@/controllers/base/services/AppSession.ts';
 import '@/index.css';
 import '@/polyfill.manual';
 import { initializeLocalization } from '@/i18n';

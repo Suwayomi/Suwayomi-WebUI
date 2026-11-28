@@ -1,0 +1,112 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { MediaQuery } from '@/utils/base/MediaQuery.tsx';
+import { MigrationEntryStatus } from '@/models/migration/Migration.types.ts';
+import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
+import Box from '@mui/material/Box';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import type { ReactNode } from 'react';
+import type { Theme } from '@mui/material/styles';
+import type { SystemCssProperties } from '@mui/system/styleFunctionSx';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import CheckIcon from '@mui/icons-material/Check';
+import { useGetOptionForDirection } from '@/controllers/theme/services/ThemeCreator.ts';
+
+const StatusIndicatorWrapper = ({
+    backgroundColor,
+    statusIcon,
+}: {
+    backgroundColor: SystemCssProperties<Theme>['backgroundColor'];
+    statusIcon: ReactNode;
+}) => {
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
+
+    return (
+        <Box
+            sx={{
+                display: 'inline-flex',
+                backgroundColor,
+                p: isTabletWidth ? 0 : 0.5,
+                m: 0,
+                borderRadius: isTabletWidth ? 100 : 2,
+            }}
+        >
+            {statusIcon}
+        </Box>
+    );
+};
+export const MigrationEntryStatusIndicator = ({
+    status,
+    hasResults,
+}: {
+    status: MigrationEntryStatus;
+    hasResults: boolean;
+}) => {
+    const isTabletWidth = MediaQuery.useIsTabletWidth();
+    const getOptionForDirection = useGetOptionForDirection();
+
+    const ArrowIcon = getOptionForDirection(ArrowForwardIcon, ArrowBackIcon);
+
+    if ([MigrationEntryStatus.SEARCHING, MigrationEntryStatus.MIGRATING].includes(status)) {
+        return <LoadingPlaceholder size={isTabletWidth ? 22 : 32} />;
+    }
+
+    if ([MigrationEntryStatus.SEARCH_FAILED, MigrationEntryStatus.MIGRATION_FAILED].includes(status)) {
+        return (
+            <StatusIndicatorWrapper
+                backgroundColor={(theme) => theme.vars.palette.error.main}
+                statusIcon={
+                    <PriorityHighIcon
+                        fontSize={isTabletWidth ? undefined : 'large'}
+                        sx={{ color: 'error.contrastText' }}
+                    />
+                }
+            />
+        );
+    }
+
+    if (status === MigrationEntryStatus.SEARCH_NO_MATCH) {
+        return (
+            <StatusIndicatorWrapper
+                backgroundColor={(theme) => theme.vars.palette.warning.main}
+                statusIcon={
+                    <PriorityHighIcon
+                        fontSize={isTabletWidth ? undefined : 'large'}
+                        sx={{ color: 'warning.contrastText' }}
+                    />
+                }
+            />
+        );
+    }
+
+    if (status === MigrationEntryStatus.MIGRATION_COMPLETE) {
+        return (
+            <StatusIndicatorWrapper
+                backgroundColor="primary.dark"
+                statusIcon={
+                    <CheckIcon fontSize={isTabletWidth ? undefined : 'large'} sx={{ color: 'primary.contrastText' }} />
+                }
+            />
+        );
+    }
+
+    if (hasResults) {
+        return (
+            <StatusIndicatorWrapper
+                backgroundColor="primary.dark"
+                statusIcon={
+                    <ArrowIcon fontSize={isTabletWidth ? undefined : 'large'} sx={{ color: 'primary.contrastText' }} />
+                }
+            />
+        );
+    }
+
+    return null;
+};

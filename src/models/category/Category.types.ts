@@ -1,0 +1,21 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { LibraryOptions } from '@/models/library/Library.types.ts';
+import type { CategoryMetaType, CategoryType } from '@/lib/graphql/generated/graphql-base.types.ts';
+
+export type ICategoryMetadata = LibraryOptions;
+
+export type CategoryMetadataKeys = keyof ICategoryMetadata;
+
+export type CategoryIdInfo = Pick<CategoryType, 'id'>;
+export type CategoryNameInfo = Pick<CategoryType, 'name'>;
+export type CategoryDefaultInfo = Pick<CategoryType, 'default' | 'isDefaultCategory'>;
+export type CategoryUpdateInclusionInfo = Pick<CategoryType, 'includeInUpdate'>;
+export type CategoryDownloadInclusionInfo = Pick<CategoryType, 'includeInDownload'>;
+export type CategoryMetadataInfo = CategoryIdInfo & { meta: Pick<CategoryMetaType, 'key' | 'value'>[] };

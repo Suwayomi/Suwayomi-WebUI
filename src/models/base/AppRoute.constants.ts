@@ -1,0 +1,248 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { MangaIdInfo } from '@/models/manga/Manga.types.ts';
+
+import type { ChapterSourceOrderInfo } from '@/models/chapter/Chapter.types.ts';
+import type { BrowseTab } from '@/models/browse/Browse.types.ts';
+import { SearchParam } from '@/models/base/Base.types.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
+import type { RouteStateSourceBrowse, SourceIdInfo } from '@/models/source/Source.types.ts';
+import type { RouteStateReader } from '@/models/reader/Reader.types.ts';
+import type { RouteStateSourcesSearchAll } from '@/models/global-search/SearchAll.types.ts';
+
+type AppRouteInfo = {
+    match: string;
+    path?: string | ((...args: any[]) => string);
+    state?: (...args: any[]) => Record<string, unknown>;
+};
+
+type TAppRoutes = Record<string, AppRouteInfo & { children?: TAppRoutes }>;
+
+export const AppRoutes = {
+    root: {
+        match: '/',
+        path: '/',
+    },
+    matchAll: {
+        match: '*',
+    },
+    authentication: {
+        match: 'auth',
+        path: '/auth',
+        children: {
+            login: {
+                match: 'login',
+                path: '/auth/login',
+            },
+        },
+    },
+    about: {
+        match: 'about',
+        path: '/about',
+    },
+    settings: {
+        match: 'settings',
+        path: '/settings',
+        children: {
+            categories: {
+                match: 'categories',
+                path: '/settings/categories',
+            },
+            reader: {
+                match: 'reader',
+                path: '/settings/reader',
+            },
+            library: {
+                match: 'library',
+                path: '/settings/library',
+
+                children: {
+                    duplicates: {
+                        match: 'duplicates',
+                        path: '/settings/library/duplicates',
+                    },
+                },
+            },
+            download: {
+                match: 'download',
+                path: '/settings/download',
+                children: {
+                    // TODO: deprecated - got moved to "settings/images/processing/downloads"
+                    conversions: {
+                        match: 'conversions',
+                        path: '/settings/download/conversions',
+                    },
+                },
+            },
+            images: {
+                match: 'images',
+                path: '/settings/images',
+                children: {
+                    processingDownloads: {
+                        match: 'processing/downloads',
+                        path: '/settings/images/processing/downloads',
+                    },
+                    processingServe: {
+                        match: 'processing/serve',
+                        path: '/settings/images/processing/serve',
+                    },
+                },
+            },
+            backup: {
+                match: 'backup',
+                path: '/settings/backup',
+            },
+            server: {
+                match: 'server',
+                path: '/settings/server',
+            },
+            webui: {
+                match: 'webui',
+                path: '/settings/webui',
+            },
+            browse: {
+                match: 'browse',
+                path: '/settings/browse',
+                children: {
+                    extensionStores: {
+                        match: 'extension-stores',
+                        path: '/settings/browse/extension-stores',
+                    },
+                },
+            },
+            device: {
+                match: 'device',
+                path: '/settings/device',
+            },
+            tracking: {
+                match: 'tracking',
+                path: '/settings/tracking',
+            },
+            appearance: {
+                match: 'appearance',
+                path: '/settings/appearance',
+            },
+            history: {
+                match: 'history',
+                path: '/settings/history',
+            },
+        },
+    },
+    sources: {
+        match: 'sources',
+        path: '/sources',
+        children: {
+            browse: {
+                match: ':sourceId',
+                path: (sourceId: SourceIdInfo['id'], query?: string | null | undefined) =>
+                    UrlUtil.addQueryParam(`/sources/${sourceId}`, query),
+                state: (state: RouteStateSourceBrowse) => ({
+                    ...state,
+                }),
+            },
+            configure: {
+                match: ':sourceId/configure',
+                path: (sourceId: SourceIdInfo['id']) => `/sources/${sourceId}/configure`,
+            },
+            searchAll: {
+                match: 'all/search',
+                path: (query?: string | null | undefined) => UrlUtil.addQueryParam('/sources/all/search', query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
+            },
+        },
+    },
+    extension: {
+        match: 'extension',
+        path: '/extension',
+        children: {
+            info: {
+                match: ':pkgName',
+                path: (pkgName: string) => `/extension/${pkgName}`,
+            },
+        },
+    },
+    downloads: {
+        match: 'downloads',
+        path: '/downloads',
+    },
+    manga: {
+        match: 'manga/:id',
+        path: (mangaId: MangaIdInfo['id']) => `/manga/${mangaId}`,
+        children: {
+            reader: {
+                match: 'chapter/:chapterNum',
+                path: (mangaId: MangaIdInfo['id'], chapterNum: ChapterSourceOrderInfo['sourceOrder']) =>
+                    `/manga/${mangaId}/chapter/${chapterNum}`,
+            },
+        },
+    },
+    library: {
+        match: 'library',
+        path: (tab?: string, search?: string) =>
+            UrlUtil.addParams('/library', {
+                ...UrlUtil.createTabParam(tab),
+                ...UrlUtil.createQueryParam(search),
+            }),
+    },
+    updates: {
+        match: 'updates',
+        path: '/updates',
+    },
+    history: {
+        match: 'history',
+        path: '/history',
+    },
+    recent: {
+        match: 'recent',
+        path: '/recent',
+    },
+    browse: {
+        match: 'browse',
+        path: (tab?: BrowseTab) =>
+            UrlUtil.addParams('/browse', {
+                [SearchParam.TAB]: tab,
+            }),
+    },
+    migrate: {
+        match: 'migrate/*',
+        path: '/migrate',
+        children: {
+            manualSearch: {
+                match: 'manual-search/:mangaId',
+                path: (mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+                    UrlUtil.addQueryParam(`/migrate/manual-search/${mangaId}`, query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
+            },
+        },
+    },
+    tracker: {
+        match: 'tracker/login/oauth',
+        path: '/tracker/login/oauth',
+    },
+    reader: {
+        match: '/manga/:mangaId/chapter/:chapterSourceOrder/*',
+        path: (mangaId: MangaIdInfo['id'], chapterSourceOrder: ChapterSourceOrderInfo['sourceOrder']) =>
+            `/manga/${mangaId}/chapter/${chapterSourceOrder}`,
+        state: (state: RouteStateReader) => ({ ...state }),
+    },
+    more: {
+        match: '/more',
+        path: '/more',
+    },
+} as const satisfies TAppRoutes;
+
+type ExtractChildRouteStringPaths<T> = T extends { children: infer U } ? ExtractStringPaths<U[keyof U]> : never;
+
+type ExtractStringPaths<T> = T extends { path: infer P }
+    ? P extends string
+        ? P | ExtractChildRouteStringPaths<T>
+        : ExtractChildRouteStringPaths<T>
+    : ExtractChildRouteStringPaths<T>;
+
+export type StaticAppRoute = ExtractStringPaths<(typeof AppRoutes)[keyof typeof AppRoutes]>;

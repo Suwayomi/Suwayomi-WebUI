@@ -13,7 +13,7 @@ import { d } from 'koration';
 import type { CustomCache } from '@/lib/storage/CustomCache.ts';
 import type { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { Sources } from '@/features/source/services/Sources.ts';
+import { Sources } from '@/controllers/source/services/Sources.ts';
 import type {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,

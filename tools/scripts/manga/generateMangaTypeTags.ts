@@ -10,7 +10,7 @@ import path from 'path';
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 
-const OUTPUT_FILE_PATH = 'src/features/manga/Manga.constants.ts';
+const OUTPUT_FILE_PATH = 'src/models/manga/Manga.constants.ts';
 const outputFilePath = path.join(import.meta.dirname, `../../../${OUTPUT_FILE_PATH}`);
 const localesDirPath = path.join(import.meta.dirname, '../../../src/i18n/locales');
 

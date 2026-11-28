@@ -7,7 +7,7 @@
  */
 
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
-import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { AuthManager } from '@/controllers/authentication/services/AuthManager.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 

@@ -1,0 +1,51 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Refresh from '@mui/icons-material/Refresh';
+import IconButton from '@mui/material/IconButton';
+import { useLingui } from '@lingui/react/macro';
+import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { Chapters } from '@/controllers/chapter/services/Chapters.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import type { ChapterIdInfo } from '@/models/chapter/Chapter.types.ts';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+export const ChapterDownloadRetryButton = ({ chapterId }: { chapterId: ChapterIdInfo['id'] }) => {
+    const { t } = useLingui();
+    const download = Chapters.useDownloadStatusFromCache(chapterId);
+
+    const handleRetry = async () => {
+        try {
+            await requestManager.addChapterToDownloadQueue(chapterId).response;
+        } catch (e) {
+            Notifications.error(t`Could not retry failed download.`, getErrorMessage(e));
+        }
+    };
+
+    if (download?.state !== DownloadState.Error) {
+        return null;
+    }
+
+    return (
+        <CustomTooltip title={t`Retry`}>
+            <IconButton
+                {...MUIUtil.preventRippleProp()}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleRetry();
+                }}
+            >
+                <Refresh />
+            </IconButton>
+        </CustomTooltip>
+    );
+};

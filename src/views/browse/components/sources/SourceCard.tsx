@@ -1,0 +1,137 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import CardActionArea from '@mui/material/CardActionArea';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import type React from 'react';
+import { Link } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
+import PushPinIcon from '@mui/icons-material/PushPin';
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import IconButton from '@mui/material/IconButton';
+import { useLingui } from '@lingui/react/macro';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { Sources } from '@/controllers/source/services/Sources.ts';
+import { ListCardAvatar } from '@/views/base/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/views/base/components/lists/cards/ListCardContent.tsx';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/controllers/source/services/SourceMetadata.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { languageCodeToName } from '@/utils/base/Languages.ts';
+import { SourceContentType } from '@/models/source/Source.types.ts';
+import { isNsfw } from '@/utils/extension/Extensions.utils.ts';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+interface IProps {
+    source: GetSourcesListQuery['sources']['nodes'][number];
+    showSourceRepo: boolean;
+    showLanguage: boolean;
+}
+
+export const SourceCard: React.FC<IProps> = (props: IProps) => {
+    const { t } = useLingui();
+
+    const { source, showSourceRepo, showLanguage } = props;
+    const {
+        id,
+        name,
+        lang,
+        iconUrl,
+        supportsLatest,
+        contentWarning,
+        extension: { extensionStore },
+    } = source;
+
+    const { isPinned } = useGetSourceMetadata(source);
+
+    const sourceName = Sources.isLocalSource(source) ? t`Local source` : name;
+
+    const updateSetting = createUpdateSourceMetadata(source, (e) =>
+        Notifications.error(t`Failed to save changes`, getErrorMessage(e)),
+    );
+
+    return (
+        <Card>
+            <CardActionArea
+                component={Link}
+                to={AppRoutes.sources.children.browse.path(id)}
+                state={AppRoutes.sources.children.browse.state({
+                    contentType: SourceContentType.POPULAR,
+                    clearCache: true,
+                })}
+            >
+                <ListCardContent>
+                    <ListCardAvatar
+                        iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
+                        alt={sourceName}
+                        slots={{
+                            spinnerImageProps: {
+                                ignoreQueue: true,
+                            },
+                        }}
+                    />
+                    <Stack
+                        sx={{
+                            justifyContent: 'center',
+                            flexGrow: 1,
+                            flexShrink: 1,
+                            wordBreak: 'break-word',
+                        }}
+                    >
+                        <Typography variant="h6" component="h3">
+                            {sourceName}
+                        </Typography>
+                        <Typography variant="caption">
+                            {showLanguage && languageCodeToName(lang)}
+                            {isNsfw(contentWarning) && (
+                                <Typography variant="caption" color="error">
+                                    {/** biome-ignore lint/style/useConsistentCurlyBraces: kept as before the Biome migration */}
+                                    {' 18+'}
+                                </Typography>
+                            )}
+                        </Typography>
+                        {showSourceRepo && extensionStore && (
+                            <Typography variant="caption">{extensionStore.name}</Typography>
+                        )}
+                    </Stack>
+                    {supportsLatest && (
+                        <Button
+                            {...MUIUtil.preventRippleProp()}
+                            variant="outlined"
+                            component={Link}
+                            to={AppRoutes.sources.children.browse.path(id)}
+                            state={AppRoutes.sources.children.browse.state({
+                                contentType: SourceContentType.LATEST,
+                                clearCache: true,
+                            })}
+                        >
+                            {t`Latest`}
+                        </Button>
+                    )}
+                    <CustomTooltip title={isPinned ? t`Unpin source` : t`Pin source`}>
+                        <IconButton
+                            {...MUIUtil.preventRippleProp()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateSetting('isPinned', !isPinned);
+                            }}
+                            color={isPinned ? 'primary' : 'inherit'}
+                        >
+                            {isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />}
+                        </IconButton>
+                    </CustomTooltip>
+                </ListCardContent>
+            </CardActionArea>
+        </Card>
+    );
+};

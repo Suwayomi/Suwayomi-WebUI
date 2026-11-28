@@ -1,0 +1,69 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { Mangas } from '@/controllers/manga/services/Mangas.ts';
+import type { MangaIdInfo, MangaThumbnailInfo, MangaTitleInfo } from '@/models/manga/Manga.types.ts';
+import { ListCardAvatar } from '@/views/base/components/lists/cards/ListCardAvatar.tsx';
+import type { ComponentProps } from 'react';
+import merge from 'lodash/fp/merge';
+
+export const ChapterCardThumbnail = ({
+    mangaId,
+    mangaTitle,
+    thumbnailUrl,
+    thumbnailUrlLastFetched,
+    isGroup,
+    slots,
+}: MangaThumbnailInfo & {
+    mangaId: MangaIdInfo['id'];
+    mangaTitle: MangaTitleInfo['title'];
+    isGroup?: boolean;
+    slots?: {
+        listCardAvatar?: Omit<ComponentProps<typeof ListCardAvatar>, 'alt' | 'iconUrl'>;
+    };
+}) => (
+    <Link
+        to={AppRoutes.manga.path(mangaId)}
+        style={{ textDecoration: 'none' }}
+        onClick={(e) => {
+            e.stopPropagation();
+        }}
+    >
+        <ListCardAvatar
+            iconUrl={Mangas.getThumbnailUrl({ thumbnailUrl, thumbnailUrlLastFetched })}
+            alt={mangaTitle}
+            slots={merge(
+                {
+                    spinnerImageProps: { imgStyle: { imageRendering: 'pixelated' } },
+                    ...(isGroup
+                        ? {
+                              spinnerImageProps: {
+                                  spinnerStyle: {
+                                      height: 74,
+                                      aspectRatio: '3 / 4',
+                                  },
+                                  imgStyle: {
+                                      height: 74,
+                                      aspectRatio: '3 / 4',
+                                  },
+                              },
+                              avatarProps: {
+                                  sx: {
+                                      height: 74,
+                                  },
+                              },
+                          }
+                        : {}),
+                },
+                slots?.listCardAvatar?.slots,
+            )}
+        />
+    </Link>
+);

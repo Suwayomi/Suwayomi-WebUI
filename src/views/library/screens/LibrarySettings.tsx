@@ -1,0 +1,278 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Switch from '@mui/material/Switch';
+import Link from '@mui/material/Link';
+import { useState } from 'react';
+import { ListSubheader } from '@/views/base/components/lists/ListSubheader.tsx';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { plural, t as translate } from '@lingui/core/macro';
+import { GlobalUpdateSettings } from '@/views/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { Mangas } from '@/controllers/manga/services/Mangas.ts';
+import { EmptyViewAbsoluteCentered } from '@/views/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
+import { ListItemLink } from '@/views/base/components/lists/ListItemLink.tsx';
+import type {
+    GetCategoriesSettingsQuery,
+    GetCategoriesSettingsQueryVariables,
+    GetMangasBaseQuery,
+    GetMangasBaseQueryVariables,
+} from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/category/CategoryQuery.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
+import type { MetadataLibrarySettings } from '@/models/library/Library.types.ts';
+import { AppRoutes } from '@/models/base/AppRoute.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useAppTitle } from '@/controllers/navigation-bar/hooks/useAppTitle.ts';
+import { DeviceNotifications } from '@/lib/DeviceNotifications.ts';
+import { LibraryUpdateNotifier } from '@/controllers/updates/services/LibraryUpdateNotifier.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/controllers/settings/services/ServerSettingsMetadata.ts';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
+    try {
+        const nonLibraryMangas = await requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>(
+            GET_MANGAS_BASE,
+            {
+                filter: { inLibrary: { equalTo: false }, categoryId: { isNull: false } },
+            },
+            { fetchPolicy: 'no-cache' },
+        ).response;
+
+        if (!nonLibraryMangas.data) {
+            return;
+        }
+
+        const mangaIdsToRemove = Mangas.getIds(nonLibraryMangas.data.mangas.nodes);
+
+        if (mangaIdsToRemove.length) {
+            await requestManager.updateMangasCategories(mangaIdsToRemove, {
+                clearCategories: true,
+            }).response;
+        }
+        Notifications.success(translate`Removed non library manga from categories`);
+    } catch (e) {
+        Notifications.error(translate`Could not remove non library manga from categories`, getErrorMessage(e));
+    }
+};
+
+const setNotifyNewChapters = async (enable: boolean) => {
+    if (!enable) {
+        await LibraryUpdateNotifier.disable();
+        return;
+    }
+
+    // without the permission, updates still get shown while Suwayomi is in use
+    await DeviceNotifications.requestPermission();
+    await LibraryUpdateNotifier.enable();
+};
+
+export function LibrarySettings() {
+    const { t } = useLingui();
+
+    const [notificationPermission, setNotificationPermission] = useState(DeviceNotifications.getPermission());
+
+    useAppTitle(t`Library`);
+
+    const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
+        GET_CATEGORIES_SETTINGS,
+    );
+    const serverSettings = requestManager.useGetServerSettings();
+    const {
+        settings,
+        loading: areMetadataServerSettingsLoading,
+        request: { error: metadataServerSettingsError, refetch: refetchMetadataServerSettings },
+    } = useMetadataServerSettings();
+
+    const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
+        Notifications.error(t`Could not save the default search settings to the server`, getErrorMessage(e)),
+    );
+
+    // -1 for the DEFAULT category
+    const categoryCount = (categories.data?.categories.nodes.length ?? 1) - 1;
+
+    const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    const error = serverSettings.error ?? metadataServerSettingsError ?? categories.error;
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t`Unable to load data`}
+                messageExtra={getErrorMessage(error)}
+                retry={() => {
+                    if (serverSettings.error) {
+                        serverSettings
+                            ?.refetch()
+                            .catch(defaultPromiseErrorHandler('LibrarySettings::refetchServerSettings'));
+                    }
+
+                    if (metadataServerSettingsError) {
+                        refetchMetadataServerSettings().catch(
+                            defaultPromiseErrorHandler('LibrarySettings::refetchMetadataServerSettings'),
+                        );
+                    }
+
+                    if (categories.error) {
+                        categories.refetch().catch(defaultPromiseErrorHandler('LibrarySettings::refetchCategories'));
+                    }
+                }}
+            />
+        );
+    }
+
+    return (
+        <List sx={{ pt: 0 }}>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-category-settings">
+                        {t`Categories`}
+                    </ListSubheader>
+                }
+            >
+                <ListItemLink to={AppRoutes.settings.children.categories.path}>
+                    <ListItemText
+                        primary={t`Edit categories`}
+                        secondary={plural(categoryCount, {
+                            one: '# category',
+                            other: '# categories',
+                        })}
+                    />
+                </ListItemLink>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Category selection dialog`}
+                        secondary={t`Show the category selection dialog when adding a manga to the library`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.showAddToLibraryCategorySelectDialog}
+                        onChange={(e) => setSettingValue('showAddToLibraryCategorySelectDialog', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Forget manga categories`}
+                        secondary={t`Remove manga from categories when removing them from the library`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.removeMangaFromCategories}
+                        onChange={(e) => setSettingValue('removeMangaFromCategories', e.target.checked)}
+                    />
+                </ListItem>
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-general-settings">
+                        {t`General`}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText
+                        primary={t`Ignore filters when searching`}
+                        secondary={t`Search results will include manga that do not match the current filters`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.ignoreFilters}
+                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Fuzzy search`}
+                        secondary={t`Match the library search even with typos or words in a different order, and show the closest matches first`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.fuzzySearch}
+                        onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Notify about new chapters`}
+                        secondary={(() => {
+                            if (!settings.notifyNewChapters || notificationPermission === 'granted') {
+                                return t`Notify about new chapters of library entries`;
+                            }
+
+                            if (notificationPermission === 'default') {
+                                return (
+                                    <Trans>
+                                        Only while Suwayomi is in use.{' '}
+                                        <Link
+                                            component="button"
+                                            onClick={() =>
+                                                DeviceNotifications.requestPermission().then(() =>
+                                                    setNotificationPermission(DeviceNotifications.getPermission()),
+                                                )
+                                            }
+                                        >
+                                            Allow browser notifications
+                                        </Link>
+                                    </Trans>
+                                );
+                            }
+
+                            return t`Only while Suwayomi is in use, notification permission have not been granted`;
+                        })()}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.notifyNewChapters}
+                        onChange={(e) =>
+                            setNotifyNewChapters(e.target.checked)
+                                .then(() => setNotificationPermission(DeviceNotifications.getPermission()))
+                                .catch((saveError) =>
+                                    Notifications.error(t`Failed to save changes`, getErrorMessage(saveError)),
+                                )
+                        }
+                    />
+                </ListItem>
+            </List>
+            <GlobalUpdateSettings
+                serverSettings={serverSettings.data!.settings}
+                categories={categories.data!.categories.nodes}
+            />
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-advanced">
+                        {t`Advanced`}
+                    </ListSubheader>
+                }
+            >
+                <ListItemButton onClick={() => removeNonLibraryMangasFromCategories()}>
+                    <ListItemText
+                        primary={t`Cleanup database`}
+                        secondary={t`Remove non library manga from categories`}
+                    />
+                </ListItemButton>
+                <ListItemLink to={AppRoutes.settings.children.library.children.duplicates.path}>
+                    <ListItemText
+                        primary={t`Duplicated entries`}
+                        secondary={t`Show all duplicated entries in your library`}
+                    />
+                </ListItemLink>
+            </List>
+        </List>
+    );
+}

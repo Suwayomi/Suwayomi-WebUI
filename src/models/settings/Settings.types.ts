@@ -1,0 +1,89 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import type { MetadataDownloadSettings } from '@/models/downloads/Downloads.types.ts';
+import type { MetadataLibrarySettings } from '@/models/library/Library.types.ts';
+import type { MetadataClientSettings } from '@/models/device/Device.types.ts';
+import type { MetadataMigrationSettings } from '@/models/migration/Migration.types.ts';
+import type { MetadataBrowseSettings } from '@/models/browse/Browse.types.ts';
+import type { MetadataTrackingSettings } from '@/models/tracker/Tracker.types.ts';
+import type { MetadataUpdateSettings } from '@/models/app-updates/AppUpdateChecker.types.ts';
+import type { MetadataThemeSettings } from '@/models/theme/AppTheme.types.ts';
+import type {
+    Maybe,
+    SettingsDownloadConversion,
+    SettingsDownloadConversionHeader,
+} from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { MetadataHistorySettings } from '@/models/history/History.types.ts';
+import type { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+
+export type MetadataServerSettingKeys = keyof MetadataServerSettings;
+
+export type SearchMetadataKeys = keyof ISearchSettings;
+
+export type MetadataServerSettings = MetadataDownloadSettings &
+    MetadataLibrarySettings &
+    MetadataClientSettings &
+    MetadataMigrationSettings &
+    MetadataBrowseSettings &
+    MetadataTrackingSettings &
+    MetadataUpdateSettings &
+    MetadataThemeSettings &
+    MetadataHistorySettings;
+
+export interface ISearchSettings {
+    ignoreFilters: boolean;
+    fuzzySearch: boolean;
+}
+
+export type ServerSettings = Omit<GetServerSettingsQuery['settings'], '__typename'>;
+
+export type WebUISettingsType = Pick<
+    ServerSettings,
+    | 'webUIFlavor'
+    | 'initialOpenInBrowserEnabled'
+    | 'webUIInterface'
+    | 'electronPath'
+    | 'webUIChannel'
+    | 'webUIUpdateCheckInterval'
+>;
+
+export type GlobalUpdateSkipEntriesSettings = Pick<
+    ServerSettings,
+    'excludeUnreadChapters' | 'excludeNotStarted' | 'excludeCompleted'
+>;
+
+export type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
+
+export enum ImageProcessingTargetMode {
+    DISABLED = 'disabled',
+    IMAGE = 'image',
+    URL = 'url',
+}
+
+export enum ImageProcessingType {
+    DOWNLOAD = 'download',
+    SERVE = 'serve',
+}
+
+export type TSettingsDownloadConversionKeyValueItem = SettingsDownloadConversionHeader & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+};
+
+export type TSettingsDownloadConversion = Omit<SettingsDownloadConversion, 'headers'> & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+    mode: ImageProcessingTargetMode;
+    headers?: Maybe<TSettingsDownloadConversionKeyValueItem[]>;
+    searchParams?: Maybe<TSettingsDownloadConversionKeyValueItem[]>;
+};

@@ -147,7 +147,7 @@
                             },
                             "@mui/material/ListSubheader": {
                                 "importNames": ["default"],
-                                "message": "Use src/base/lists/ListSubheader instead"
+                                "message": "Use src/views/base/components/lists/ListSubheader instead"
                             }
                         },
                         "patterns": [
@@ -227,15 +227,15 @@
     "overrides": [
         {
             "includes": [
-                "src/base/utils/MediaQuery.tsx",
-                "src/base/AppInitializer.ts",
-                "src/features/authentication/AuthManager.ts",
-                "src/features/chapter/services/Chapters.ts",
-                "src/features/metadata/services/MetadataMigrations.ts",
-                "src/features/migration/MigrationManager.ts",
-                "src/features/reader/services/ReaderControls.ts",
-                "src/features/reader/services/ReaderService.ts",
-                "src/features/source/services/Sources.ts",
+                "src/utils/base/MediaQuery.tsx",
+                "src/controllers/base/services/AppInitializer.ts",
+                "src/controllers/authentication/services/AuthManager.ts",
+                "src/controllers/chapter/services/Chapters.ts",
+                "src/controllers/metadata/services/MetadataMigrations.ts",
+                "src/controllers/migration/services/MigrationManager.ts",
+                "src/controllers/reader/services/ReaderControls.ts",
+                "src/controllers/reader/services/ReaderService.ts",
+                "src/controllers/source/services/Sources.ts",
                 "src/lib/dnd-kit/DndKitUtil.ts",
                 "src/lib/requests/PagedSourceMangas.ts",
                 "src/lib/requests/RequestManager.ts",

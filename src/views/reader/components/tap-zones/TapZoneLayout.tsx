@@ -1,0 +1,72 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Box from '@mui/material/Box';
+import { useCallback, useLayoutEffect, useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { ReaderTapZoneService } from '@/controllers/reader/services/tap-zones/ReaderTapZoneService.ts';
+import { useNavBarContext } from '@/contexts/navigation-bar/NavbarContext.tsx';
+import { useResizeObserver } from '@/controllers/base/hooks/useResizeObserver.tsx';
+import { ReadingDirection } from '@/models/reader/Reader.types.ts';
+import { withPropsFrom } from '@/hoc/base/withPropsFrom.tsx';
+import type { NavbarContextType } from '@/models/navigation-bar/NavigationBar.types.ts';
+import { useReaderSettingsStore, useReaderTapZoneStore } from '@/controllers/reader/stores/ReaderStore.ts';
+
+const CANVAS_ID = 'reader-tap-zone-layout-canvas';
+
+const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
+    const theme = useTheme();
+    const { tapZoneLayout, tapZoneInvertMode, readingDirection } = useReaderSettingsStore((state) => ({
+        tapZoneLayout: state.tapZoneLayout.value,
+        tapZoneInvertMode: state.tapZoneInvertMode.value,
+        readingDirection: state.readingDirection.value,
+    }));
+    const showPreview = useReaderTapZoneStore('showPreview');
+
+    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(0);
+    const [tapZoneLayoutElement, setTapZoneLayoutElement] = useState<HTMLDivElement | null>(null);
+    useResizeObserver(
+        tapZoneLayoutElement,
+        useCallback(() => {
+            setWidth(tapZoneLayoutElement?.clientWidth ?? 0);
+            setHeight(tapZoneLayoutElement?.clientHeight ?? 0);
+        }, [tapZoneLayoutElement]),
+    );
+
+    const canvas = ReaderTapZoneService.getOrCreateCanvas(tapZoneLayout, width, height, theme.typography.h3, {
+        vertical: tapZoneInvertMode.vertical,
+        horizontal: tapZoneInvertMode.horizontal,
+        isRTL: readingDirection === ReadingDirection.RTL,
+    });
+
+    useLayoutEffect(() => {
+        const canvasContainerElement = document.getElementById(CANVAS_ID);
+        canvasContainerElement?.replaceChildren(canvas);
+    }, [canvas, showPreview]);
+
+    return (
+        <Box
+            ref={setTapZoneLayoutElement}
+            sx={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                pointerEvents: 'none',
+            }}
+            style={{
+                insetInlineStart: readerNavBarWidth,
+            }}
+        >
+            {showPreview && <div id={CANVAS_ID} />}
+        </Box>
+    );
+};
+
+export const TapZoneLayout = withPropsFrom(BaseTapZoneLayout, [useNavBarContext], ['readerNavBarWidth']);

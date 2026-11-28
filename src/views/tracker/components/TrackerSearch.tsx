@@ -1,0 +1,254 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import Stack from '@mui/material/Stack';
+import { useEffect, useMemo, useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import InputAdornment from '@mui/material/InputAdornment';
+import InfoIcon from '@mui/icons-material/Info';
+import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useLingui } from '@lingui/react/macro';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { EmptyViewAbsoluteCentered } from '@/views/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
+import { SearchTextField } from '@/views/base/components/inputs/SearchTextField.tsx';
+import { useGetOptionForDirection } from '@/controllers/theme/services/ThemeCreator.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import type { MangaIdInfo, MangaTitleInfo } from '@/models/manga/Manga.types.ts';
+
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { applyStyles } from '@/utils/base/ApplyStyles.ts';
+import type { TrackerIdInfo, TTrackerBind } from '@/models/tracker/Tracker.types.ts';
+import { Tracker } from '@/models/tracker/Tracker.types.ts';
+import { CustomIconButton } from '@/views/base/components/buttons/CustomIconButton.tsx';
+import { CustomTooltip } from '@/views/base/components/CustomTooltip.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/models/base/Base.constants.ts';
+import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+import { DIALOG_PADDING } from '@/models/tracker/Tracker.constants.ts';
+import { TrackerMangaCard } from '@/views/tracker/components/cards/TrackerMangaCard.tsx';
+
+const TrackButton = ({
+    mangaId,
+    selectedTrackerRemoteId,
+    trackerId,
+    closeSearchMode,
+    supportsPrivateTracking,
+}: {
+    trackerId: TrackerIdInfo['id'];
+    mangaId: MangaIdInfo['id'];
+    selectedTrackerRemoteId: string | undefined;
+    closeSearchMode: () => void;
+    supportsPrivateTracking: boolean;
+}) => {
+    const { t } = useLingui();
+    const [bindTracker, bindTrackerMutation] = requestManager.useBindTracker();
+
+    const trackManga = (asPrivate: boolean) => {
+        if (selectedTrackerRemoteId === undefined) {
+            return;
+        }
+
+        bindTracker({
+            variables: { input: { mangaId, remoteId: selectedTrackerRemoteId, trackerId, private: asPrivate } },
+        })
+            .then(() => {
+                Notifications.success(t`Tracked manga`);
+                closeSearchMode();
+            })
+            .catch((e) => Notifications.error(t`Could not track manga`, getErrorMessage(e)));
+    };
+
+    return (
+        <Stack
+            direction="row"
+            sx={{
+                justifyContent: 'center',
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                paddingBottom: DIALOG_PADDING,
+                gap: 2,
+                px: DIALOG_PADDING,
+            }}
+        >
+            <Button
+                disabled={bindTrackerMutation.loading}
+                size="large"
+                variant="contained"
+                onClick={() => trackManga(false)}
+                sx={{ flexBasis: '65%' }}
+            >
+                {t`Track`}
+            </Button>
+            {supportsPrivateTracking && (
+                <CustomTooltip title={t`Track privately`} disabled={bindTrackerMutation.loading}>
+                    <CustomIconButton
+                        disabled={bindTrackerMutation.loading}
+                        sx={{ flexBasis: '10%', maxWidth: '100px' }}
+                        variant="contained"
+                        onClick={() => trackManga(true)}
+                    >
+                        <VisibilityOffIcon />
+                    </CustomIconButton>
+                </CustomTooltip>
+            )}
+        </Stack>
+    );
+};
+
+export const TrackerSearch = ({
+    manga,
+    tracker,
+    closeSearchMode,
+    trackedId,
+    trackedTitle,
+}: {
+    manga: MangaIdInfo & MangaTitleInfo;
+    tracker: TTrackerBind;
+    closeSearchMode: () => void;
+    trackedId?: string;
+    trackedTitle?: string;
+}) => {
+    const { t } = useLingui();
+    const getOptionForDirection = useGetOptionForDirection();
+
+    const [searchString, setSearchString] = useState<string>(trackedTitle ?? manga.title);
+    const [tmpSearchString, setTmpSearchString] = useState(searchString);
+
+    const [selectedTrackerRemoteId, setSelectedTrackerRemoteId] = useState<string | undefined>(trackedId);
+
+    const trackerSearch = requestManager.useTrackerSearch(tracker.id, searchString);
+    const searchResults = trackerSearch.data?.searchTracker.trackSearches ?? STABLE_EMPTY_ARRAY;
+
+    const hasResults = !!searchResults.length;
+    const hasNoResults = !trackerSearch.loading && !trackerSearch.error && !hasResults;
+    const hasError = !!trackerSearch.error && !trackerSearch.loading;
+
+    useEffect(() => {
+        setSelectedTrackerRemoteId(trackedId);
+
+        return () =>
+            trackerSearch.abortRequest(new Error(`MangaTrackerSearchCard(${tracker.id}, ${manga.id}): search changed`));
+    }, [searchString]);
+
+    const showTrackButton =
+        useMemo(
+            () =>
+                !!selectedTrackerRemoteId &&
+                !!searchResults.find((searchResult) => searchResult.remoteId === selectedTrackerRemoteId),
+            [selectedTrackerRemoteId, searchResults],
+        ) && !hasError;
+
+    return (
+        <>
+            <DialogTitle sx={{ padding: DIALOG_PADDING }}>
+                <Stack
+                    direction="row"
+                    sx={{
+                        gap: '10px',
+                        alignItems: 'center',
+                    }}
+                >
+                    <IconButton onClick={closeSearchMode}>
+                        {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
+                    </IconButton>
+                    <SearchTextField
+                        sx={{ width: '100%' }}
+                        variant="standard"
+                        value={tmpSearchString}
+                        onChange={(e) => setTmpSearchString(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setSearchString(tmpSearchString);
+                            }
+                        }}
+                        onCancel={() => setTmpSearchString('')}
+                        slotProps={{
+                            input: {
+                                startAdornment: tracker.id === Tracker.MYANIMELIST && (
+                                    <InputAdornment position="start">
+                                        <PopupState variant="popover" popupId="tracker-search-info">
+                                            {(popupState) => (
+                                                <>
+                                                    <IconButton {...bindTrigger(popupState)} color="inherit">
+                                                        <InfoIcon />
+                                                    </IconButton>
+                                                    <Popover
+                                                        {...bindPopover(popupState)}
+                                                        anchorOrigin={{
+                                                            vertical: 'bottom',
+                                                            horizontal: 'left',
+                                                        }}
+                                                    >
+                                                        <Typography sx={{ padding: 1, whiteSpace: 'pre-line' }}>
+                                                            {t`Search for a ID via "id:<ID>" (e.g. "id:13")\nLimit search to your lists via "my:<Title>" (e.g. "my:One Piece")`}
+                                                        </Typography>
+                                                    </Popover>
+                                                </>
+                                            )}
+                                        </PopupState>
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
+                    />
+                </Stack>
+            </DialogTitle>
+            <DialogContent
+                dividers
+                sx={{
+                    padding: DIALOG_PADDING,
+                    height: '100dvh',
+                    ...applyStyles(hasNoResults || hasError, { position: 'relative' }),
+                }}
+            >
+                {hasNoResults && <EmptyViewAbsoluteCentered message={t`No manga found`} />}
+                {trackerSearch.loading && <LoadingPlaceholder />}
+                {hasError && (
+                    <EmptyViewAbsoluteCentered
+                        message={t`Unable to load data`}
+                        messageExtra={getErrorMessage(trackerSearch.error)}
+                        retry={() =>
+                            trackerSearch.refetch().catch(defaultPromiseErrorHandler('TrackerSearch::refetch'))
+                        }
+                    />
+                )}
+                <List sx={{ padding: 0 }}>
+                    {hasResults &&
+                        searchResults.map((trackerManga) => (
+                            <TrackerMangaCard
+                                key={trackerManga.id}
+                                manga={trackerManga}
+                                selected={trackerManga.remoteId === selectedTrackerRemoteId}
+                                onSelect={() => setSelectedTrackerRemoteId(trackerManga.remoteId)}
+                            />
+                        ))}
+                </List>
+                {showTrackButton && (
+                    <TrackButton
+                        mangaId={manga.id}
+                        trackerId={tracker.id}
+                        closeSearchMode={closeSearchMode}
+                        selectedTrackerRemoteId={selectedTrackerRemoteId}
+                        supportsPrivateTracking={tracker.supportsPrivateTracking}
+                    />
+                )}
+            </DialogContent>
+        </>
+    );
+};
