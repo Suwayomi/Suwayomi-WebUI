@@ -525,16 +525,16 @@ const cropPageBorders = async (imageSrc: string): Promise<string> => {
 
     const controlled = new ControlledPromise<string>();
     pendingPromises.set(imageSrc, controlled);
+    const isStillActive = () => pendingPromises.get(imageSrc) === controlled;
+    const resolveWithFallback = () => {
+        if (isStillActive()) {
+            setCropCache(imageSrc, imageSrc);
+            controlled.resolve(imageSrc);
+        }
+    };
 
     (async () => {
         let loadedImage: LoadedImage | null = null;
-        const isStillActive = () => pendingPromises.get(imageSrc) === controlled;
-        const resolveWithFallback = () => {
-            if (isStillActive()) {
-                setCropCache(imageSrc, imageSrc);
-                controlled.resolve(imageSrc);
-            }
-        };
 
         try {
             loadedImage = await loadImage(imageSrc);
