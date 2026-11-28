@@ -1158,10 +1158,6 @@ msgstr "Could not load categories"
 msgid "Could not load data"
 msgstr "Could not load data"
 
-#: src/views/settings/screens/Appearance.tsx
-msgid "Could not load language"
-msgstr "Could not load language"
-
 #: src/views/tracker/components/TrackManga.tsx
 msgid "Could not load latest track info from tracker"
 msgstr "Could not load latest track info from tracker"
@@ -1240,10 +1236,6 @@ msgstr "Could not retry failed download."
 #: src/views/downloads/screens/DownloadQueue.tsx
 msgid "Could not retry failed downloads"
 msgstr "Could not retry failed downloads"
-
-#: src/views/settings/screens/Appearance.tsx
-msgid "Could not save changes"
-msgstr "Could not save changes"
 
 #: src/views/manga/components/details/MangaNotes.tsx
 msgid "Could not save notes"
@@ -1871,10 +1863,6 @@ msgstr "Features and changes in this version might not be completely ready yet a
 "\n"
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 
-#: src/views/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
-msgstr "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
-
 #: src/views/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
 msgstr "Fifth to last read chapter"
@@ -2322,7 +2310,6 @@ msgid "L-Shape"
 msgstr "L-Shape"
 
 #: src/views/extension/components/info/Meta.tsx
-#: src/views/settings/screens/Appearance.tsx
 msgid "Language"
 msgstr "Language"
 

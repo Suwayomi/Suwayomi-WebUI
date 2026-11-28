@@ -67,16 +67,6 @@ _Make sure to set your Suwayomi-Server hostname in Settings or you'll get infini
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Translation
-
-Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
-
-<details><summary>Translation Progress</summary>
-<a href="https://hosted.weblate.org/engage/suwayomi-webui/">
-<img src="https://hosted.weblate.org/widgets/suwayomi/-/suwayomi-webui/multi-auto.svg" alt="Translation status" />
-</a>
-</details>
-
 ## License
 
     Copyright (C) Contributors to the Suwayomi project

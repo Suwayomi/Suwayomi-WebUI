@@ -12,15 +12,12 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import { ListSubheader } from '@/views/base/components/lists/ListSubheader.tsx';
 import Switch from '@mui/material/Switch';
-import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
-import { Trans, useLingui } from '@lingui/react/macro';
+import { useLingui } from '@lingui/react/macro';
 import { useAppThemeContext } from '@/contexts/theme/AppThemeContext.tsx';
 import { Select } from '@/views/base/components/inputs/Select.tsx';
 import { MediaQuery } from '@/utils/base/MediaQuery.tsx';
 import { NumberSetting } from '@/views/base/components/settings/NumberSetting.tsx';
-import { i18nResources, loadCatalog } from '@/i18n';
-import { languageCodeToName } from '@/utils/base/Languages.ts';
 import { ThemeList } from '@/views/theme/components/ThemeList.tsx';
 import {
     createUpdateMetadataServerSettings,
@@ -36,8 +33,6 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/controllers/navigation-bar/hooks/useAppTitle.ts';
 import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/models/settings/Settings.constants.ts';
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
-import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
-import Typography from '@mui/material/Typography';
 import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
 
 export const Appearance = () => {
@@ -49,7 +44,7 @@ export const Appearance = () => {
     useAppTitle(t`Appearance`);
 
     const {
-        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth, locale },
+        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
@@ -123,62 +118,6 @@ export const Appearance = () => {
                     </ListSubheader>
                 }
             >
-                <ListItem>
-                    <ListItemText
-                        primary={t`Language`}
-                        secondary={
-                            <Trans>
-                                Feel free to translate the project on Weblate (
-                                <Link
-                                    href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    WebUI
-                                </Link>{' '}
-                                and{' '}
-                                <Link
-                                    href="https://hosted.weblate.org/projects/suwayomi/suwayomi-server"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    Server
-                                </Link>
-                                )
-                            </Trans>
-                        }
-                    />
-                    <Select
-                        value={locale}
-                        onChange={({ target: { value: newLocale } }) => {
-                            updateMetadataSetting('locale', newLocale).catch((e) =>
-                                Notifications.error(t`Could not save changes`, getErrorMessage(e)),
-                            );
-                            loadCatalog(newLocale).catch((e: Error) => {
-                                Notifications.error(t`Could not load language`, getErrorMessage(e));
-                            });
-                        }}
-                        renderValue={(selected) => {
-                            const selectedLanguage =
-                                i18nResources.find((language) => language === selected) ?? selected;
-
-                            return languageCodeToName(selectedLanguage);
-                        }}
-                    >
-                        {i18nResources.map((language) => (
-                            <MenuItem
-                                key={language}
-                                value={language}
-                                sx={{ flexDirection: 'column', alignItems: 'flex-start' }}
-                            >
-                                {languageCodeToName(language)}
-                                <Typography color="textSecondary" variant="body2">
-                                    {getISOLanguage(language)?.name}
-                                </Typography>
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </ListItem>
                 <NumberSetting
                     settingTitle={t`Manga item width`}
                     settingValue={`px: ${mangaGridItemWidth}`}
