@@ -20,7 +20,7 @@ import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
 import type { MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import type { TAppThemeContext } from '@/features/theme/AppTheme.types.ts';
-import type { ImageRequest } from '@/lib/requests/RequestManager.ts';
+import type { ImageRequest } from '@/lib/requests/ImageRequester.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { noOp } from '@/lib/HelperFunctions.ts';
 

@@ -19,7 +19,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { usePrevious } from '@mantine/hooks';
-import type { ImageRequest } from '@/lib/requests/RequestManager.ts';
+import type { ImageRequest } from '@/lib/requests/ImageRequester.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';

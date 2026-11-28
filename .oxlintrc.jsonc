@@ -396,6 +396,7 @@
                 "src/features/reader/services/ReaderService.ts",
                 "src/features/source/services/Sources.ts",
                 "src/lib/dnd-kit/DndKitUtil.ts",
+                "src/lib/requests/PagedSourceMangas.ts",
                 "src/lib/requests/RequestManager.ts",
                 "src/lib/requests/client/GraphQLClient.ts",
                 "src/lib/virtuoso/Virtuoso.util.tsx",
