@@ -6,133 +6,51 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useRef, useState } from 'react';
+import { Suspense, useState } from 'react';
+import { lazily } from 'react-lazily';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import type { MangaIdInfo, MangaMetaInfo } from '@/models/manga/Manga.types.ts';
-import { updateMangaMetadata, useGetMangaMetadata } from '@/controllers/manga/services/MangaMetadata.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import StarterKit from '@tiptap/starter-kit';
-import {
-    MenuButton,
-    MenuButtonBold,
-    MenuButtonBulletedList,
-    MenuButtonItalic,
-    MenuButtonOrderedList,
-    MenuButtonRedo,
-    MenuButtonUndo,
-    MenuControlsContainer,
-    MenuDivider,
-    MenuSelectHeading,
-    RichTextEditor,
-    type RichTextEditorRef,
-} from 'mui-tiptap';
-import { Markdown } from '@tiptap/markdown';
-import { Placeholder } from '@tiptap/extension-placeholder';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
+import { useGetMangaMetadata } from '@/controllers/manga/services/MangaMetadata.ts';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
-import Typography from '@mui/material/Typography';
-import { Notifications } from '@/controllers/base/services/notification/Notifications.ts';
+
+const { MangaNotesDialog } = lazily(() => import('@/views/manga/components/details/MangaNotesDialog.tsx'));
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
 
-    const rteRef = useRef<RichTextEditorRef>(null);
-
     const [isOpen, setIsOpen] = useState(false);
-    const [draft, setDraft] = useState(notes);
+    // the dialog stays mounted for its closing animation, the counter resets the draft on every opening
+    const [openCount, setOpenCount] = useState(0);
 
     const hasNotes = notes.trim().length > 0;
-    const isUnchanged = draft.trimEnd() === notes;
-
-    const openDialog = () => {
-        setDraft(notes);
-        setIsOpen(true);
-    };
-
-    const closeDialog = () => setIsOpen(false);
-
-    const saveNotes = (content: string) => {
-        const nextNotes = content.trimEnd();
-
-        void updateMangaMetadata(manga, 'notes', nextNotes)
-            .then(() => {
-                Notifications.success(t`Notes saved`);
-                setIsOpen(false);
-            })
-            .catch((error) => Notifications.error(t`Could not save notes`, getErrorMessage(error)));
-    };
 
     return (
         <>
-            <Button size="small" onClick={openDialog} variant="text">
+            <Button
+                size="small"
+                onClick={() => {
+                    setOpenCount((count) => count + 1);
+                    setIsOpen(true);
+                }}
+                variant="text"
+            >
                 {hasNotes ? t`Edit` : t`Add`}
             </Button>
-            <Dialog open={isOpen} onClose={closeDialog} fullWidth maxWidth="sm">
-                <DialogTitle>{hasNotes ? t`Edit notes` : t`Add notes`}</DialogTitle>
-                <DialogContent>
-                    <RichTextEditor
-                        ref={rteRef}
-                        extensions={[
-                            StarterKit,
-                            Markdown,
-                            Placeholder.configure({
-                                placeholder: t`Add a private note about this manga`,
-                            }),
-                            ClearContentShortcut.extension,
-                            SaveContentShortcut((editor, unchangedContent) => {
-                                if (unchangedContent) {
-                                    setIsOpen(false);
-                                    return true;
-                                }
-
-                                saveNotes(editor.getMarkdown());
-
-                                return true;
-                            }).extension,
-                        ]}
-                        content={notes.trim()}
-                        contentType="markdown"
-                        onUpdate={({ editor }) => {
-                            setDraft(editor.getMarkdown());
-                        }}
-                        renderControls={() => (
-                            <MenuControlsContainer>
-                                <MenuButtonUndo />
-                                <MenuButtonRedo />
-                                <MenuDivider />
-                                <MenuSelectHeading />
-                                <MenuDivider />
-                                <MenuButtonBold />
-                                <MenuButtonItalic />
-                                <MenuButtonBulletedList />
-                                <MenuButtonOrderedList />
-                                <MenuDivider />
-                                <MenuButton
-                                    tooltipLabel={t`Clear notes`}
-                                    onClick={() => rteRef.current?.editor?.chain().focus().clearContent().run()}
-                                    tooltipShortcutKeys={ClearContentShortcut.tooltipKeys}
-                                >
-                                    <DeleteIcon color="inherit" />
-                                </MenuButton>
-                            </MenuControlsContainer>
-                        )}
+            {openCount > 0 && (
+                <Suspense>
+                    <MangaNotesDialog
+                        key={openCount}
+                        manga={manga}
+                        notes={notes}
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
                     />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeDialog}>{t`Cancel`}</Button>
-                    <Button onClick={() => saveNotes(draft)} disabled={isUnchanged} variant="contained">
-                        {t`Save`}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                </Suspense>
+            )}
         </>
     );
 };

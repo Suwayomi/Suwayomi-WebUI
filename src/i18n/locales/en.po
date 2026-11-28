@@ -410,7 +410,7 @@ msgstr "Active setting ({title})"
 msgid "Add"
 msgstr "Add"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Add a private note about this manga"
 msgstr "Add a private note about this manga"
 
@@ -423,7 +423,7 @@ msgstr "Add bookmark"
 msgid "Add extension store"
 msgstr "Add extension store"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Add notes"
 msgstr "Add notes"
 
@@ -783,7 +783,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/views/category/components/CategorySelect.tsx
 #: src/views/category/components/CreateOrEditCategoryDialog.tsx
 #: src/views/downloads/components/DownloadQueueChapterCard.tsx
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 #: src/views/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/views/migration/components/MigrationOptionsDialog.tsx
 #: src/views/reader/components/hotkeys/settings/RecordHotkey.tsx
@@ -942,7 +942,7 @@ msgstr "Clear cache"
 msgid "Clear cookies and cache"
 msgstr "Clear cookies and cache"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Clear notes"
 msgstr "Clear notes"
 
@@ -1226,7 +1226,7 @@ msgstr "Could not retry failed download."
 msgid "Could not retry failed downloads"
 msgstr "Could not retry failed downloads"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Could not save notes"
 msgstr "Could not save notes"
 
@@ -1662,7 +1662,7 @@ msgstr "Edit category"
 msgid "Edit manga categories"
 msgstr "Edit manga categories"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Edit notes"
 msgstr "Edit notes"
 
@@ -2770,7 +2770,7 @@ msgstr "Not yet released"
 msgid "Notes"
 msgstr "Notes"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 msgid "Notes saved"
 msgstr "Notes saved"
 
@@ -3249,7 +3249,7 @@ msgstr "Right to left"
 msgid "Rosegold"
 msgstr "Rosegold"
 
-#: src/views/manga/components/details/MangaNotes.tsx
+#: src/views/manga/components/details/MangaNotesDialog.tsx
 #: src/views/settings/screens/ImageProcessingSetting.tsx
 #: src/views/theme/components/CreateThemeDialog.tsx
 msgid "Save"

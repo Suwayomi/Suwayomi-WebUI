@@ -6,35 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RichTextReadOnly } from 'mui-tiptap';
-import StarterKit from '@tiptap/starter-kit';
-import { Markdown } from '@tiptap/markdown';
+import { Suspense } from 'react';
+import { lazily } from 'react-lazily';
+import Typography from '@mui/material/Typography';
+
+// the editor libraries are big, so they only get loaded once something has to be rendered with them
+const { MarkdownViewerContent } = lazily(() => import('@/lib/mui-tiptap/MarkdownViewerContent.tsx'));
 
 export const MarkdownViewer = ({ markdown }: { markdown: string }) => (
-    <RichTextReadOnly
-        key={markdown}
-        extensions={[StarterKit, Markdown]}
-        contentType="markdown"
-        content={markdown}
-        sx={{
-            '& .ProseMirror > p:last-child': {
-                '&:has(br:only-child)': {
-                    display: 'none',
-                },
-            },
-
-            '& .ProseMirror': {
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: '1rem',
-
-                textAlign: 'justify',
-                textJustify: 'inter-word',
-            },
-
-            '& .ProseMirror > *': {
-                margin: 0,
-            },
-        }}
-    />
+    <Suspense fallback={<Typography sx={{ whiteSpace: 'pre-wrap' }}>{markdown}</Typography>}>
+        <MarkdownViewerContent markdown={markdown} />
+    </Suspense>
 );

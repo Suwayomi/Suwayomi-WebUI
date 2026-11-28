@@ -10,7 +10,7 @@ import type { ChipProps } from '@mui/material/Chip';
 import Chip from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled, useTheme } from '@mui/material/styles';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ import Box from '@mui/material/Box';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { LibrarySnapshot } from '@/lib/storage/LibrarySnapshot.ts';
 import { EmptyViewAbsoluteCentered } from '@/views/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/views/base/components/feedback/LoadingPlaceholder.tsx';
 import { TabPanel } from '@/views/base/components/tabs/TabPanel.tsx';
@@ -55,6 +56,9 @@ import type { MangaIdInfo } from '@/models/manga/Manga.types.ts';
 import { OffsetComponent } from '@/views/base/components/OffsetComponent.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
+// shows what is cached right away and fetches it again, e.g. to refresh a restored snapshot
+const LIBRARY_QUERY_OPTIONS = { fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-first' } as const;
+
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
     alignItems: 'center',
@@ -68,6 +72,9 @@ export function Library() {
     const { t } = useLingui();
     const theme = useTheme();
 
+    // has to happen before the queries read the cache
+    useState(() => LibrarySnapshot.restore());
+
     const {
         settings: { showTabSize },
     } = useMetadataServerSettings();
@@ -76,9 +83,11 @@ export function Library() {
         data: categoriesResponse,
         error: tabsError,
         loading: areCategoriesLoading,
+        variables: categoriesVariables,
         refetch: refetchCategories,
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
+        LIBRARY_QUERY_OPTIONS,
     );
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
@@ -88,6 +97,7 @@ export function Library() {
     const librarySizeResponse = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
         GET_MANGAS_COUNT,
         { condition: { inLibrary: true } },
+        LIBRARY_QUERY_OPTIONS,
     );
 
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
@@ -100,9 +110,30 @@ export function Library() {
     const {
         data: categoryMangaResponse,
         error: mangaError,
-        loading: mangaLoading,
+        loading: isMangaRequestPending,
+        variables: categoryMangaVariables,
         refetch: refetchCategoryMangas,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, activeTab?.isDefaultCategory, { skip: !activeTab });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, activeTab?.isDefaultCategory, {
+        ...LIBRARY_QUERY_OPTIONS,
+        skip: !activeTab,
+    });
+    const mangaLoading = isMangaRequestPending && !categoryMangaResponse;
+
+    useEffect(() => {
+        if (categoriesResponse) {
+            LibrarySnapshot.save('GET_CATEGORIES_LIBRARY', categoriesVariables, categoriesResponse);
+        }
+    }, [categoriesResponse]);
+    useEffect(() => {
+        if (librarySizeResponse.data) {
+            LibrarySnapshot.save('GET_MANGAS_COUNT', librarySizeResponse.variables, librarySizeResponse.data);
+        }
+    }, [librarySizeResponse.data]);
+    useEffect(() => {
+        if (categoryMangaResponse) {
+            LibrarySnapshot.save('GET_MANGAS_LIBRARY', categoryMangaVariables, categoryMangaResponse);
+        }
+    }, [categoryMangaResponse]);
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
@@ -270,7 +301,7 @@ export function Library() {
         );
     }
 
-    if (areCategoriesLoading || librarySizeResponse.loading) {
+    if ((areCategoriesLoading && !categoriesResponse) || (librarySizeResponse.loading && !librarySizeResponse.data)) {
         return <LoadingPlaceholder />;
     }
 

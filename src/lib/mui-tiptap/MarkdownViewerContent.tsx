@@ -1,0 +1,40 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { RichTextReadOnly } from 'mui-tiptap';
+import StarterKit from '@tiptap/starter-kit';
+import { Markdown } from '@tiptap/markdown';
+
+export const MarkdownViewerContent = ({ markdown }: { markdown: string }) => (
+    <RichTextReadOnly
+        key={markdown}
+        extensions={[StarterKit, Markdown]}
+        contentType="markdown"
+        content={markdown}
+        sx={{
+            '& .ProseMirror > p:last-child': {
+                '&:has(br:only-child)': {
+                    display: 'none',
+                },
+            },
+
+            '& .ProseMirror': {
+                display: 'flex',
+                flexDirection: 'column',
+                rowGap: '1rem',
+
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+            },
+
+            '& .ProseMirror > *': {
+                margin: 0,
+            },
+        }}
+    />
+);
