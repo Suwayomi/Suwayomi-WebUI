@@ -910,10 +910,6 @@ export class MigrationManager {
     ): void {
         MigrationManager.updateState((draft) => {
             const draftEntry = draft.entries[mangaId];
-            const draftMatchEntry = draftEntry.selectedMatchMangaId
-                ? draft.entries[draftEntry.selectedMatchMangaId]
-                : null;
-
             const newMatches = foundMatches.filter((newMatch) =>
                 draftEntry.searchMatches.every((existingMatch) => newMatch.manga.id !== existingMatch.id),
             );
@@ -932,6 +928,9 @@ export class MigrationManager {
 
             draftEntry.destSourceIdToSearchState[sourceId] = true;
             draftEntry.searchMatches = [...draftEntry.searchMatches, ...matches];
+            const draftMatchEntry = draftEntry.searchMatches.find(
+                (match) => match.id === draftEntry.selectedMatchMangaId,
+            );
 
             const matchesByChapterNumber = Object.groupBy(matches, (match) => match.latestChapterNumber ?? -1);
             const latestChapterNumber = Math.max(
@@ -1228,6 +1227,8 @@ export class MigrationManager {
             await MigrationManager.mangaProcessQueue(() =>
                 MigrationManager.migrateSingleEntry(id, migrateOptions, signal),
             );
+
+            return;
         }
 
         const sourceTitle = entry.sourceTitle ?? t`Unknown source`;

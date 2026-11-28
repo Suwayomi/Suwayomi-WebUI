@@ -30,5 +30,8 @@ jobs:
       - name: Run TSC
         run: pnpm tsc
 
+      - name: Run tests
+        run: pnpm test
+
       - name: Build app
         run: pnpm build

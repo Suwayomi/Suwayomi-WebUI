@@ -21,7 +21,6 @@ import { useMutation, useQuery, useSubscription } from '@apollo/client/react';
 import type { Reference } from '@apollo/client/utilities';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { d } from 'koration';
-import type { IRestClient } from '@/lib/requests/client/RestClient.ts';
 import { RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
@@ -507,10 +506,6 @@ export class RequestManager {
         }
 
         return ['h2', 'h3'].includes(entries[0].nextHopProtocol);
-    }
-
-    public getClient(): IRestClient {
-        return this.restClient;
     }
 
     public updateClient(config: RequestInit): void {

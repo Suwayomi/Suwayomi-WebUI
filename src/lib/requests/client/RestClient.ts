@@ -11,25 +11,7 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import type { RefreshAccessTokenMutation } from '@/lib/graphql/generated/graphql.ts';
 
-export enum HttpMethod {
-    GET = 'GET',
-    POST = 'POST',
-    PATCH = 'PATCH',
-    DELETE = 'DELETE',
-}
-
-export interface IRestClient {
-    get(url: string): Promise<Response>;
-    delete(url: string): Promise<Response>;
-    post(url: string, data?: any): Promise<Response>;
-    put(url: string, data?: any): Promise<Response>;
-    patch(url: string, data?: any): Promise<Response>;
-}
-
-export class RestClient
-    extends BaseClient<typeof fetch, RequestInit, (url: string, data: any) => Promise<Response>>
-    implements IRestClient
-{
+export class RestClient extends BaseClient<typeof fetch, RequestInit, (url: string) => Promise<Response>> {
     protected client!: typeof fetch;
 
     private config: RequestInit = {
@@ -39,15 +21,13 @@ export class RestClient
     public readonly fetcher = async (
         url: string,
         {
-            data,
-            httpMethod = HttpMethod.GET,
             config,
             checkResponseIsJson = true,
+            isUnauthorizedRetry = false,
         }: {
-            data?: any;
-            httpMethod?: HttpMethod;
             config?: RequestInit;
             checkResponseIsJson?: boolean;
+            isUnauthorizedRetry?: boolean;
         } = {},
     ): Promise<Response> =>
         this.enqueueRequest(async () => {
@@ -64,44 +44,25 @@ export class RestClient
 
             await this.awaitRateLimit(updatedUrl);
 
-            let result: Response;
+            const result = await this.client(updatedUrl, {
+                ...this.config,
+                ...config,
+                method: 'GET',
+                headers: {
+                    ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                    ...this.config.headers,
+                    ...config?.headers,
+                },
+            });
 
-            switch (httpMethod) {
-                case HttpMethod.GET:
-                    result = await this.client(updatedUrl, {
-                        ...this.config,
-                        ...config,
-                        method: httpMethod,
-                        headers: {
-                            ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-                            ...this.config.headers,
-                            ...config?.headers,
-                        },
-                    });
-                    break;
-                case HttpMethod.POST:
-                case HttpMethod.PATCH:
-                case HttpMethod.DELETE:
-                    result = await this.client(updatedUrl, {
-                        ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-                        ...this.config,
-                        ...config,
-                        method: httpMethod,
-                        body: JSON.stringify(data),
-                    });
-                    break;
-                default:
-                    throw new Error(`Unexpected HttpMethod "${httpMethod}"`);
-            }
-
-            if (result.status === 401) {
+            if (result.status === 401 && !isUnauthorizedRetry) {
                 await BaseClient.refreshAccessToken(this.handleRefreshToken);
-                return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
+                return this.fetcher(url, { config, checkResponseIsJson, isUnauthorizedRetry: true });
             }
 
             if (result.status === 429) {
                 this.addRateLimit(updatedUrl, result.headers.get('Retry-After'));
-                return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
+                return this.fetcher(url, { config, checkResponseIsJson, isUnauthorizedRetry });
             }
 
             if (result.status !== 200) {
@@ -129,29 +90,5 @@ export class RestClient
 
     public updateConfig(config: RequestInit): void {
         this.config = { ...this.config, ...config };
-    }
-
-    public getClient(): typeof fetch {
-        return this.client;
-    }
-
-    get get() {
-        return (url: string) => this.fetcher(url);
-    }
-
-    get post() {
-        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.POST });
-    }
-
-    get put() {
-        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.POST });
-    }
-
-    get patch() {
-        return (url: string, data?: any) => this.fetcher(url, { data, httpMethod: HttpMethod.PATCH });
-    }
-
-    get delete() {
-        return (url: string) => this.fetcher(url, { httpMethod: HttpMethod.DELETE });
     }
 }

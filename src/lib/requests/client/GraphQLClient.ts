@@ -340,7 +340,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
             if (this.isRateLimitError(error)) {
                 this.addRateLimit(
                     this.getRateLimitOrigin(operation),
-                    operation.getContext()?.headers?.get?.('Retry-After'),
+                    operation.getContext().response?.headers.get('Retry-After'),
                 );
 
                 return from(this.awaitRateLimit(this.getRateLimitOrigin(operation))).pipe(

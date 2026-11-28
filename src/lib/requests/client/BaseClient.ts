@@ -13,6 +13,7 @@ import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestMana
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { d } from 'koration';
+import { CombinedGraphQLErrors, ServerError } from '@apollo/client';
 import dayjs from 'dayjs';
 
 interface QueuedRequest {
@@ -86,8 +87,8 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         this.activeTokenRefreshPromise = refreshRequest.then((result) => result.data);
 
         try {
-            const result = await refreshRequest;
-            const { data } = result;
+            // await the shared promise, otherwise its rejection is unhandled in case nobody else is waiting for it
+            const data = await this.activeTokenRefreshPromise;
 
             if (!data) {
                 throw new Error('No refreshed access token returned');
@@ -99,7 +100,12 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
             return data;
         } catch (e) {
-            AuthManager.removeTokens();
+            // keep the tokens for e.g. network errors, so that the refresh can be tried again later
+            const isRejectedByServer =
+                CombinedGraphQLErrors.is(e) || (ServerError.is(e) && [401, 403].includes(e.statusCode));
+            if (isRejectedByServer) {
+                AuthManager.removeTokens();
+            }
             throw e;
         } finally {
             this.activeTokenRefreshPromise = null;

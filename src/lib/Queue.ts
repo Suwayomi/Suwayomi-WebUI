@@ -67,6 +67,11 @@ export class Queue {
     }
 
     private async process(): Promise<void> {
+        // runs that were scheduled before the queue got cleared still happen
+        if (!this.pendingKeyToFnMap.size) {
+            return;
+        }
+
         const { fn, promise } = this.getNextItemToProcess();
         try {
             const result = await fn();
