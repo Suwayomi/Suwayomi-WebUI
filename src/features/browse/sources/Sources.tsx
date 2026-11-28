@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ButtonBase from '@mui/material/ButtonBase';
+import CardActionArea from '@mui/material/CardActionArea';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
@@ -143,16 +143,25 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
                 return (
                     <StyledGroupHeader isFirstItem={!index}>
-                        <ButtonBase
+                        <CardActionArea
                             onClick={() => toggleGroup(group)}
                             aria-expanded={!isCollapsed}
-                            sx={{ width: '100%', justifyContent: 'space-between', pr: 2 }}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                // the negative margin keeps the letter in place while the highlight gets some padding
+                                width: 'calc(100% + 8px)',
+                                ml: -1,
+                                pl: 1,
+                                pr: 2,
+                                borderRadius: 1,
+                            }}
                         >
                             <Typography variant="h5" component="h2">
                                 {isLetter ? group : translateExtensionLanguage(group)}
                             </Typography>
                             {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                        </ButtonBase>
+                        </CardActionArea>
                     </StyledGroupHeader>
                 );
             }}
